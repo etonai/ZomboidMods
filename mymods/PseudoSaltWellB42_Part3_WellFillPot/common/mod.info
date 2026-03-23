@@ -1,0 +1,6 @@
+name=PseudoSaltWellB42 Part 3: Well Fill Pot
+id=PseudoSaltWellB42_Part3
+description=Adds ability to fill pots with saltwater from wells (Part 3 of 6). Works with PseudoSaltRecipes mod.
+poster=poster.png
+pack=pseudoed_salt_01
+tiledef=pseudoed_salt_01 8724

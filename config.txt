@@ -1,0 +1,10 @@
+# Project Zomboid Mod Development Configuration
+
+# Local mods directory (where Project Zomboid looks for mods)
+LOCAL_MODS_DIR=C:\Users\edwar\Zomboid\mods
+
+# Development mods directory (this repository)
+DEV_MODS_DIR=C:\dev\zomboid\zomboid_42_X\mymods
+
+# Project Zomboid installation directory (if needed)
+# GAME_INSTALL_DIR=C:\Program Files (x86)\Steam\steamapps\common\ProjectZomboid

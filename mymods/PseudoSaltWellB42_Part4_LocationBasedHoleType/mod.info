@@ -1,0 +1,6 @@
+name=PseudoSaltWellB42 Part 4: Location-Based Hole Type
+id=PseudoSaltWellB42_Part4
+description=Digging creates saltwater wells at specific locations or plain holes elsewhere (Part 4 of 4). Requires PseudoSaltRecipes mod.
+poster=poster.png
+pack=pseudoed_salt_01
+tiledef=pseudoed_salt_01 8724

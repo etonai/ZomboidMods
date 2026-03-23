@@ -1,0 +1,36 @@
+# Project Zomboid Analysis Project .gitignore
+
+# Ignore media directory (contains game assets and Lua files)
+media/
+
+# Ignore notmymods directory (contains existing mods to use as examples)
+notmymods/
+
+# Ignore zombie directory (contains Java source code)
+zombie/
+
+# Ignore summary file
+summary.txt
+
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp

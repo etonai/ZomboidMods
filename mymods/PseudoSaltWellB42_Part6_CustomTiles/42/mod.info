@@ -1,0 +1,6 @@
+name=PseudoSaltWellB42 Part 6: Custom Tiles
+id=PseudoSaltWellB42_Part6_CustomTiles
+description=Independent saltwater well system with custom graphics. Create saltwater wells at specific coordinates or plain holes elsewhere. Fill pots and kettles with saltwater, cook to create salt. Fully standalone with custom well and hole graphics.
+poster=poster.png
+pack=pseudoed_saltwell_01
+tiledef=pseudoed_saltwell_01 8724

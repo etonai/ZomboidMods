@@ -1,0 +1,6 @@
+name=PseudoSaltWellB42 Part 2: Well Tile Custom
+id=PseudoSaltWellB42_Part2
+description=Adds custom well tile graphics (Part 2 of 6)
+poster=poster.png
+pack=pseudoed_salt_01
+tiledef=pseudoed_salt_01 8724

@@ -1,0 +1,6 @@
+name=Pseudonymous Eds Saltwater Well
+poster=poster.png
+id=PseudoSaltWell
+description=Saltwater Well
+pack=pseudoed_salt_01
+tiledef=pseudoed_salt_01 8724

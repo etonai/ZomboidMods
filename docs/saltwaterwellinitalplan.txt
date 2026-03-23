@@ -1,0 +1,21 @@
+Saltwater Well Initial Plan
+
+I am interested in creating a Project Zomboid mod that will allow players to create a saltwater well.
+
+It will use similar code to "Dig a Grave" to allow the player to "Dig a hole".
+
+Usually, digging a hole will create a 1 tile hole similar to the grave when the user digs a grave, but the user will not have an option to bury a corpse in a hole. The user will just have the option to fill the hole, and the tile will become a dirt tile.
+
+The mod will supply a list of coordinates.
+If the user digs at one of these coordinates, when the player digs a hole the tile will be replaced with a 1 tile saltwater well.
+
+The user will be able to fill liquid containers from the hole, in the same way that containers may be filled from lakes and rivers and other water tiles. But in the mod's case, a saltwater well will fill the container with saltwater brine.
+
+Some containers can be cooked. They will be able to be converted to containers with salt.  Let me write an example using a pot.
+
+An empty pot can be "filled" with a saltwater well. The game will change the empty pot into a "Pot with Saltwater Brine".
+If the user cooks the pot with a saltwater brine, after 2 hours, the game will change the pot into a "Pot with Salt".
+The user will have a context menu action of "Remove Salt". This will result in the player having 2 units of salt and an empty pot.
+
+This will be similar to how crafting is handled in the same. Because as I understand it, crafting basically converts one or more items into one or more other items.
+
