@@ -6,6 +6,9 @@ media/
 # Ignore notmymods directory (contains existing mods to use as examples)
 notmymods/
 
+# PseudoAgriculture mod has its own git repo — tracked independently
+mymods/PseudoAgriculture/
+
 # Ignore zombie directory (contains Java source code)
 zombie/
 
