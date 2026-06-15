@@ -68,6 +68,10 @@ The project focuses on understanding and documenting various game mechanics thro
 - Maintain collaborative improvement through feedback
 - Update analyses when game versions change
 
+## Development Process
+
+Development follows the processes defined in `DevCycles/DevelopmentProcess.md`. Work is organized into DevCycles (the project's equivalent of sprints). Refer to that document for workflow, status values, naming conventions, and verification authority rules.
+
 ## Commands for Common Tasks
 - **Lint/Typecheck**: No specific commands identified - ask user if needed
 - **Search Pattern**: Use Grep tool for code searching across files

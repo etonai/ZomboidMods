@@ -8,3 +8,6 @@ DEV_MODS_DIR=C:\dev\zomboid\zomboid_42_X\mymods
 
 # Project Zomboid installation directory (if needed)
 # GAME_INSTALL_DIR=C:\Program Files (x86)\Steam\steamapps\common\ProjectZomboid
+
+# Local directory for Vanilla Project Zomboid lua files in this project
+# C:\dev\zomboid\zomboid_42_X\media
