@@ -1,0 +1,98 @@
+module PseudoSaltWellB42
+{
+	item SaltwaterPot
+	{
+        Weight	=	4,
+        Type	=	Food,
+        DisplayName	=	Cooking Pot with Saltwater,
+		DisplayCategory = Food,
+        Icon	=	Pot_Water,
+        HungerChange    =   -1,
+        Carbohydrates = 0,
+        Proteins = 0,
+        Lipids = 0,
+        Calories = 0,
+        IsCookable	=	    true,
+        MinutesToBurn   =   140,
+        MinutesToCook   =   20,
+        UnhappyChange   =   20,
+        ThirstChange = 10,
+        ReplaceOnUse    =   Pot,
+        ReplaceOnCooked     =   PseudoSaltWellB42.SaltPot,
+		MetalValue = 40,
+		StaticModel = CookingPot,
+		WorldStaticModel = CookingPotGround,
+		CookingSound = BoilingFood,
+		Tags = Cookable;HasMetal;SmeltableIronMedium,
+	}
+
+	item SaltPot
+	{
+        Weight	=	1.3,
+        Type	=	Food,
+        DisplayName	=	Cooking Pot with Salt,
+		DisplayCategory = Food,
+        Icon	=	Pot,
+        HungerChange    =   -1,
+        Carbohydrates = 0,
+        Proteins = 0,
+        Lipids = 0,
+        Calories = 0,
+        ThirstChange = 20,
+        ReplaceOnUse    =   Pot,
+		MetalValue = 40,
+		StaticModel = CookingPot,
+		WorldStaticModel = CookingPotGround,
+		IsCookable = true,
+		Tags = Cookable;HasMetal;SmeltableIronMedium,
+		CookingSound = FryingFood,
+	}
+
+	item SaltwaterKettle
+	{
+        Weight	=	2,
+        Type	=	Food,
+        DisplayName	=	Kettle with Saltwater,
+		DisplayCategory = Food,
+        Icon	=	Kettle,
+        HungerChange    =   -1,
+        Carbohydrates = 0,
+        Proteins = 0,
+        Lipids = 0,
+        Calories = 0,
+        IsCookable	=	    true,
+        MinutesToBurn   =   140,
+        MinutesToCook   =   20,
+        UnhappyChange   =   20,
+        ThirstChange = 10,
+        ReplaceOnUse    =   Kettle,
+        ReplaceOnCooked     =   PseudoSaltWellB42.SaltKettle,
+		MetalValue = 30,
+        StaticModel = Kettle,
+		WorldStaticModel = KettleGround,
+		CookingSound = BoilingFood,
+		Tags = Cookable;HasMetal;SmeltableIronSmall,
+	}
+
+	item SaltKettle
+	{
+        Weight	=	1.15,
+        Type	=	Food,
+        DisplayName	=	Kettle with Salt,
+		DisplayCategory = Food,
+		Icon = Kettle,
+		MetalValue = 30,
+		StaticModel = Kettle,
+		WorldStaticModel = KettleGround,
+        HungerChange    =   -1,
+        Carbohydrates = 0,
+        Proteins = 0,
+        Lipids = 0,
+        Calories = 0,
+        ThirstChange = 20,
+        ReplaceOnUse    =   Kettle,
+		IsCookable = true,
+		Tags = Cookable;HasMetal;SmeltableIronSmall,
+		CookingSound = FryingFood,
+	}
+}

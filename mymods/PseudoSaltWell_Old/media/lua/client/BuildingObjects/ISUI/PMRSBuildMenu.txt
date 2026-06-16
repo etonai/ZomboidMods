@@ -1,0 +1,181 @@
+--[[
+
+Though disabled, 
+
+This file should be kept as a reminder of one way to enable building saltwater wells
+Saltwater wells should not be built in just any location.
+
+***********************************************************
+** PseudonymousEd, the Dev
+** 
+***********************************************************
+Copyright 2021 PseudonymousEd
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+--]]
+
+require 'BuildingObjects/ISUI/ISBuildMenu'
+
+-- Most of this code is copied from the original ISBuildMenu.lua file
+-- This is the only way I know of to incorporate my new context submenu items into the existing Carpentry menu tree
+ISBuildMenu.buildMiscMenu = function(subMenu, option, player)
+	--local crossOption = subMenu:addOption(getText("ContextMenu_Play_Random_Piano"), worldobjects, ISBuildMenu.onWoodenCross, square, player);
+	local crossOption = subMenu:addOption(getText("ContextMenu_Wooden_Cross"), worldobjects, ISBuildMenu.onWoodenCross, square, player);
+	local toolTip = ISBuildMenu.canBuild(2,2,0,0,0,0,crossOption, player);
+	toolTip.description = getText("Tooltip_craft_woodenCrossDesc") .. toolTip.description;
+	toolTip:setName(getText("ContextMenu_Wooden_Cross"));
+	toolTip:setTexture("location_community_cemetary_01_23");
+	ISBuildMenu.requireHammer(crossOption);
+	
+	local stonePileOption = subMenu:addOption(getText("ContextMenu_Stone_Pile"), worldobjects, ISBuildMenu.onStonePile, square, player);
+	local toolTip = ISBuildMenu.canBuild(0,0,0,0,0,0,stonePileOption, player);
+	toolTip.description = getText("Tooltip_craft_stonePileDesc") .. toolTip.description;
+	-- we add that we need stone too
+	local stones = getSpecificPlayer(player):getInventory():getItemCount("Base.Stone", true);
+	if stones < 6 then
+		toolTip.description = toolTip.description .. " <RGB:1,0,0>" .. getItemNameFromFullType("Base.Stone") .. " " .. stones .. "/6 ";
+		if not ISBuildMenu.cheat then
+			stonePileOption.onSelect = nil;
+			stonePileOption.notAvailable = true;
+		end
+	else
+		toolTip.description = toolTip.description .. " <RGB:1,1,1>" .. getItemNameFromFullType("Base.Stone") .. " " .. stones .. "/6 ";
+	end
+	toolTip:setName(getText("ContextMenu_Stone_Pile"));
+	toolTip:setTexture("location_community_cemetary_01_30");
+	
+	local woodenPicketOption = subMenu:addOption(getText("ContextMenu_Wooden_Picket"), worldobjects, ISBuildMenu.onWoodenPicket, square, player);
+	local toolTip = ISBuildMenu.canBuild(1,0,0,0,0,0,woodenPicketOption, player);
+	toolTip.description = getText("Tooltip_craft_woodenPicketDesc") .. toolTip.description;
+	local ropes = tonumber(getSpecificPlayer(player):getInventory():getItemCount("Base.SheetRope", true));
+	-- we add that we need rope too
+	if ropes == 0 then
+		toolTip.description = toolTip.description .. " <RGB:1,0,0>" .. getItemNameFromFullType("Base.SheetRope") .. " " .. ropes .. "/1 ";
+		if not ISBuildMenu.cheat then
+			woodenPicketOption.onSelect = nil;
+			woodenPicketOption.notAvailable = true;
+		end
+	else
+		toolTip.description = toolTip.description .. " <RGB:1,1,1>" .. getItemNameFromFullType("Base.SheetRope") .. " " .. ropes .. "/1 ";
+	end
+	toolTip:setName(getText("ContextMenu_Wooden_Picket"));
+	toolTip:setTexture("location_community_cemetary_01_31");
+	
+	local saltwaterWellOption = subMenu:addOption(getText("ContextMenu_Saltwater_Well"), worldobjects, ISBuildMenu.onSaltwaterWell, square, player);
+	local toolTip = ISBuildMenu.canBuild(0,0,0,0,0,0,saltwaterWellOption, player);
+	toolTip.description = getText("Tooltip_craft_stonePileDesc") .. toolTip.description;
+	-- we add that we need stone too
+	local stones = getSpecificPlayer(player):getInventory():getItemCount("Base.Stone", true);
+	if stones < 3 then
+		toolTip.description = toolTip.description .. " <RGB:1,0,0>" .. getItemNameFromFullType("Base.Stone") .. " " .. stones .. "/3 ";
+		if not ISBuildMenu.cheat then
+			saltwaterWellOption.onSelect = nil;
+			saltwaterWellOption.notAvailable = true;
+		end
+	else
+		toolTip.description = toolTip.description .. " <RGB:1,1,1>" .. getItemNameFromFullType("Base.Stone") .. " " .. stones .. "/3 ";
+	end
+
+	toolTip:setName(getText("ContextMenu_Saltwater_Well"));
+	toolTip:setTexture("pseudoed_01_6");
+
+
+	local clayKilnOption = subMenu:addOption(getText("ContextMenu_Clay_Kiln"), worldobjects, ISBuildMenu.onClayKiln, square, player);
+	local toolTip = ISBuildMenu.canBuild(0,0,0,0,0,0,clayKilnOption, player);
+	toolTip.description = getText("Tooltip_craft_stonePileDesc") .. toolTip.description;
+	-- we add that we need stone too
+	local clayLumps = getSpecificPlayer(player):getInventory():getItemCount("Pseudonymous.ClayLump", true);
+	if clayLumps < 3 then
+		toolTip.description = toolTip.description .. " <RGB:1,0,0>" .. getItemNameFromFullType("Pseudonymous.ClayLump") .. " " .. clayLumps .. "/3 ";
+		if not ISBuildMenu.cheat then
+			clayKilnOption.onSelect = nil;
+			clayKilnOption.notAvailable = true;
+		end
+	else
+		toolTip.description = toolTip.description .. " <RGB:1,1,1>" .. getItemNameFromFullType("Pseudonymous.ClayLump") .. " " .. clayLumps .. "/3 ";
+	end
+
+	toolTip:setName(getText("ContextMenu_Clay_Kiln"));
+	toolTip:setTexture("pseudoed_01_5");
+
+	
+
+
+	
+	-- PseudoEd:  Disable this temporarily while I incorporate my saltwater well
+	--if crossOption.notAvailable and stonePileOption.notAvailable and woodenPicketOption.notAvailable then
+	--option.notAvailable = true;
+	--end
+end
+
+ISBuildMenu.onSaltwaterWell = function(worldobjects, square, player)
+	-- sprite, northSprite, corner
+	local cross = ISSimpleFurniture:new("Saltwater Well", "pseudoed_01_6", "pseudoed_01_6");
+	cross.canPassThrough = true;
+	cross.canBarricade = false;
+	cross.ignoreNorth = true;
+	cross.canBeAlwaysPlaced = false;
+	cross.isThumpable = false;
+	cross.modData["xp:Woodwork"] = 5;
+	--cross.modData["need:Base.Plank"] = "1";
+	--cross.modData["need:Base.Nails"] = "1";
+	--cross.modData["need:Base.Rope"] = "1";
+	cross.modData["need:Base.Stone"] = "3";
+	cross.player = player
+	cross.maxTime = 50;
+	cross.noNeedHammer = true;
+	getCell():setDrag(cross, player);
+end
+
+ISBuildMenu.onClayKiln = function(worldobjects, square, player)
+	-- sprite, northSprite, corner
+	local cross = ISSimpleFurniture:new("Clay Kiln", "pseudoed_01_5", "pseudoed_01_5");
+	cross.canPassThrough = true;
+	cross.canBarricade = false;
+	cross.ignoreNorth = true;
+	cross.canBeAlwaysPlaced = false;
+	cross.isThumpable = false;
+	cross.modData["xp:Woodwork"] = 5;
+	--cross.modData["need:Base.Plank"] = "1";
+	--cross.modData["need:Base.Nails"] = "1";
+	--cross.modData["need:Base.Rope"] = "1";
+	cross.modData["need:Pseudonymous.ClayLump"] = "3";
+	cross.player = player
+	cross.maxTime = 50;
+	cross.noNeedHammer = true;
+	getCell():setDrag(cross, player);
+end
+
+ISBuildMenu.onCheeseMachine = function(worldobjects, square, player)
+	-- sprite, northSprite, corner
+	local cross = ISSimpleFurniture:new("Royale With Cheese Arcade Machine", "DylanRandomAssetPack3_25", "DylanRandomAssetPack3_25");
+	cross.canPassThrough = false;
+	cross.canBarricade = false;
+	cross.ignoreNorth = true;
+	cross.canBeAlwaysPlaced = true;
+	cross.isThumpable = true;
+	cross.modData["need:Base.CheeseArcadeParts"] = "1";
+	cross.player = player
+	cross.maxTime = 50;
+	cross.noNeedHammer = true;
+	getCell():setDrag(cross, player);
+end
+
+PMRSBuildMenu = {};
+PMRSBuildMenu.stones = 0;
+
+PMRSBuildMenu.doBuildMenu = function(player, context, worldobjects, test)
+
+	local playerObj = getSpecificPlayer(player)
+	local playerInv = playerObj:getInventory()
+	
+	PMRSBuildMenu.stones = ISBuildMenu.countMaterial(player, "Base.Stone")
+	--PMRSBuildMenu.hasShovel = playerInv:containsTagEvalRecurse("Shovel", predicateNotBroken)
+end
+
+
+Events.OnFillWorldObjectContextMenu.Add(PMRSBuildMenu.doBuildMenu);

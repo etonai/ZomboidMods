@@ -1,0 +1,35 @@
+ItemName_ES = {
+
+/* Clothing */
+
+	ItemName_Mexiox_sw.jediropes = "Tunica Jedi",
+	ItemName_Mexiox_sw.jediropesblack = "Tunica Jedi Obscura",
+	ItemName_Mexiox_sw.jediropesblackbrown = "Tunica Jedi Cafe Obscura",
+	ItemName_Mexiox_sw.jediropesbrown = "Tunica Jedi Cafe",
+	ItemName_Mexiox_sw.jediropesblackbelt = "Tunica Jedi con cinturon negro",
+	ItemName_Mexiox_sw.blackgloves = "Guantes negros",
+	ItemName_Mexiox_sw.blackglove = "Guante derecho negro",
+	ItemName_Mexiox_sw.jediwhitepants = "Pantalon Jedi Claro",
+	ItemName_Mexiox_sw.jedibrownpants = "Pantalon Jedi Cafe",
+	ItemName_Mexiox_sw.jediblackpants = "Pantalon Jedi Negro",
+	ItemName_Mexiox_sw.jediboots = "Botas Jedi",
+	ItemName_Mexiox_sw.jedibootsblack = "Botas Jedi negras",
+	ItemName_Mexiox_sw.lukesuit = "Atuendo de Luke",
+
+/* Items */
+
+	ItemName_Mexiox_sw.anakin_off =  "Sable de Anakin",
+	ItemName_Mexiox_sw.anakin_on =  "Sable de Anakin",
+	ItemName_Mexiox_sw.darthvader_off =  "Sable de Vader",
+	ItemName_Mexiox_sw.darthvader_on =  "Sable de Vader",
+	ItemName_Mexiox_sw.dooku_off =  "Sable de Dooku",
+	ItemName_Mexiox_sw.dooku_on =  "Sable de Dooku",
+	ItemName_Mexiox_sw.kenobi_off =  "Sable de Ben",
+	ItemName_Mexiox_sw.kenobi_on =  "Sable de Ben",
+	ItemName_Mexiox_sw.luke_off =  "Sable de Luke",
+	ItemName_Mexiox_sw.luke_on =  "Sable de Luke",
+	ItemName_Mexiox_sw.kylo_off =  "Sable de Kylo",
+	ItemName_Mexiox_sw.kylo_on =  "Sable de Kylo",
+	ItemName_Mexiox_sw.mace_off =  "Sable de Mace",
+	ItemName_Mexiox_sw.mace_on =  "Sable de Mace",
+}

@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<outfitManager>
+
+	<m_MaleOutfits>
+		<m_Name>LukeSkywalkerJedi</m_Name>
+		<m_Guid>c037dced-381f-4c3c-a40c-c7d7b4e5280b</m_Guid>
+		<m_Top>false</m_Top>
+		<m_Pants>false</m_Pants>
+		<m_AllowTopTint>false</m_AllowTopTint>
+		<m_AllowTShirtDecal>false</m_AllowTShirtDecal>
+		<m_items> <!-- Guante Negro Derecho -->
+			<itemGUID>bf1fba19-abbe-4214-bc52-727d8992c4c4</itemGUID>
+		</m_items>
+		<m_items> <!-- Luke Suit -->
+			<itemGUID>792a51e1-b336-485d-a945-663da9d03cb9</itemGUID>
+		</m_items>
+		<m_items> <!-- Jedi Black Boots -->
+			<itemGUID>d70dd357-6964-4447-8e29-52d5407a0222</itemGUID>
+		</m_items>
+	</m_MaleOutfits>
+
+	<m_MaleOutfits>
+		<m_Name>Kenobi</m_Name>
+		<m_Guid>a0a69a35-aa73-45ff-9dc4-06663e6ff755</m_Guid>
+		<m_Top>false</m_Top>
+		<m_Pants>false</m_Pants>
+		<m_AllowTopTint>false</m_AllowTopTint>
+		<m_AllowTShirtDecal>false</m_AllowTShirtDecal>
+		<m_items> <!-- Jedi Ropes Black Belt -->
+			<itemGUID>31673e1d-3ec0-4607-8905-90517e60189b</itemGUID>
+		</m_items>
+		<m_items> <!-- Jedi White Pants -->
+			<itemGUID>7625dc63-b90e-4f21-ad56-f2316f892bbc</itemGUID>
+		</m_items>
+		<m_items> <!-- Jedi Boots -->
+			<itemGUID>92297beb-a581-4906-9810-abeca2adf446</itemGUID>
+		</m_items>
+	</m_MaleOutfits>
+
+	<m_MaleOutfits>
+		<m_Name>Anakin</m_Name>
+		<m_Guid>af78b121-a3cd-4edf-9a6c-e9455fbdd5f4</m_Guid>
+		<m_Top>false</m_Top>
+		<m_Pants>false</m_Pants>
+		<m_AllowTopTint>false</m_AllowTopTint>
+		<m_AllowTShirtDecal>false</m_AllowTShirtDecal>
+		<m_items> <!-- Jedi Ropes Black Brown -->
+			<itemGUID>3aed6e0a-820d-4c5a-b803-5ea432d21c7d</itemGUID>
+		</m_items>
+		<m_items> <!-- Jedi Black Pants -->
+			<itemGUID>88033363-b2bf-4b37-8dab-ddffead8e6d1</itemGUID>
+		</m_items>
+		<m_items> <!-- Jedi Black Boots -->
+			<itemGUID>d70dd357-6964-4447-8e29-52d5407a0222</itemGUID>
+		</m_items>
+	</m_MaleOutfits>
+
+	<m_MaleOutfits>
+		<m_Name>Sith1</m_Name>
+		<m_Guid>3239c72b-425f-454a-9b82-85d7cda88a7e</m_Guid>
+		<m_Top>false</m_Top>
+		<m_Pants>false</m_Pants>
+		<m_AllowTopTint>false</m_AllowTopTint>
+		<m_AllowTShirtDecal>false</m_AllowTShirtDecal>
+		<m_items> <!-- Jedi Ropes Black -->
+			<itemGUID>458d9f28-96d1-4780-93b7-2cb01782a0b6</itemGUID>
+		</m_items>
+		<m_items> <!-- Jedi Black Pants -->
+			<itemGUID>88033363-b2bf-4b37-8dab-ddffead8e6d1</itemGUID>
+		</m_items>
+		<m_items> <!-- Jedi Black Boots -->
+			<itemGUID>d70dd357-6964-4447-8e29-52d5407a0222</itemGUID>
+		</m_items>
+	</m_MaleOutfits>
+
+	<m_MaleOutfits>
+		<m_Name>Mace</m_Name>
+		<m_Guid>a58ff4de-fbb4-41ec-86e6-064e95c30cf1</m_Guid>
+		<m_Top>false</m_Top>
+		<m_Pants>false</m_Pants>
+		<m_AllowTopTint>false</m_AllowTopTint>
+		<m_AllowTShirtDecal>false</m_AllowTShirtDecal>
+		<m_items> <!-- Jedi Ropes Brown -->
+			<itemGUID>ac35aee1-4618-4027-a8c9-3a101f1bd050</itemGUID>
+		</m_items>
+		<m_items> <!-- Jedi Brown Pants -->
+			<itemGUID>539c5d43-f550-4aab-ad9a-925875fbb436</itemGUID>
+		</m_items>
+		<m_items> <!-- Jedi Boots -->
+			<itemGUID>92297beb-a581-4906-9810-abeca2adf446</itemGUID>
+		</m_items>
+	</m_MaleOutfits>
+
+	<m_MaleOutfits>
+		<m_Name>Sith2</m_Name>
+		<m_Guid>62c0643a-0d68-46a4-b0d4-c190e908246c</m_Guid>
+		<m_Top>false</m_Top>
+		<m_Pants>false</m_Pants>
+		<m_AllowTopTint>false</m_AllowTopTint>
+		<m_AllowTShirtDecal>false</m_AllowTShirtDecal>
+		<m_items> <!-- Jedi Ropes Black -->
+			<itemGUID>458d9f28-96d1-4780-93b7-2cb01782a0b6</itemGUID>
+		</m_items>
+		<m_items> <!-- Jedi Black Pants -->
+			<itemGUID>88033363-b2bf-4b37-8dab-ddffead8e6d1</itemGUID>
+		</m_items>
+		<m_items> <!-- Jedi Boots -->
+			<itemGUID>92297beb-a581-4906-9810-abeca2adf446</itemGUID>
+		</m_items>
+	</m_MaleOutfits>
+
+	<m_MaleOutfits>
+		<m_Name>LukeSkywalker</m_Name>
+		<m_Guid>cc1ae041-ca6d-4d1c-abae-061042f73a82</m_Guid>
+		<m_Top>false</m_Top>
+		<m_Pants>false</m_Pants>
+		<m_AllowTopTint>false</m_AllowTopTint>
+		<m_AllowTShirtDecal>false</m_AllowTShirtDecal>
+		<m_items> <!-- Jedi Ropes White -->
+			<itemGUID>9eda756a-8d90-474c-8ba2-5d79d9bb752d</itemGUID>
+		</m_items>
+		<m_items> <!-- Jedi White Pants -->
+			<itemGUID>7625dc63-b90e-4f21-ad56-f2316f892bbc</itemGUID>
+		</m_items>
+		<m_items> <!-- Jedi Boots -->
+			<itemGUID>92297beb-a581-4906-9810-abeca2adf446</itemGUID>
+		</m_items>
+	</m_MaleOutfits>
+
+</outfitManager>

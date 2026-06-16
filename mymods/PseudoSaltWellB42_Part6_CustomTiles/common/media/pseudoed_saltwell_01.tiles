@@ -1,0 +1,9 @@
+tile pseudoed_saltwell_01_0
+{
+	sprite = pseudoed_saltwell_01_0
+}
+
+tile pseudoed_saltwell_01_1
+{
+	sprite = pseudoed_saltwell_01_1
+}

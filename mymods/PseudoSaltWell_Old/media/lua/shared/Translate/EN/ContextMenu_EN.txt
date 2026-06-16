@@ -1,0 +1,4 @@
+ContextMenu_EN = {
+	ContextMenu_Saltwater_Well = "Saltwater Well",
+	ContextMenu_Cheese_Machine = "Royale With Cheese Arcade Machine",
+}

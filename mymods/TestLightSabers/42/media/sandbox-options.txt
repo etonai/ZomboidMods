@@ -1,0 +1,66 @@
+VERSION = 1,
+
+option Mexiox_sw.LukeSkywalkerJedi_Chance = {
+	type = double,
+	default = 0.05,
+	min = 0.00,
+	max = 100,
+	page = Mexiox_ls,
+	translation = Mexiox_ls.LukeSkywalkerJedi_Chance,
+}
+
+option Mexiox_sw.LukeSkywalker_Chance = {
+	type = double,
+	default = 0.05,
+	min = 0.00,
+	max = 100,
+	page = Mexiox_ls,
+	translation = Mexiox_ls.LukeSkywalker_Chance,
+}
+
+
+option Mexiox_sw.Kenobi_Chance = {
+	type = double,
+	default = 0.05,
+	min = 0.00,
+	max = 100,
+	page = Mexiox_ls,
+	translation = Mexiox_ls.Kenobi_Chance,
+}
+
+option Mexiox_sw.Anakin_Chance = {
+	type = double,
+	default = 0.05,
+	min = 0.00,
+	max = 100,
+	page = Mexiox_ls,
+	translation = Mexiox_ls.Anakin_Chance,
+}
+
+option Mexiox_sw.Sith1_Chance = {
+	type = double,
+	default = 0.05,
+	min = 0.00,
+	max = 100,
+	page = Mexiox_ls,
+	translation = Mexiox_ls.Sith1_Chance,
+}
+
+option Mexiox_sw.Sith2_Chance = {
+	type = double,
+	default = 0.05,
+	min = 0.00,
+	max = 100,
+	page = Mexiox_ls,
+	translation = Mexiox_ls.Sith2_Chance,
+}
+
+option Mexiox_sw.Mace_Chance = {
+	type = double,
+	default = 0.05,
+	min = 0.00,
+	max = 100,
+	page = Mexiox_ls,
+	translation = Mexiox_ls.Mace_Chance,
+}
+

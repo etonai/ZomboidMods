@@ -1,0 +1,313 @@
+module Pseudonymous
+{
+
+
+/************************ITEMS************************/
+
+	item SaltwaterPot
+	{
+        Weight	=	4,
+        Type	=	Food,
+        DisplayName	=	Cooking Pot with Saltwater,
+        Icon	=	Pot_Water,
+        HungerChange    =   -1,
+        Carbohydrates = 0,
+        Proteins = 0,
+        Lipids = 0,
+        Calories = 0,
+        IsCookable	=	    true,
+        MinutesToBurn   =   140,
+        MinutesToCook   =   20,
+        UnhappyChange   =   20,
+        ThirstChange = 10,
+        ReplaceOnUse    =   Pot,
+        ReplaceOnCooked     =   Pseudonymous.SaltPot,
+        StaticModel = CookingPot,
+	}
+
+	item SaltPot
+	{
+        Weight	=	1.3,
+        Type	=	Food,
+        DisplayName	=	Cooking Pot with Salt,
+        Icon	=	Pot,
+        HungerChange    =   -1,
+        Carbohydrates = 0,
+        Proteins = 0,
+        Lipids = 0,
+        Calories = 0,
+        ThirstChange = 20,
+        ReplaceOnUse    =   Pot,
+        StaticModel = CookingPot,
+	}
+
+	item SaltwaterKettle
+	{
+        Weight	=	2,
+        Type	=	Food,
+        DisplayName	=	Kettle with Saltwater,
+        Icon	=	Kettle,
+        HungerChange    =   -1,
+        Carbohydrates = 0,
+        Proteins = 0,
+        Lipids = 0,
+        Calories = 0,
+        IsCookable	=	    true,
+        MinutesToBurn   =   140,
+        MinutesToCook   =   20,
+        UnhappyChange   =   20,
+        ThirstChange = 10,
+        ReplaceOnUse    =   Kettle,
+        ReplaceOnCooked     =   Pseudonymous.SaltKettle,
+        StaticModel = Kettle,
+	}
+
+	item SaltKettle
+	{
+        Weight	=	1.15,
+        Type	=	Food,
+        DisplayName	=	Kettle with Salt,
+        Icon	=	Kettle,
+        HungerChange    =   -1,
+        Carbohydrates = 0,
+        Proteins = 0,
+        Lipids = 0,
+        Calories = 0,
+        ThirstChange = 20,
+        ReplaceOnUse    =   Kettle,
+        StaticModel = Kettle,
+	}
+
+	item SaltedMeat
+   {
+	HungerChange	    =	-10,
+	ThirstChange	=	10,
+	Weight		    = 0.1,
+	DaysFresh 	    = 7,
+	DaysTotallyRotten   = 14,
+	AlwaysWelcomeGift   = true,
+	Type	            = Food,
+	DisplayName	    = Salted Meat,
+	Icon		    = BeefJerky,
+    EvolvedRecipe = Soup:15;Stew:15;Pie:10;Stir fry Griddle Pan:15;Stir fry:15;Sandwich:5|Cooked;Burger:10;Salad:10|Cooked;Roasted Vegetables:15;RicePot:15;RicePan:15;PastaPot:15;PastaPan:15,
+	FoodType    	    = Meat,
+            Carbohydrates = 3,
+        Proteins = 0.5,
+        Lipids = 0.5,
+        Calories = 50,
+	IsCookable	    = TRUE,
+        MinutesToBurn	    = 60,
+        MinutesToCook	    = 30,
+		DangerousUncooked	=	TRUE,
+        ReplaceOnRotten = SaltCuredMeat,
+    }
+
+	item SaltCuredMeat
+   {
+	HungerChange	    =	-10,
+	ThirstChange	=	15,
+	Weight		    = 0.7,
+	DaysFresh 	    = 90,
+	DaysTotallyRotten   = 180,
+	AlwaysWelcomeGift   = true,
+	Type	            = Food,
+	DisplayName	    = Salt Cured Meat,
+	Icon		    = BeefJerky,
+    EvolvedRecipe = Soup:15;Stew:15;Pie:10;Stir fry Griddle Pan:15;Stir fry:15;Sandwich:5|Cooked;Burger:10;Salad:10|Cooked;Roasted Vegetables:15;RicePot:15;RicePan:15;PastaPot:15;PastaPan:15,
+	FoodType    	    = Meat,
+            Carbohydrates = 3,
+        Proteins = 0.5,
+        Lipids = 0.5,
+        Calories = 50,
+	IsCookable	    = TRUE,
+        MinutesToBurn	    = 60,
+        MinutesToCook	    = 30,
+		DangerousUncooked	=	TRUE,
+    }
+
+	item SaltedFishFillet
+	{
+        HungerChange	=	-25,
+        ThirstChange = 10,
+        Weight	=	0.2,
+        Type	=	Food,
+        IsCookable	=	TRUE,
+        DaysTotallyRotten	=	200,
+        MinutesToBurn	=	60,
+        DisplayName	=	Salted Fish Fillet,
+        Icon	=	FishFillet,
+        DaysFresh	=	120,
+        MinutesToCook	=	25,
+        Carbohydrates = 1,
+        Proteins = 28.52,
+        Lipids = 12,
+        Calories = 205,
+        EvolvedRecipe = Soup:15;Stew:15;Pie:15;Stir fry Griddle Pan:15;Stir fry:15;Sandwich:5|Cooked;Burger:10;Salad:10|Cooked;Roasted Vegetables:15;RicePot:15;RicePan:15;PastaPot:15;PastaPan:15,
+        FoodType    =   Fish,
+        BadInMicrowave = true,
+        GoodHot = true,
+        WorldStaticModel = FishFillet,
+	}
+
+    item LactoFermentedCabbage
+    {
+        Weight	=	0.7,
+        Type	=	Food,
+        DisplayName	=	Jar of Sauerkraut,
+        Icon	=	JarWhite,
+        HungerChange 		=		-25,
+        EvolvedRecipe = Soup:15;Stew:15;Stir fry Griddle Pan:15;Stir fry:15;Sandwich:10;Burger:10;Salad:15;Roasted Vegetables:15,
+        DaysFresh			=	60,
+        DaysTotallyRotten	=	90,
+        ThirstChange	=	5,
+        Carbohydrates = 41.41,
+        Proteins = 9.14,
+        Lipids = 0.71,
+        Calories = 178,
+        Packaged = TRUE,
+        FoodType    = Vegetables,
+        EvolvedRecipeName = Sauerkraut,
+        ReplaceOnUse    =   EmptyJar,
+        ReplaceOnCooked = Pseudonymous.JarOfCabbageStew,
+        StaticModel = JarWhite,
+        EatType = can,
+        IsCookable=TRUE,
+        MinutesToCook = 10,
+        MinutesToBurn = 40,
+    }
+
+    item JarOfCabbageStew
+    {
+        Weight	=	0.7,
+        Type	=	Food,
+        DisplayName	=	Jar of Salty Cabbage Stew,
+        Icon	=	JarWhite,
+        HungerChange 		=		-25,
+        EvolvedRecipe = Soup:15;Stew:15;Stir fry Griddle Pan:15;Stir fry:15;Sandwich:10;Burger:10;Salad:15;Roasted Vegetables:15,
+        DaysFresh			=	3,
+        DaysTotallyRotten	=	5,
+        IsCookable=TRUE,
+        MinutesToCook = 20,
+        MinutesToBurn = 40,
+        ThirstChange	=	5,
+        Carbohydrates = 41.41,
+        Proteins = 9.14,
+        Lipids = 0.71,
+        Calories = 178,
+        Packaged = TRUE,
+        FoodType    = Vegetables,
+        EvolvedRecipeName = Sauerkraut,
+        ReplaceOnUse    =   EmptyJar,
+        StaticModel = JarWhite,
+        EatType = can,
+    }
+
+        item LactoFermentedCarrots
+    {
+        Weight	=	0.7,
+        Type	=	Food,
+        DisplayName	=	Jar of LactoFermented Carrots,
+        Icon	=	JarBrown,
+        HungerChange 		=		-12,
+        EvolvedRecipe = Soup:12;Stew:12;Pie:12;Stir fry Griddle Pan:12;Stir fry:12;Sandwich:12;Salad:12;Roasted Vegetables:12;RicePot:12;RicePan:12;PastaPot:12;PastaPan:12,
+        DaysFresh			=	60,
+        DaysTotallyRotten	=	90,
+        ThirstChange	=	-4,
+        Carbohydrates = 28,
+        Proteins = 0,
+        Lipids = 0,
+        Calories = 10.5,
+        Packaged = TRUE,
+        FoodType    = Vegetables,
+        EvolvedRecipeName = LactoFermented Carrots,
+        ReplaceOnUse    =   EmptyJar,
+        StaticModel = JarFoodRed,
+        EatType = can,
+    }
+
+    item LactoFermentedPotatoes
+    {
+        Weight	=	0.7,
+        Type	=	Food,
+        DisplayName	=	Jar of LactoFermented Potatoes,
+        Icon	=	JarWhite,
+        HungerChange 		=		-18,
+        EvolvedRecipe = Soup:18;Stew:18;Pie:18;Stir fry Griddle Pan:18;Stir fry:18;Sandwich:18;Salad:18;Roasted Vegetables:18;RicePot:18;RicePan:18;PastaPot:18;PastaPan:18,
+        DaysFresh			=	60,
+        DaysTotallyRotten	=	90,
+        ThirstChange	=	-7,
+        Carbohydrates = 35,
+        Proteins = 2.5,
+        Lipids = 0,
+        Calories = 175,
+        Packaged = TRUE,
+        FoodType    = Vegetables,
+        EvolvedRecipeName = LactoFermented Potatoes,
+        ReplaceOnUse    =   EmptyJar,
+        StaticModel = JarWhite,
+        EatType = can,
+    }
+
+/************************RECIPES************************/
+
+	recipe Make Salted Meat
+    {
+	SkillRequired:Cooking=2,
+	keep KitchenKnife/ButterKnife/HuntingKnife/FlintKnife,
+        Chicken/Steak/MuttonChop/PorkChop/Smallanimalmeat/Smallbirdmeat/Rabbitmeat,
+        Salt=1,
+        Result:SaltedMeat,
+        Time:150.0,
+	CanBeDoneFromFloor:true,
+        Category:Cooking,
+	OnCreate:MakeSaltedMeat,
+    }
+
+	recipe Salt Fish Fillet
+    {
+        Salt=1,
+        FishFillet,
+	keep KitchenKnife/ButterKnife/HuntingKnife/FlintKnife,
+        Result:SaltedFishFillet,
+	SkillRequired:Cooking=2,
+        Time:150.0,
+	CanBeDoneFromFloor:true,
+        Category:Cooking,
+	OnCreate:SaltFishFillet_OnCreate,
+    }
+
+    recipe Get Salt
+    {
+        SaltPot,
+        Result:Base.Pot,
+        Time:200.0,
+        CanBeDoneFromFloor:true,
+        Category:Cooking,
+        OnCreate:PseudonymousGetSalt,
+    }
+
+    recipe Get Salt From Kettle
+    {
+        SaltKettle,
+        Result:Base.Kettle,
+        Time:200.0,
+        CanBeDoneFromFloor:true,
+        Category:Cooking,
+        OnCreate:PseudonymousGetSaltFromKettle,
+    }
+
+    recipe Make Sauerkraut
+    {
+        EmptyJar,
+        farming.Cabbage,
+        Water=10,
+        Salt,
+
+        Result:LactoFermentedCabbage,
+        Time:100.0,
+        OnCreate:Recipe.OnCreate.CannedFood,
+        Category:Cooking,
+        OnGiveXP:Recipe.OnGiveXP.Cooking10,
+    }
+
+}

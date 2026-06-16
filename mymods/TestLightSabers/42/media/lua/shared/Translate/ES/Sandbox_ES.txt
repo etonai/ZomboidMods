@@ -1,0 +1,24 @@
+Sandbox_EN = {
+	Sandbox_Mexiox_sw.LukeSkywalkerJedi_Chance = "Spawnrate de Luke SkyWalker Version Jedi Zombie ",
+	Sandbox_Mexiox_sw.LukeSkywalkerJedi_Chance_tooltip = "Recuerda, esto solo agrega a la posibilidad de que aparezcan, pero poner 100 no significa que solo aparezcan ese tipo de zombies, compartiran el mundo con el resto",
+
+    Sandbox_Mexiox_sw.LukeSkywalker_Chance = "Spawnrate de Luke SkyWalker Zombie",
+	Sandbox_Mexiox_sw.LukeSkywalker_Chance_tooltip = "Recuerda, esto solo agrega a la posibilidad de que aparezcan, pero poner 100 no significa que solo aparezcan ese tipo de zombies, compartiran el mundo con el resto",
+
+	Sandbox_Mexiox_sw.Kenobi_Chance = "Spawnrate de Ben Kenobi Zombie",
+	Sandbox_Mexiox_sw.Kenobi_Chance_tooltip = "Recuerda, esto solo agrega a la posibilidad de que aparezcan, pero poner 100 no significa que solo aparezcan ese tipo de zombies, compartiran el mundo con el resto",
+
+	Sandbox_Mexiox_sw.Anakin_Chance = "Spawnrate de Anakin Zombie",
+	Sandbox_Mexiox_sw.Anakin_Chance_tooltip = "Recuerda, esto solo agrega a la posibilidad de que aparezcan, pero poner 100 no significa que solo aparezcan ese tipo de zombies, compartiran el mundo con el resto",
+
+	Sandbox_Mexiox_sw.Sith1_Chance = "Spawnrate de Dooku Zombie",
+	Sandbox_Mexiox_sw.Sith1_Chance_tooltip = "Recuerda, esto solo agrega a la posibilidad de que aparezcan, pero poner 100 no significa que solo aparezcan ese tipo de zombies, compartiran el mundo con el resto",
+
+	Sandbox_Mexiox_sw.Sith2_Chance = "Spawnrate de Kylo Zombie",
+	Sandbox_Mexiox_sw.Sith2_Chance_tooltip = "Recuerda, esto solo agrega a la posibilidad de que aparezcan, pero poner 100 no significa que solo aparezcan ese tipo de zombies, compartiran el mundo con el resto",
+
+    Sandbox_Mexiox_ls.Mace_Chance = "Spawnrate de Mace Zombie",
+	Sandbox_Mexiox_sw.Mace_Chance_tooltip = "Recuerda, esto solo agrega a la posibilidad de que aparezcan, pero poner 100 no significa que solo aparezcan ese tipo de zombies, compartiran el mundo con el resto",
+
+	Sandbox_Mexiox_sw = "Mexiox's - Light Sabers"
+}

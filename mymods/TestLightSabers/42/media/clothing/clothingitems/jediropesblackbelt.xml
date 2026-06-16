@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<clothingItem>
+	<m_MaleModel>skinned\clothes\jediropes</m_MaleModel>
+	<m_FemaleModel>skinned\clothes\jediropesF</m_FemaleModel>
+	<m_GUID>31673e1d-3ec0-4607-8905-90517e60189b</m_GUID>
+	<m_Static>false</m_Static>
+	<m_AllowRandomHue>false</m_AllowRandomHue>
+	<m_AllowRandomTint>false</m_AllowRandomTint>
+	<m_AttachBone></m_AttachBone>
+	<m_Masks>1</m_Masks>
+	<m_Masks>3</m_Masks>
+	<m_Masks>5</m_Masks>
+	<textureChoices>Clothes/Jacket/jediropesblackbelt</textureChoices>
+</clothingItem>

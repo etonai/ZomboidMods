@@ -55,7 +55,7 @@ All fixes were derived by comparing against the working mod `notmymods/VanillaCr
 - [x] `MakeSaltedFillet` — already ported, confirmed working
 - [ ] `SaltMeatChickenStyle` — ported into test mod, awaiting in-game load verification
 - [ ] `SaltMeatAnimalStyle` — ported into test mod, awaiting in-game load verification
-- [ ] `MakeSauerkraut` (first fermentation recipe — also exercises the fluid input and `mode:keep` open questions below)
+- [ ] `MakeSauerkraut` — ported into test mod (with `LactoFermentedCabbage` and `JarOfCabbageStew`), awaiting in-game load verification. First fermentation recipe — also exercises the fluid input and `mode:keep` open questions below.
 - [ ] `MakeClayJarSauerkraut`
 - [ ] `MakeGlazedJarSauerkraut`
 - [ ] `MakeFermentedCucumbers`
