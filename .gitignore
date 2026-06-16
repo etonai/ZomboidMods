@@ -1,16 +1,16 @@
 # Project Zomboid Analysis Project .gitignore
 
 # Ignore media directory (contains game assets and Lua files)
-media/
+/media/
 
 # Ignore notmymods directory (contains existing mods to use as examples)
-notmymods/
+/notmymods/
 
 # PseudoAgriculture mod has its own git repo — tracked independently
 mymods/PseudoAgriculture/
 
 # Ignore zombie directory (contains Java source code)
-zombie/
+/zombie/
 
 # Ignore summary file
 summary.txt

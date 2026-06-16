@@ -1,0 +1,77 @@
+module Pseudonymous
+{
+
+
+/************************RECIPES************************/
+    
+	craftRecipe Make Salted Fillet
+	{
+        timedAction = SliceMeat_Surface,
+		Time = 150,
+		OnCreate = Recipe.OnCreate.CutFillet,
+		Tags = AnySurfaceCraft;Cooking,
+		category = Cooking,
+		xpAward = Cooking:5,
+		inputs
+		{
+			item 1 tags[SharpKnife;MeatCleaver] mode:keep flags[IsNotDull;SharpnessCheck],
+			item 1 [Base.FishFillet] flags[InheritFoodAge],
+			item 2 [Base.Salt],
+		}
+		outputs
+		{
+			item 1 Pseudonymous.SaltedFishFillet,
+		}
+	}
+    
+    craftRecipe Salt Meat ChickenStyle
+ 	{
+        timedAction = SliceMeat_Surface,
+ 		Time = 150,
+ 		OnCreate = Recipe.OnCreate.CutChicken,
+ 		Tags = AnySurfaceCraft;Cooking,
+		category = Cooking,
+ 		xpAward = Cooking:5,
+ 		inputs
+ 		{
+ 			item 1 tags[SharpKnife;MeatCleaver] mode:keep flags[IsNotDull;SharpnessCheck],
+			item 2 [Base.Salt],
+ 			item 1 [Base.Rabbitmeat] mappers[meatType] flags[InheritFoodAge],
+ 		}
+ 		outputs
+ 		{
+ 			item 1 mapper:meatType,
+        }
+        itemMapper meatType
+        {
+            Pseudonymous.SaltedRabbitmeat = Base.Rabbitmeat,
+			Pseudonymous.SaltedBeef = Base.Beef,
+			Pseudonymous.SaltedSteak = Base.Steak,
+        }
+ 	}
+    
+    craftRecipe Salt Meat AnimalStyle
+ 	{
+        timedAction = SliceMeat_Surface,
+ 		Time = 150,
+ 		OnCreate = Recipe.OnCreate.CutAnimal,
+ 		Tags = AnySurfaceCraft;Cooking,
+		category = Cooking,
+ 		xpAward = Cooking:5,
+ 		inputs
+ 		{
+ 			item 1 tags[SharpKnife;MeatCleaver] mode:keep flags[IsNotDull;SharpnessCheck],
+			item 2 [Base.Salt],
+ 			item 1 [Base.Rabbitmeat] mappers[meatType] flags[InheritFoodAge],
+ 		}
+ 		outputs
+ 		{
+ 			item 1 mapper:meatType,
+        }
+        itemMapper meatType
+        {
+            Pseudonymous.SaltedRabbitmeat = Base.Rabbitmeat,
+        }
+ 	}
+
+}

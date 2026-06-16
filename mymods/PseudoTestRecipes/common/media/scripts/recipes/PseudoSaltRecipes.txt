@@ -1,0 +1,27 @@
+module Pseudonymous
+{
+
+
+/************************RECIPES************************/
+    
+	craftRecipe Make Salted Fillet
+	{
+        timedAction = SliceMeat_Surface,
+		Time = 150,
+		OnCreate = Recipe.OnCreate.CutFillet,
+		Tags = AnySurfaceCraft;Cooking,
+		category = Cooking,
+		xpAward = Cooking:5,
+		inputs
+		{
+			item 1 tags[SharpKnife;MeatCleaver] mode:keep flags[IsNotDull;SharpnessCheck],
+			item 1 [Base.FishFillet] flags[InheritFoodAge],
+			item 2 [Base.Salt],
+		}
+		outputs
+		{
+			item 1 Pseudonymous.SaltedFishFillet,
+		}
+	}
+
+}
