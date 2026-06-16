@@ -37,18 +37,40 @@ All fixes were derived by comparing against the working mod `notmymods/VanillaCr
 
 ---
 
-### Phase 2: Load Verification and Remaining Issues
+### Phase 2: Incremental Port via PseudoTestRecipes
 
 **Status:** Planning
 
-- [ ] Load the mod in B42 and check the console for parse errors at startup
-- [ ] Audit all `Tags =` lines in `PseudoSaltItems.txt` — confirm all use `base:` namespace prefix (e.g. `Tags = base:fishmeat`)
-- [ ] Investigate fluid input syntax on fermentation recipes — see Open Questions below
-- [ ] Verify `InheritFoodAge` flag is valid and functional in B42 fermentation recipes
-- [ ] Determine whether `DisplayType` is required for jar/crock items in the crafting UI
+`PseudoTestRecipes` currently contains only one recipe (`MakeSaltedFillet`) and is confirmed working in-game. `PseudoSaltRecipes` has 15 recipes and does not load cleanly. Rather than debugging the full mod directly, drive the rest of this cycle by porting recipes/items from `PseudoSaltRecipes` into `PseudoTestRecipes` one at a time, verifying in-game after each addition. The first recipe/item that breaks the test mod identifies the incompatibility; fix it in the test mod first, confirm it works, then carry the fix back to `PseudoSaltRecipes`.
+
+**Process for each increment:**
+1. Pick the next untested recipe (and its required items) from `PseudoSaltRecipes`.
+2. Copy it into `PseudoTestRecipes/42/media/scripts/recipes/PseudoSaltRecipes.txt` (and matching items into `PseudoTestItems.txt`).
+3. Load the test mod in B42 and check the console for parse errors.
+4. If it fails, isolate and fix the issue in the test mod; record the cause and fix in `claudeDocs/claude_PseudoTestRecipesChangelog.md`.
+5. If it succeeds, mark the recipe as ported and move to the next one.
+6. Once all recipes have been ported and verified individually in the test mod, apply the accumulated fixes to `PseudoSaltRecipes` and re-verify the full mod.
+
+**Porting order and status:**
+- [x] `MakeSaltedFillet` — already ported, confirmed working
+- [ ] `SaltMeatChickenStyle` — ported into test mod, awaiting in-game load verification
+- [ ] `SaltMeatAnimalStyle` — ported into test mod, awaiting in-game load verification
+- [ ] `MakeSauerkraut` (first fermentation recipe — also exercises the fluid input and `mode:keep` open questions below)
+- [ ] `MakeClayJarSauerkraut`
+- [ ] `MakeGlazedJarSauerkraut`
+- [ ] `MakeFermentedCucumbers`
+- [ ] `MakeClayJarFermentedCucumbers`
+- [ ] `MakeGlazedJarFermentedCucumbers`
+- [ ] `MakeFermentedCarrots`
+- [ ] `MakeClayJarFermentedCarrots`
+- [ ] `MakeGlazedJarFermentedCarrots`
+- [ ] `MakeFermentedRadishes`
+- [ ] `MakeClayJarFermentedRadishes`
+- [ ] `MakeGlazedJarFermentedRadishes`
+- [ ] Backport all confirmed fixes to `PseudoSaltRecipes` and do a full-mod load verification
 
 **Technical Notes:**
-Key files: `mymods/PseudoSaltRecipes/42/media/scripts/recipes/PseudoSaltRecipes.txt`, `mymods/PseudoSaltRecipes/42/media/scripts/items/PseudoSaltItems.txt`. Reference working mod at `notmymods/VanillaCraftableFoods/42/` for valid B42 patterns.
+Key files: `mymods/PseudoTestRecipes/42/media/scripts/recipes/PseudoSaltRecipes.txt`, `mymods/PseudoTestRecipes/42/media/scripts/items/PseudoSaltItems.txt` (test mod — edit these first); `mymods/PseudoSaltRecipes/42/media/scripts/recipes/PseudoSaltRecipes.txt`, `mymods/PseudoSaltRecipes/42/media/scripts/items/PseudoSaltItems.txt` (main mod — receives fixes once confirmed). Reference working mod at `notmymods/VanillaCraftableFoods/42/` for valid B42 patterns.
 
 ---
 
@@ -56,17 +78,17 @@ Key files: `mymods/PseudoSaltRecipes/42/media/scripts/recipes/PseudoSaltRecipes.
 
 1. **Fluid input `mode:keep` on the wildcard container**
    Current: `item 1 [*] mode:keep,` — VanillaCraftableFoods never applies `mode:keep` to the `[*]` fluid container. This may be invalid in B42 and could silently prevent the recipe from appearing or functioning.
-   Recommendation: Test removing `mode:keep` from the `[*]` container. If fermentation recipes still fail, this is a likely culprit.
+   Recommendation: Test in `PseudoTestRecipes` when porting `MakeSauerkraut` (the first fermentation recipe) — try removing `mode:keep` from the `[*]` container if it fails to load or appear.
 
 2. **`TaintedWater` as a fluid input type**
    Current: `-fluid 1.0 [Water;TaintedWater]` — unconfirmed whether `TaintedWater` is a valid fluid identifier for recipe inputs in B42.
-   Recommendation: Check `media/scripts/generated/` for valid fluid type names. If unconfirmed, reduce to `[Water]` only and restore later once confirmed.
+   Recommendation: Check `media/scripts/generated/` for valid fluid type names. Test in `PseudoTestRecipes` alongside the `mode:keep` question; if unconfirmed, reduce to `[Water]` only and restore later once confirmed.
 
 ---
 
 ## Notes and Risks
 
-- The test mod (`mymods/PseudoTestRecipes/`) exists for isolated testing. Use it to verify syntax questions before modifying the main mod files.
+- The test mod (`mymods/PseudoTestRecipes/`) is the primary working surface for Phase 2. It currently loads cleanly with one recipe; recipes are ported into it one at a time (see Phase 2 porting order) rather than debugging the full `PseudoSaltRecipes` mod directly. Fixes are only backported to `PseudoSaltRecipes` once confirmed working in the test mod.
 - The `common/media/scripts/` directory contains old B41 files. They are not loaded by the game and should be left untouched.
 - `claudeDocs/claude_PseudoSaltRecipesPortingHandoff.md` is the authoritative record of what was changed in Phase 1 and why.
 
