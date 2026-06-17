@@ -39,7 +39,7 @@ All fixes were derived by comparing against the working mod `notmymods/VanillaCr
 
 ### Phase 2: Incremental Port via PseudoTestRecipes
 
-**Status:** Planning
+**Status:** In Progress
 
 `PseudoTestRecipes` currently contains only one recipe (`MakeSaltedFillet`) and is confirmed working in-game. `PseudoSaltRecipes` has 15 recipes and does not load cleanly. Rather than debugging the full mod directly, drive the rest of this cycle by porting recipes/items from `PseudoSaltRecipes` into `PseudoTestRecipes` one at a time, verifying in-game after each addition. The first recipe/item that breaks the test mod identifies the incompatibility; fix it in the test mod first, confirm it works, then carry the fix back to `PseudoSaltRecipes`.
 
@@ -52,10 +52,10 @@ All fixes were derived by comparing against the working mod `notmymods/VanillaCr
 6. Once all recipes have been ported and verified individually in the test mod, apply the accumulated fixes to `PseudoSaltRecipes` and re-verify the full mod.
 
 **Porting order and status:**
-- [x] `MakeSaltedFillet` — already ported, confirmed working
-- [ ] `SaltMeatChickenStyle` — ported into test mod, awaiting in-game load verification
-- [ ] `SaltMeatAnimalStyle` — ported into test mod, awaiting in-game load verification
-- [ ] `MakeSauerkraut` — ported into test mod (with `LactoFermentedCabbage` and `JarOfCabbageStew`), awaiting in-game load verification. First fermentation recipe — also exercises the fluid input and `mode:keep` open questions below.
+- [x] `MakeSaltedFillet` — confirmed working
+- [x] `SaltMeatChickenStyle` — confirmed working
+- [x] `SaltMeatAnimalStyle` — confirmed working
+- [x] `MakeSauerkraut` — confirmed working (with `LactoFermentedCabbage` and `JarOfCabbageStew`). Resolves both open questions below: `mode:keep` on `[*]` and `TaintedWater` as a fluid input are both valid in B42.
 - [ ] `MakeClayJarSauerkraut`
 - [ ] `MakeGlazedJarSauerkraut`
 - [ ] `MakeFermentedCucumbers`
@@ -76,13 +76,11 @@ Key files: `mymods/PseudoTestRecipes/42/media/scripts/recipes/PseudoSaltRecipes.
 
 ## Open Questions
 
-1. **Fluid input `mode:keep` on the wildcard container**
-   Current: `item 1 [*] mode:keep,` — VanillaCraftableFoods never applies `mode:keep` to the `[*]` fluid container. This may be invalid in B42 and could silently prevent the recipe from appearing or functioning.
-   Recommendation: Test in `PseudoTestRecipes` when porting `MakeSauerkraut` (the first fermentation recipe) — try removing `mode:keep` from the `[*]` container if it fails to load or appear.
+Both questions below were resolved by the `MakeSauerkraut` port: it loaded and worked in `PseudoTestRecipes` with the syntax unchanged, so neither is a B42 incompatibility.
 
-2. **`TaintedWater` as a fluid input type**
-   Current: `-fluid 1.0 [Water;TaintedWater]` — unconfirmed whether `TaintedWater` is a valid fluid identifier for recipe inputs in B42.
-   Recommendation: Check `media/scripts/generated/` for valid fluid type names. Test in `PseudoTestRecipes` alongside the `mode:keep` question; if unconfirmed, reduce to `[Water]` only and restore later once confirmed.
+1. ~~**Fluid input `mode:keep` on the wildcard container**~~ — **Resolved:** `item 1 [*] mode:keep,` is valid in B42; `MakeSauerkraut` works with it as-is.
+
+2. ~~**`TaintedWater` as a fluid input type**~~ — **Resolved:** `-fluid 1.0 [Water;TaintedWater]` is a valid fluid input in B42; confirmed working in `MakeSauerkraut`.
 
 ---
 

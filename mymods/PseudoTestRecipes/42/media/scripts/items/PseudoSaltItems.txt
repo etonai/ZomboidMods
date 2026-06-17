@@ -420,4 +420,59 @@ module Pseudonymous
 		GoodHot = true,
     }
 
+    item LactoFermentedCabbageClayJar
+    {
+        Weight	=	0.7,
+        Type	=	Food,
+        ItemType = base:food,
+        DisplayName	=	Clay Jar of Sauerkraut,
+        Icon	=	ClayJar_Fired,
+        HungerChange 		=		-25,
+        EvolvedRecipe = Soup:15;Stew:15;Stir fry Griddle Pan:15;Stir fry:15;Sandwich:10;Burger:10;Salad:15;Roasted Vegetables:15,
+        DaysFresh			=	120,
+        DaysTotallyRotten	=	240,
+        ThirstChange	=	5,
+        Carbohydrates = 41.41,
+        Proteins = 9.14,
+        Lipids = 0.71,
+        Calories = 178,
+        Packaged = TRUE,
+        FoodType    = Vegetables,
+        EvolvedRecipeName = Sauerkraut,
+        ReplaceOnUse    =   Base.ClayJar,
+        ReplaceOnCooked = Pseudonymous.ClayJarOfCabbageStew,
+        StaticModel = ClayJar,
+        EatType = can,
+        IsCookable=TRUE,
+        MinutesToCook = 10,
+        MinutesToBurn = 40,
+		CookingSound = BoilingFood,
+    }
+
+    item ClayJarOfCabbageStew
+    {
+        Weight	=	0.7,
+        Type	=	Food,
+        ItemType = base:food,
+        DisplayName	=	Clay Jar of Salty Cabbage Stew,
+        Icon	=	ClayJar_Fired,
+        HungerChange 		=		-25,
+        EvolvedRecipe = Soup:15;Stew:15;Stir fry Griddle Pan:15;Stir fry:15;Sandwich:10;Burger:10;Salad:15;Roasted Vegetables:15,
+        DaysFresh			=	3,
+        DaysTotallyRotten	=	5,
+        ThirstChange	=	5,
+        Carbohydrates = 41.41,
+        Proteins = 9.14,
+        Lipids = 0.71,
+        Calories = 178,
+        Packaged = TRUE,
+        FoodType    = Vegetables,
+        EvolvedRecipeName = Sauerkraut,
+        ReplaceOnUse    =   Base.ClayJar,
+        StaticModel = ClayJar,
+        EatType = can,
+		BadCold = false,
+		GoodHot = true,
+    }
+
 }
