@@ -39,7 +39,11 @@ All fixes were derived by comparing against the working mod `notmymods/VanillaCr
 
 ### Phase 2: Incremental Port via PseudoTestRecipes
 
-**Status:** In Progress
+**Status:** On Hold — see Blocker below
+
+**Blocker (2026-06-17):** While testing the `MakeClayJarSauerkraut` port, an error occurred when opening the crafting menu in-game. The error has not been reproduced since (intermittent). Phase 2 is on hold until the bug can be reproduced reliably and root-caused. Action items:
+1. Hold further porting work in `PseudoTestRecipes` until the crafting-menu error can be reproduced.
+2. Test `PseudoSaltRecipes` (the main mod) directly to check whether it exhibits the same intermittent crafting-menu error, independent of the test-mod porting work.
 
 `PseudoTestRecipes` currently contains only one recipe (`MakeSaltedFillet`) and is confirmed working in-game. `PseudoSaltRecipes` has 15 recipes and does not load cleanly. Rather than debugging the full mod directly, drive the rest of this cycle by porting recipes/items from `PseudoSaltRecipes` into `PseudoTestRecipes` one at a time, verifying in-game after each addition. The first recipe/item that breaks the test mod identifies the incompatibility; fix it in the test mod first, confirm it works, then carry the fix back to `PseudoSaltRecipes`.
 
