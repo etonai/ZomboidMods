@@ -7,11 +7,23 @@
 
 ## Where this left off (2026-06-19)
 
-Phases 1-5 are all **Work Complete** (porting done). The cycle is paused mid-investigation of an **open bug**, not blocked on implementation work. Pick up by reading the "Open investigation: campfire build error" entry under Phase 4 (below), which ends with a requested bisection test the user hasn't run yet:
-- **Test A:** enable only `42/media/scripts/` (items + recipes), disable/remove `42/media/lua/` entirely, retry the build-cheat campfire placement.
-- **Test B:** enable only `42/media/lua/`, disable/remove `42/media/scripts/` entirely, retry the same test.
+Phases 1-5 are all **Work Complete** (porting done). The cycle is paused mid-investigation of an **open bug**, not blocked on implementation work. Full detail is in the "Open investigation: campfire build error" entry under Phase 4 (below); this is just the current state summary.
 
-Confirmed so far: campfire build-cheat is clean with the mod fully disabled, and logs a Java overload-resolution error (`ItemContainer.new(...)`, all-vanilla call site with hardcoded arguments) when the mod is enabled — real correlation, mechanism not yet identified. The translation file (`ContextMenu.json`) has been ruled out as the cause. Phase 6 (full in-game verification pass) has not been started and shouldn't be until this is resolved, since it would just re-surface the same unexplained error.
+**Bug:** building a campfire with the in-game build-cheat logs a Java overload-resolution error (`ItemContainer.new(...)` in vanilla's `SCampfireGlobalObject.lua:103`) when `PseudoSaltWell` is enabled, and is clean when it's disabled. The build itself still completes either way — it's a logged error, not a crash.
+
+**Ruled out so far, in this order:**
+1. The `ContextMenu.json` translation file (removed alone, error persisted).
+2. All of this mod's actual code (`42/media/scripts/` and `42/media/lua/` both removed together, error persisted).
+
+**Currently implicated:** whatever's left after that — `mod.info`'s `tiledef=pseudoed_salt_01 8724` declaration and/or the `common/media/` assets (`pseudoed_salt_01.tiles`, `texturepacks/pseudoed_salt_01.pack`, `textures/Item_MEATSaltedFishFillet.png`). Confirmed: stripping the mod down to just `mod.info` + `poster.png` (no `common/` at all) is clean, so the `common/` assets and/or the `tiledef` declaration are the remaining suspects.
+
+**Leading hypothesis:** a tile-ID collision. `tiledef=pseudoed_salt_01 8724` claims a global tile-ID range starting at 8724; if another mod loaded in the same session (`PseudoSaltPreservation` and/or `RealisticKentuckyFarmingCalendar`, seen in an earlier `console.txt` — neither exists in this repo, so their declarations can't be checked from here) claims an overlapping range, that's a known category of bug that can corrupt unrelated sprite/object indices elsewhere.
+
+**Next step when picking this back up — Test E:** keep the mod stripped to just the `common/` assets (the failing minimal config), but also disable every other mod (just vanilla + this minimal `PseudoSaltWell`), and retry the campfire build-cheat.
+- Clean → confirms a tile-ID collision with one of those other mods; fix is renumbering this mod's `tiledef` offset away from `8724`.
+- Still errors → not a multi-mod collision; next narrowing step would be testing the `.tiles` file and the texturepack `.pack` file separately from each other.
+
+Phase 6 (full in-game verification pass) has not been started and shouldn't be until this is resolved, since it would just re-surface the same unexplained error.
 
 ---
 
@@ -191,7 +203,21 @@ The logged error (`No implementation found for function: new(String, IsoGridSqua
 - **Test A:** enable only `42/media/scripts/` (items + recipes), disable/remove `42/media/lua/` entirely.
 - **Test B:** enable only `42/media/lua/` (digging/filling/emptying code and menus), disable/remove `42/media/scripts/` entirely.
 
-Whichever half reproduces the error narrows the next round of investigation to that half's files. Awaiting results.
+**Result: both ruled out at once (2026-06-19).** User removed *both* `42/media/scripts/` and `42/media/lua/` and the error still occurred. This means none of this mod's actual code or data content (items, recipes, digging/filling/emptying logic, menus, translation strings) is responsible — every line of Lua and every script this mod authored has now been ruled out. The only things still present in the mod at that point: `mod.info` (declares `pack=pseudoed_salt_01`, `tiledef=pseudoed_salt_01 8724`), `poster.png`, and the three `common/media/` assets (`pseudoed_salt_01.tiles`, `texturepacks/pseudoed_salt_01.pack`, `textures/Item_MEATSaltedFishFillet.png`).
+
+**Next diagnostic step: narrow further between "tile/texturepack registration" and "any mod being active at all."**
+1. **Test C:** strip the mod down to just `mod.info` + `poster.png` (remove `common/` too, so the custom tile ID range/texturepack never loads). Retry the build-cheat campfire test. If clean, the tile/texturepack registration (sprite ID range starting at 8724) is implicated. If it still errors, even a content-free mod triggers it.
+2. **Test D:** disable `PseudoSaltWell` entirely and enable a different, unrelated mod instead (anything else available). Retry the same test. If that also errors, this has nothing to do with `PseudoSaltWell` specifically — it's a generic "any mod is loaded" sensitivity in vanilla's build-cheat path, which would be out of scope for this mod to fix.
+
+**Result: Test C passes.** User stripped the mod to just `mod.info` + `poster.png` (no `common/` assets at all) — campfire build-cheat succeeded with no error. This implicates the `common/media/` assets specifically: `pseudoed_salt_01.tiles`, `texturepacks/pseudoed_salt_01.pack`, and/or `textures/Item_MEATSaltedFishFillet.png`. The `.tiles` file is binary (933,745 bytes) and confirmed byte-identical to the original 42.11 mod's copy via `cmp`, so it can't be inspected directly for tile-ID content from here.
+
+**Leading hypothesis: tile-ID collision.** `mod.info` declares `tiledef=pseudoed_salt_01 8724` — a hardcoded starting tile ID. Tile IDs are global across all active mods; if another loaded mod's tileset also claims a range overlapping 8724, that's a well-known category of PZ bug that can corrupt unrelated sprite/object indices elsewhere in the game, which would explain an error this disconnected from anything `PseudoSaltWell` actually does. The user's earlier `console.txt` showed two other mods loading in that same session — `PseudoSaltPreservation` and `RealisticKentuckyFarmingCalendar` — neither of which exists in this repo (`mymods/`), so their `tiledef` declarations can't be checked from here.
+
+**Next diagnostic step (Test E):** with the mod still stripped to just `common/` assets (the failing minimal config from the prior test), also disable every *other* mod — just vanilla plus this minimal `PseudoSaltWell` — and retry the campfire build-cheat.
+- If **clean**: confirms a tile-ID collision with `PseudoSaltPreservation` and/or `RealisticKentuckyFarmingCalendar` specifically. Fix: renumber this mod's `tiledef` offset away from `8724` to an unused range.
+- If it **still errors**: not a multi-mod collision — points at `8724` colliding with something in vanilla itself, or some other property of the `.tiles`/`.pack` files, needing further narrowing (e.g. testing the texturepack alone vs. the `.tiles` file alone).
+
+Awaiting Test E.
 
 This phase's items/recipes work (Type/ItemType, Tags fixes) stands as Work Complete regardless of this investigation's outcome — this is a separate, newly-discovered issue, not a defect in the items themselves.
 
