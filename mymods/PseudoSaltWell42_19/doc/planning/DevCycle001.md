@@ -1,9 +1,17 @@
 # DevCycle 001: Stand up PseudoSaltWell for 42.19.0
 
-**Status:** Planning
+**Status:** Paused — see "Where this left off" below
 **Start Date:** 2026-06-19
 **Target Completion:** TBD
 **Focus:** Incrementally rebuild the saltwater well mod in this directory, porting the working 42.11.0 implementation from `mymods/PseudoSaltWell/42` forward, verifying every ported file against current `media/` lua before it's trusted.
+
+## Where this left off (2026-06-19)
+
+Phases 1-5 are all **Work Complete** (porting done). The cycle is paused mid-investigation of an **open bug**, not blocked on implementation work. Pick up by reading the "Open investigation: campfire build error" entry under Phase 4 (below), which ends with a requested bisection test the user hasn't run yet:
+- **Test A:** enable only `42/media/scripts/` (items + recipes), disable/remove `42/media/lua/` entirely, retry the build-cheat campfire placement.
+- **Test B:** enable only `42/media/lua/`, disable/remove `42/media/scripts/` entirely, retry the same test.
+
+Confirmed so far: campfire build-cheat is clean with the mod fully disabled, and logs a Java overload-resolution error (`ItemContainer.new(...)`, all-vanilla call site with hardcoded arguments) when the mod is enabled — real correlation, mechanism not yet identified. The translation file (`ContextMenu.json`) has been ruled out as the cause. Phase 6 (full in-game verification pass) has not been started and shouldn't be until this is resolved, since it would just re-surface the same unexplained error.
 
 ---
 
@@ -165,6 +173,25 @@ User then reported building a campfire successfully with `PseudoSaltWell` disabl
 **Diagnostic instructions given to the user:** remove only `ContextMenu.json` from the mod (leave every other file enabled) and attempt the same campfire build with the cheat again.
 - If the error disappears with only that file removed: confirms the translation-file-replace hypothesis. Fix would be to ship a translation file that doesn't collide with the vanilla file at that exact path (e.g. only add keys without occupying the same `ContextMenu` namespace file, or include the full vanilla key set so nothing is lost — needs confirming which approach the loader actually supports before deciding).
 - If the error persists with that file removed: hypothesis is wrong, and the cause lies elsewhere in the mod (the next files to check would be `LocationBasedHoleMenu.lua`, `WellFillMenu.lua`, and `EmptySaltwaterMenu.lua`, since they're the only other files that hook global `Events.*` handlers that run on every relevant menu-fill, even though none of them appear to touch campfire/build-related code paths on inspection).
+
+**Result: hypothesis disproven (2026-06-19).** User removed `ContextMenu.json` only, left the rest of the mod enabled, and the error still occurred. The translation-file-replace hypothesis is ruled out.
+
+**Re-examined the actual vanilla call site to find a better hypothesis.** The failing call is:
+```lua
+-- buildRecipeCode.lua:520
+luaObject:addContainer()
+-- SCampfireGlobalObject.lua:103
+container = ItemContainer.new("campfire", square, isoObject, 1, 1)
+```
+The logged error (`No implementation found for function: new(String, IsoGridSquare, IsoThumpable, Double, Double)`) is a Java-overload-resolution failure on this exact call. The `1, 1` arguments are hardcoded literals in vanilla's own script — not influenced by any item, recipe, menu, or other content this mod ships. There is no value under this mod's control anywhere in this call chain. This is a stronger basis for ruling the mod out than the earlier "stack trace is all vanilla" reasoning (which was rightly not accepted as sufficient), since this time the actual *inputs* to the failing call are vanilla-fixed, not just the code executing them. Most plausible explanation: a Kahlua Lua-to-Java numeric binding issue (Lua number literals bind as `Double`, and whatever overload of `ItemContainer.new` the engine now expects may want `int`), independent of any mod.
+
+**Correlation confirmed, no further repeat testing needed (2026-06-19).** The "disable the entire mod and retry" step requested above had already been done — it's the same test the user reported earlier (campfire built cleanly with `PseudoSaltWell` fully disabled), which is what the original misreading in this log was about. So the standing evidence is: clean build with the mod fully disabled, error logged with the mod enabled (translation file specifically ruled out as the cause). That's a real, confirmed correlation, not a coincidence needing re-verification.
+
+**Next diagnostic step: bisect which half of the mod is responsible.** Since the mechanism still isn't identified (the failing vanilla call's arguments are hardcoded literals, so the cause has to be some indirect shared-state effect, not a direct value our mod controls), and the game can't be run from here to test directly, the plan is to narrow it by enabling half the mod at a time and repeating the build-cheat campfire test:
+- **Test A:** enable only `42/media/scripts/` (items + recipes), disable/remove `42/media/lua/` entirely.
+- **Test B:** enable only `42/media/lua/` (digging/filling/emptying code and menus), disable/remove `42/media/scripts/` entirely.
+
+Whichever half reproduces the error narrows the next round of investigation to that half's files. Awaiting results.
 
 This phase's items/recipes work (Type/ItemType, Tags fixes) stands as Work Complete regardless of this investigation's outcome — this is a separate, newly-discovered issue, not a defect in the items themselves.
 
