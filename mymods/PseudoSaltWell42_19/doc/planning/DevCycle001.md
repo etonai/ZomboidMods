@@ -119,36 +119,65 @@ Re-test needed after this fix before this phase can be marked Work Complete.
 
 ### Phase 3: Port well-filling actions and menu
 
-**Status:** Planning
+**Status:** Work Complete
 
-- [ ] Port `ISFillPotFromWell.lua` and `ISFillKettleFromWell.lua` (shared/TimedActions) — both extend `ISBaseTimedAction`, take `(character, well, container, time)`, remove the empty container and add a saltwater item.
-- [ ] Port `WellFillMenu.lua` (client) — hooks `Events.OnFillWorldObjectContextMenu`, finds the well by `obj:getName() == "SaltwaterWell"`, builds pot/kettle submenus from inventory contents.
-- [ ] **Fix:** `WellFillMenu.lua` adds raw literal strings (`"Fill Pot with Saltwater"`, `"Fill Kettle with Saltwater"`) instead of `getText(...)` keys backed by a translation file — same category of gap the old-mod analysis flagged (missing/ad-hoc translation use). Add proper `ContextMenu_EN.txt` entries and switch both menu strings to `getText(...)`.
-- [ ] **Verify against `media/`:** confirm `Base.Pot` / `Base.Kettle` full item IDs still resolve (already spot-checked at `media/scripts/generated/items/normal.txt:4001` for `Pot`) and that `Events.OnFillWorldObjectContextMenu` / `ISContextMenu:getNew` / `context:addSubMenu` signatures are unchanged.
+- [x] Ported `ISFillPotFromWell.lua` and `ISFillKettleFromWell.lua` (shared/TimedActions) — both extend `ISBaseTimedAction`, take `(character, well, container, time)`, remove the empty container and add a saltwater item. Verbatim port; `getEmitter():playSound(...)` and `faceThisObject(...)` confirmed live and unchanged (e.g. `media/lua/shared/Camping/TimedActions/ISRemoveCampfireAction.lua`).
+- [x] Ported `WellFillMenu.lua` (client) — hooks `Events.OnFillWorldObjectContextMenu`, finds the well by `obj:getName() == "SaltwaterWell"`, builds pot/kettle submenus from inventory contents.
+- [x] **Fix applied:** `WellFillMenu.lua`'s two raw literal menu strings now use `getText("ContextMenu_FillPotWithSaltwater")` / `getText("ContextMenu_FillKettleWithSaltwater")`. Also fixed the same gap left over in `LocationBasedHoleMenu.lua` from Phase 2 (`"Dig a Hole"` → `getText("ContextMenu_DigAHole")`), as planned.
+- [x] **Translation file format resolved:** confirmed *zero* `.txt` UI string-table files exist anywhere under `media/lua/shared/Translate` (only `credits.txt`/`language.txt` metadata remain as `.txt`); all UI strings, including `ContextMenu`, are `.json` now (e.g. `media/lua/shared/Translate/EN/ContextMenu.json`). Added `42/media/lua/shared/Translate/EN/ContextMenu.json` with the three new keys, in JSON form, not the old `.txt` key=value form originally planned.
+- [x] **Verified against `media/`:** `Base.Pot`/`Base.Kettle` full item IDs still resolve (`Pot` at `media/scripts/generated/items/normal.txt:4001`); `Events.OnFillWorldObjectContextMenu.Add`, `ISContextMenu:getNew`, and `context:addSubMenu` all confirmed live and unchanged (e.g. `media/lua/shared/Camping/ISCampingMenu.lua:171-172`).
 
 **Technical Notes:**
-Functionally this phase is low-risk — it's the same item-add/item-remove pattern used throughout the mod. The only real work is the translation-key fix.
+Functionally this phase was low-risk — it's the same item-add/item-remove pattern used throughout the mod. The only real work was the translation-key fix, which also surfaced a format change (`.txt` → `.json`) that the original plan hadn't anticipated. Not yet covered by a manual test — `WellFillMenu` can't be exercised until Phase 4 lands the saltwater items it depends on (`PseudoSaltWellB42.SaltwaterPot`/`SaltwaterKettle`), so testing is deferred to a later smoke-test pass rather than added as its own sub-phase now.
 
 ### Phase 4: Port items and container-emptying
 
-**Status:** Planning
+**Status:** Work Complete
 
-- [ ] Port `PseudoSaltWellItems.txt` (scripts/items) — `SaltwaterPot`, `SaltPot`, `SaltwaterKettle`, `SaltKettle`, all under module `PseudoSaltWellB42`. Decide whether to keep the `PseudoSaltWellB42` module name or rename to match the `PseudoSaltWell` mod id used everywhere else in this directory (see Open Questions).
-- [ ] Port `ISEmptySaltwaterContainer.lua` (shared/TimedActions) and `EmptySaltwaterMenu.lua` (client) — manual remove/add pattern, explicitly chosen because `ReplaceOnUseOn` + vanilla "Pour on Ground" was found to drop items (per the in-code comment and Part 5 plan notes).
-- [ ] **Verify against `media/`:** confirm item-script fields used (`ReplaceOnUse`, `ReplaceOnCooked`, `IsCookable`, `MinutesToCook`, `MinutesToBurn`, `component FluidContainer` is *not* used here — see Open Questions) still parse the same way by diffing field names against a current vanilla cookable item (e.g. `Pot` at `media/scripts/generated/items/normal.txt:4001-4027`).
+- [x] Ported `PseudoSaltWellItems.txt` (scripts/items) — `SaltwaterPot`, `SaltPot`, `SaltwaterKettle`, `SaltKettle`, all under module `PseudoSaltWellB42`, kept unchanged per the Decisions above (no rename, no `FluidContainer` rework).
+- [x] Ported `ISEmptySaltwaterContainer.lua` (shared/TimedActions) and `EmptySaltwaterMenu.lua` (client) verbatim — manual remove/add pattern, explicitly chosen because `ReplaceOnUseOn` + vanilla "Pour on Ground" was found to drop items (per the in-code comment and Part 5 plan notes).
+- [x] **Fix applied (same category as Phase 3):** `EmptySaltwaterMenu.lua`'s `"Empty Container"` literal switched to `getText("ContextMenu_EmptyContainer")`; key added to `ContextMenu.json` alongside the Phase 3 keys.
+- [x] **Verified against `media/`:** `ReplaceOnUse`, `ReplaceOnCooked`, `IsCookable`, `MinutesToCook`, `MinutesToBurn`, `CookingSound` all confirmed live with the same field names — closest vanilla analogue is `SugarBeetPulpPot` (`media/scripts/generated/items/food.txt:548-574`), a vanilla "pot with cooked contents, replaced on use" item using the identical pattern. `ReplaceOnCooked` specifically confirmed live at `food.txt:2132,2816,10914`. `Events.OnFillInventoryObjectContextMenu.Add` confirmed live (`media/lua/client/Context/ISContextManager.lua:42`). The `instanceof(item, "InventoryItem")` / `item.items[1]` fallback pattern in `EmptySaltwaterMenu.createMenu` confirmed live and identical in multiple current files (e.g. `media/lua/shared/Fluids/ISFluidUtil.lua:36`).
 
 **Technical Notes:**
-This phase is where the central design question from the old-version analysis resurfaces: these items still model "saltwater in a pot" via distinct item types and manual inventory swaps, not the engine's native `FluidContainer`/`FluidType` system that current vanilla `Pot`/`Kettle` actually use. See Open Questions before treating this phase as final rather than a placeholder.
+Per the Decisions section above, these items still model "saltwater in a pot" via distinct item types and manual inventory swaps rather than the engine's native `FluidContainer`/`FluidType` system that current vanilla `Pot`/`Kettle` actually use — confirmed intentional for this cycle, not a gap. No vanilla item in current scripts uses `component FluidContainer` together with `ReplaceOnUse`/`ReplaceOnCooked`-style item-swap fields, so this mod's approach and vanilla's fluid approach are simply two different, non-overlapping models — nothing here needed reconciling with `FluidContainer`, since this mod doesn't touch it.
+
+**Test Run 5 (2026-06-19): Two real item-script bugs found via in-game crash, fixed.**
+
+User tried to open the debug Cheat Item Viewer (to spawn an empty pot for testing) and got a Lua crash, logged to `doc/ideas/console.txt`. Stack trace: `Lua(Vanilla).initList(ISItemsListTable.lua:290)` → `java.lang.RuntimeException: attempted index: toString of non-table: null`. The crashing line is vanilla code (`media/lua/client/ISUI/AdminPanel/ISItemsListTable.lua:290`): `v:getItemType():toString()`, called on every loaded item while building the viewer's category list.
+
+Root cause, confirmed by checking current vanilla item scripts:
+1. **`Type = Food,` is obsolete.** Checked all 722 food items in `media/scripts/generated/items/food.txt` — zero use the old `Type = ` field; all use `ItemType = base:food,` instead (e.g. `food.txt:6`, `food.txt:5-6` for `PanFriedVegetablesForged`). Our four items (`SaltwaterPot`, `SaltPot`, `SaltwaterKettle`, `SaltKettle`) only set `Type = Food,`, never `ItemType`, so `getItemType()` returned `nil` for them and the viewer's `:toString()` call on that `nil` crashed.
+2. **Tag values were also wrong format.** Vanilla `Pot` uses `Tags = base:cookable;base:hasmetal;base:smeltablesteelmedium,` and `Kettle` uses `Tags = base:cookable;base:hasmetal;base:smeltableironsmall,` (`media/scripts/generated/items/normal.txt:4017,4120`) — namespaced (`base:`) and lowercase. Our items had `Tags = Cookable;HasMetal;SmeltableIronMedium,` (Pot-based items) / `...SmeltableIronSmall,` (Kettle-based) — wrong casing, missing the `base:` prefix, and the Pot-based items even named the wrong metal (vanilla `Pot` smelts as steel, not iron).
+
+**Fix applied:** replaced `Type = Food,` with `ItemType = base:food,` in all four items, and corrected all four `Tags` lines to the namespaced/lowercase vanilla form matching the underlying container type (steel-medium for the Pot-based items, iron-small for the Kettle-based items).
+
+Checked the rest of the supplied `console.txt`: the mod loaded cleanly (`loading PseudoSaltWell`, translation override accepted) with no script parse errors at load time — the bug only manifested when the debug item viewer scanned all items, not during normal mod loading. No other PseudoSaltWell-related entries found in the log. Re-test of the cheat item viewer needed to confirm the fix.
+
+**Open investigation: campfire build error, possibly caused by this mod (2026-06-19).**
+
+User built a campfire (successfully, via the build cheat) and a Lua error was logged to console during/around that build — full stack trace entirely in vanilla files (`SCampfireGlobalObject.lua:103`, `buildRecipeCode.lua:520`, `ISBuildIsoEntity.lua`, `ISBuildAction.lua`, with `BuildCheat is active` logged just before it). It was not a crash — the build completed despite the logged error.
+
+User then reported building a campfire successfully with `PseudoSaltWell` disabled. This was initially (and wrongly) recorded here as "the same error reproduces with the mod disabled, therefore unrelated." That was a misreading: the user was reporting a clean, successful build with no error, not a reproduction of the error. Corrected per the user's explicit clarification — the evidence as it actually stands is that the error has only been observed with the mod *enabled*, which points toward the mod as the cause rather than away from it. A 100%-vanilla stack trace does not rule out the mod, since a mod can corrupt shared state vanilla code depends on without ever appearing in the trace itself.
+
+**Leading hypothesis:** this mod's `42/media/lua/shared/Translate/EN/ContextMenu.json` (added in Phase 3, extended in Phase 4) contains only this mod's own 3-4 keys (`ContextMenu_DigAHole`, `ContextMenu_FillPotWithSaltwater`, `ContextMenu_FillKettleWithSaltwater`, `ContextMenu_EmptyContainer`) — it is not a copy of the full vanilla `ContextMenu.json`. The mod-load log explicitly says `mod "PseudoSaltWell" overrides media/lua/shared/translate/en/contextmenu.json`. If PZ's translation loader treats same-path files as a full replace rather than merging keys, this file would wipe out every other vanilla `ContextMenu_*` string while the mod is enabled — including whatever text the camping/campfire build UI looks up — which could plausibly cascade into the build-completion error seen. This can't be confirmed from `media/lua` alone, since the actual merge-vs-replace behavior is implemented in the Java engine, which is out of scope to inspect here.
+
+**Diagnostic instructions given to the user:** remove only `ContextMenu.json` from the mod (leave every other file enabled) and attempt the same campfire build with the cheat again.
+- If the error disappears with only that file removed: confirms the translation-file-replace hypothesis. Fix would be to ship a translation file that doesn't collide with the vanilla file at that exact path (e.g. only add keys without occupying the same `ContextMenu` namespace file, or include the full vanilla key set so nothing is lost — needs confirming which approach the loader actually supports before deciding).
+- If the error persists with that file removed: hypothesis is wrong, and the cause lies elsewhere in the mod (the next files to check would be `LocationBasedHoleMenu.lua`, `WellFillMenu.lua`, and `EmptySaltwaterMenu.lua`, since they're the only other files that hook global `Events.*` handlers that run on every relevant menu-fill, even though none of them appear to touch campfire/build-related code paths on inspection).
+
+This phase's items/recipes work (Type/ItemType, Tags fixes) stands as Work Complete regardless of this investigation's outcome — this is a separate, newly-discovered issue, not a defect in the items themselves.
 
 ### Phase 5: Port salt-extraction recipes
 
-**Status:** Planning
+**Status:** Work Complete
 
-- [ ] Port `PseudoSaltWellRecipes.txt` (scripts/recipes) — `craftRecipe Get Salt From Pot` / `Get Salt From Kettle`, using `timedAction = OpenTinCan`, `inputs`/`outputs` blocks.
-- [ ] **Verify against `media/`:** `craftRecipe` blocks with `inputs`/`outputs` confirmed live in current `media/scripts` (e.g. `media/scripts/generated/recipes/recipes_tailoring.txt`). Diff field names (`timedAction`, `tags`, `category`) against one of those files to make sure none have been renamed.
+- [x] Ported `PseudoSaltWellRecipes.txt` (scripts/recipes) — `craftRecipe Get Salt From Pot` / `Get Salt From Kettle`, using `timedAction = OpenTinCan`, `inputs`/`outputs` blocks.
+- [x] **Fix applied:** the source file used lowercase `tags = InHandCraft;CanBeDoneInDark`. Checked every recipe file under `media/scripts/generated/recipes/` (42 files, 623 occurrences total) — every single one uses `Tags =` (capital T); zero use lowercase `tags =`. Changed to `Tags =` in both recipes for consistency with the confirmed-live convention.
+- [x] **Verified against `media/`:** `timedAction = OpenTinCan` confirmed live and used the same way in `media/scripts/generated/recipes/recipes_cannedFood.txt:6,23`; `category = Cooking` (lowercase) confirmed correct as written (`recipes_cannedFood.txt:9` etc.); `Base.Salt` confirmed present in `media/scripts/generated/items/food.txt`. `inputs`/`outputs` block structure matches `recipes_tailoring.txt` and `recipes_cannedFood.txt` exactly.
 
 **Technical Notes:**
-Low risk — syntax already matches a confirmed-current example elsewhere in vanilla scripts.
+Low risk overall, syntax matched a confirmed-current example almost exactly — the one real finding was the `tags`/`Tags` casing, which is an easy thing to miss since PZ's script parser may tolerate it silently in some contexts; fixed it anyway since the live convention is unanimous.
 
 ### Phase 6: In-game verification pass
 
