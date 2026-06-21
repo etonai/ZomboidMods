@@ -33,10 +33,10 @@ Look up the raw vegetable item in `media/scripts/generated/items/food.txt`. You 
 Choose the smallest whole number `N` such that:
 
 ```
-N * vanilla.HungerChange  is between -24 and -30 (inclusive)
+N * vanilla.HungerChange  is between -24 and -36 (inclusive)
 ```
 
-i.e. `abs(N * HungerChange)` falls in `[24, 30]`. This is also the `item N [Base.Vegetable]` count used in the crafting recipe's input line.
+i.e. `abs(N * HungerChange)` falls in `[24, 36]`. This is also the `item N [Base.Vegetable]` count used in the crafting recipe's input line.
 
 Confirmed values already in the mod:
 - Cabbage: N=1 → 1 × -24 = **-24** ✓ (recipe: `item 1 [Base.Cabbage]`)
@@ -44,7 +44,9 @@ Confirmed values already in the mod:
 - Carrots: N=3 → 3 × -8 = **-24** ✓ (recipe: `item 3 [Base.Carrots]`)
 - RedRadish: N=8 → 8 × -3 = **-24** ✓ (recipe: `item 8 [Base.RedRadish]`)
 
-If multiple N values land in range, prefer the smallest (matches existing pattern of using the fewest raw vegetables needed).
+**Always take the smallest N that lands in range — do not pick a larger N just because it's also valid.** Since `N * HungerChange` grows in magnitude as `N` increases, the smallest valid `N` is also the one that lands closest to -24 (the low end of the range), and using more vegetables than necessary contradicts the existing pattern of using the fewest raw vegetables needed.
+
+Example: a vegetable with `HungerChange = -6` has *three* candidate N values that satisfy the range — N=4 (-24), N=5 (-30), N=6 (-36). Use **N=4 → -24**, not 5 or 6.
 
 ## Step 3: Compute the new item's nutritional fields
 
@@ -209,7 +211,7 @@ Across all three jar tiers that's **6 items** and **3 recipes** per vegetable, m
 
 For a new vegetable `X` with vanilla `HungerChange = H`, `Carbohydrates = C`, `Proteins = P`, `Lipids = L`, `Calories = K`:
 
-1. Find smallest whole `N` where `N*H` is in `[-30, -24]`.
+1. Find smallest whole `N` where `N*H` is in `[-36, -24]`.
 2. `item LactoFermented<X>`: `HungerChange = N*H`, `Carbohydrates = N*C`, `Proteins = N*P`, `Lipids = N*L`, `Calories = N*K`, plus fixed fields from Step 4 and naming from Step 5.
 3. Add matching `JarOf<X>Stew` per Step 6.
 4. Add `ClayJar`/`GlazedJar` variants per Step 7 if the full jar-tier set is desired.
