@@ -2,7 +2,20 @@
 
 **Created:** 2026-06-20
 **Version:** Project Zomboid 42.x
-**Purpose:** Defines the repeatable formula for adding a new `LactoFermentedVEGETABLE` item (and its recipe) to the PseudoSaltRecipes mod, based on the existing pattern in `mymods/PseudoSaltRecipes/42/media/scripts/items/PseudoSaltItems.txt`.
+**Purpose:** Defines the repeatable formula for adding a new `LactoFermentedVEGETABLE` item (and its recipe) across the two PseudoSaltRecipes mods, based on the existing pattern in `PseudoSaltItems.txt`.
+
+---
+
+## Mods involved
+
+This formula is applied to **two separate mods**, per the DevCycle 1 process of testing in the throwaway mod before touching the main mod:
+
+| Mod | Items file | Recipes file | Role |
+|---|---|---|---|
+| `PseudoTestRecipes` | `mymods/PseudoTestRecipes/42/media/scripts/items/PseudoSaltItems.txt` | `mymods/PseudoTestRecipes/42/media/scripts/recipes/PseudoSaltRecipes.txt` | Test mod — new vegetables are added here **first** and verified in-game |
+| `PseudoSaltRecipes` | `mymods/PseudoSaltRecipes/42/media/scripts/items/PseudoSaltItems.txt` | `mymods/PseudoSaltRecipes/42/media/scripts/recipes/PseudoSaltRecipes.txt` | Main mod — receives the change as a backport only after the test-mod version is confirmed working |
+
+When following this formula for a new vegetable, complete Steps 1–8 in `PseudoTestRecipes` first. Only mirror the change into `PseudoSaltRecipes` once it has been verified in-game (load the test mod, confirm no parse errors, confirm the recipe crafts and the cooked stew swap works).
 
 ---
 
@@ -125,7 +138,7 @@ Nutritional values and `N` are identical across all three jar variants of the sa
 
 ## Step 8: Recipe definition in PseudoSaltRecipes.txt
 
-Each item variant from Steps 5–7 needs a matching `craftRecipe` in `mymods/PseudoSaltRecipes/42/media/scripts/recipes/PseudoSaltRecipes.txt` (and the same change must be mirrored into the test mod at `mymods/PseudoTestRecipes/42/media/scripts/recipes/PseudoSaltRecipes.txt` per the DevCycle 1 process — port to the test mod first, verify in-game, then backport).
+Each item variant from Steps 5–7 needs a matching `craftRecipe` in `mymods/PseudoTestRecipes/42/media/scripts/recipes/PseudoSaltRecipes.txt` first (per the DevCycle 1 process — port to the test mod, verify in-game), then the same recipe is mirrored into the main mod at `mymods/PseudoSaltRecipes/42/media/scripts/recipes/PseudoSaltRecipes.txt` as a backport once confirmed working.
 
 All fermentation recipes in this family share an identical skeleton — only the recipe name, jar input, vegetable input/count, and output item change:
 
@@ -215,4 +228,14 @@ For a new vegetable `X` with vanilla `HungerChange = H`, `Carbohydrates = C`, `P
 2. `item LactoFermented<X>`: `HungerChange = N*H`, `Carbohydrates = N*C`, `Proteins = N*P`, `Lipids = N*L`, `Calories = N*K`, plus fixed fields from Step 4 and naming from Step 5.
 3. Add matching `JarOf<X>Stew` per Step 6.
 4. Add `ClayJar`/`GlazedJar` variants per Step 7 if the full jar-tier set is desired.
-5. Add the corresponding `craftRecipe` with `item N [Base.X]` as the vegetable input, following the existing `MakeFermented<X>` pattern (see `mymods/PseudoSaltRecipes/42/media/scripts/recipes/PseudoSaltRecipes.txt`).
+5. Add the corresponding `craftRecipe` with `item N [Base.X]` as the vegetable input, following the existing `MakeFermented<X>` pattern.
+6. Apply all of the above to `PseudoTestRecipes` first; backport to `PseudoSaltRecipes` only after in-game verification (see **Mods involved** above).
+
+---
+
+## References
+
+- `media/scripts/generated/items/food.txt` — vanilla item definitions; source of truth for each vegetable's `HungerChange`, `Carbohydrates`, `Proteins`, `Lipids`, and `Calories` (Step 1).
+- `mymods/PseudoTestRecipes/42/media/scripts/items/PseudoSaltItems.txt` / `mymods/PseudoTestRecipes/42/media/scripts/recipes/PseudoSaltRecipes.txt` — test mod items/recipes file.
+- `mymods/PseudoSaltRecipes/42/media/scripts/items/PseudoSaltItems.txt` / `mymods/PseudoSaltRecipes/42/media/scripts/recipes/PseudoSaltRecipes.txt` — main mod items/recipes file.
+- `DevCycles/DevCycle001.md` — defines the test-mod-first porting process this formula follows.
