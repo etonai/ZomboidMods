@@ -1,6 +1,6 @@
 # DevCycle 001: Backfill missing item data in PseudoTestRecipes
 
-**Status:** Planning
+**Status:** Work Complete — pending your in-game verification
 **Start Date:** 2026-06-22
 **Target Completion:** TBD
 **Focus:** Restore the `Weight`/`BadCold` fields that exist in `PseudoSaltRecipes` but were dropped when the same items were carried over into `PseudoTestRecipes/42`, without losing the newer fixes Test already made (namespaced tags, `ItemType = base:food`, expanded recipes, `InheritFood`-based nutrition, and the removal of the `ReplaceOnRotten` cure-chain mechanic).
@@ -29,41 +29,41 @@ The five shared items in `PseudoTestRecipes/42/` carry the same `Weight` and `Ba
 
 ### Phase 1: Backfill weight and cold-spoilage fields on `42/`
 
-**Status:** Planning
+**Status:** Work Complete
 
 **Scope correction:** the macro/hunger fields (`HungerChange`, `Calories`, `Carbohydrates`, `Lipids`, `Proteins`) originally planned for this phase are **not actually missing data** — dropped. Confirmed in `zombie/entity/components/crafting/recipe/CraftRecipeData.java:1132` and `zombie/inventory/types/Food.java:2392-2416`: Test's recipes use `flags[InheritFood;ItemCount]` on the raw-meat input, which makes `copyNutritionFromSplit` overwrite `BaseHunger`/`HungChange`/`Calories`/`Carbohydrates`/`Lipids`/`Proteins` on the crafted output from the input meat's live values at craft time, every time. Whatever static numbers sit in the item script for those five fields get clobbered immediately on crafting, so hardcoding `PseudoSaltRecipes`'s numbers here would be inert for the actual craft path. (`PseudoSaltRecipes`'s old recipe only used `InheritFoodAge` — freshness only, not nutrition — which is why *that* mod still needs them hardcoded.) `copyFoodFromSplit` does not touch `Weight`, and has nothing to do with type-level flags like `BadCold` or `ReplaceOnRotten`, so those remain real gaps below.
 
 Edit only `PseudoTestRecipes/42/media/scripts/items/PseudoSaltItems.txt` in this phase — `common/` is not touched until Phase 3.
 
-- [ ] `SaltedFishFillet` — add `Weight = 0.2`.
-- [ ] `SaltedVenison` — add `Weight = 0.51`, `BadCold = true`.
-- [ ] `SaltedBeef` — add `Weight = 0.51`, `BadCold = true`.
-- [ ] `SaltedSteak` — add `Weight = 0.31`, `BadCold = true`.
-- [ ] `SaltedRabbitmeat` — add `Weight = 0.31`, `BadCold = true`.
+- [x] `SaltedFishFillet` — add `Weight = 0.2`.
+- [x] `SaltedVenison` — add `Weight = 0.51`, `BadCold = true`.
+- [x] `SaltedBeef` — add `Weight = 0.51`, `BadCold = true`.
+- [x] `SaltedSteak` — add `Weight = 0.31`, `BadCold = true`.
+- [x] `SaltedRabbitmeat` — add `Weight = 0.31`, `BadCold = true`.
 
 **Technical Notes:**
 Source of truth for every value above is `mymods/PseudoSaltRecipes/42/media/scripts/items/PseudoSaltItems.txt`. Do not copy `Type = Food`, unnamespaced `Tags`/`FishMeat`, or `ReplaceOnRotten` from that file — Test's `ItemType = base:food`, namespaced lowercase tags (`base:fishmeat`, etc.), and the removal of the cure-chain mechanic are the newer, correct conventions and should be kept as-is. Only these five items are in scope — `SaltCuredFishFillet`/`SaltCuredVenison`/`SaltCuredBeef`/`SaltCuredSteak`/`SaltCuredRabbitmeat`/`BrinedPorkCrock`/`BrinedSaltPorkCrock` don't exist in `42/` and should stay that way (see the cure-chain removal decision above). `SaltedBeef`/`SaltedSteak` already carry `FishingLure = true` in both mods — no change needed there. Worth double-checking whether `SaltMeatChickenStyle`/`SaltMeatAnimalStyle` (which also use `InheritFood`) cover all five items here the same way `MakeSaltedFillet` does for the fish fillet, to make sure the "macros are inherited, don't hardcode" reasoning actually applies uniformly and isn't assuming one recipe's behavior for items actually produced by a different one.
 
 ### Phase 2: Apply the finalized shelf-life values to `42/`
 
-**Status:** Planning
+**Status:** Work Complete
 
 Still editing only `PseudoTestRecipes/42/media/scripts/items/PseudoSaltItems.txt` — `common/` still isn't touched.
 
 **Decision:** salting is meant to produce a long-lasting survival food, not a short-lived one — confirms the direction of Test's flat model over Salt's old short raw-tier numbers, but Test's specific `240`/`540` is being tuned down. New values: `DaysFresh = 150`, `DaysTotallyRotten = 360`. `ThirstChange = 10` is unchanged.
 
-- [ ] Change every item in `42/` currently set to `DaysFresh = 240` / `DaysTotallyRotten = 540` to `DaysFresh = 150` / `DaysTotallyRotten = 360`. That's all 13 `Salted*` items, not just the original five: `SaltedFishFillet`, `SaltedVenison`, `SaltedBeef`, `SaltedSteak`, `SaltedRabbitmeat`, `SaltedChicken`, `SaltedChickenFillet`, `SaltedPork`, `SaltedPorkChop`, `SaltedTurkeyFillet`, `SaltedMuttonChop`, `SaltedSmallbirdmeat`, `SaltedSmallanimalmeat`.
+- [x] Change every item in `42/` currently set to `DaysFresh = 240` / `DaysTotallyRotten = 540` to `DaysFresh = 150` / `DaysTotallyRotten = 360`. That's all 13 `Salted*` items, not just the original five: `SaltedFishFillet`, `SaltedVenison`, `SaltedBeef`, `SaltedSteak`, `SaltedRabbitmeat`, `SaltedChicken`, `SaltedChickenFillet`, `SaltedPork`, `SaltedPorkChop`, `SaltedTurkeyFillet`, `SaltedMuttonChop`, `SaltedSmallbirdmeat`, `SaltedSmallanimalmeat`. Verified via grep: no `DaysFresh = 240` or `DaysTotallyRotten = 540` remains anywhere in the file.
 
 **Technical Notes:**
 Salt's old two-tier model (short raw life rotting into a longer-lived cured item) doesn't carry over now that the cured tier is gone — this is one number per item, not a chain. Scope is wider than Phase 1's five items because Phase 1 only needed `Weight`/`BadCold` on the original five (the eight newer meats already have those), but this shelf-life value is shared by all 13 `Salted*` items currently at `240`/`540`.
 
 ### Phase 3: Reconcile `common/` to match the finished `42/`
 
-**Status:** Planning
+**Status:** Work Complete
 
-- [ ] Replace `PseudoTestRecipes/common/media/scripts/items/PseudoSaltItems.txt` with the now-finished `PseudoTestRecipes/42/media/scripts/items/PseudoSaltItems.txt` content (post Phase 1–2: newer meat items, `ItemType`/namespaced-tag conventions, the `Weight`/`BadCold` backfill, and whatever Phase 2 decided for shelf life) — replacing the stale `PseudoSaltRecipes`-matching content `common/` has now. This is also where the cured/brined items (`SaltCuredFishFillet`, `SaltCuredVenison`, `SaltCuredBeef`, `SaltCuredSteak`, `SaltCuredRabbitmeat`, `BrinedPorkCrock`, `BrinedSaltPorkCrock`) and every `ReplaceOnRotten` reference actually disappear from `common/` — they're removed as a side effect of overwriting with `42/`'s content, not as a separate deletion step.
-- [ ] Replace `PseudoTestRecipes/common/media/scripts/recipes/PseudoSaltRecipes.txt` with the current `PseudoTestRecipes/42/media/scripts/recipes/PseudoSaltRecipes.txt` content (fixed `MakeSaltedFillet` naming, full animal-style mapper, lacto-fermentation recipes) — this file isn't touched by Phase 1–2, so it can be copied over as-is.
-- [ ] Decide what to do with `PseudoTestRecipes/common/media/scripts/recipes/PseudoSaltRecipes.old` — it's already inert (a `.old` extension isn't a script file PZ loads) but sits next to files that do load; remove it or leave it as historical reference, whichever the user prefers.
+- [x] Replace `PseudoTestRecipes/common/media/scripts/items/PseudoSaltItems.txt` with the now-finished `PseudoTestRecipes/42/media/scripts/items/PseudoSaltItems.txt` content (post Phase 1–2: newer meat items, `ItemType`/namespaced-tag conventions, the `Weight`/`BadCold` backfill, and the `150`/`360` shelf life) — replacing the stale `PseudoSaltRecipes`-matching content `common/` had. Verified byte-identical via `diff` after copying. The cured/brined items (`SaltCuredFishFillet`, `SaltCuredVenison`, `SaltCuredBeef`, `SaltCuredSteak`, `SaltCuredRabbitmeat`, `BrinedPorkCrock`, `BrinedSaltPorkCrock`) and every `ReplaceOnRotten` reference are now gone from `common/` as a result.
+- [x] Replace `PseudoTestRecipes/common/media/scripts/recipes/PseudoSaltRecipes.txt` with the current `PseudoTestRecipes/42/media/scripts/recipes/PseudoSaltRecipes.txt` content. Verified byte-identical via `diff` after copying.
+- [x] `PseudoTestRecipes/common/media/scripts/recipes/PseudoSaltRecipes.old` — **decision: leave it** (kept as historical reference, per user).
 
 **Technical Notes:**
 Doing this last means `common/` only gets copied to once, with finished content, instead of being patched in parallel with `42/` through two rounds of edits. Found via `diff`: `PseudoTestRecipes/common/media/scripts/items/PseudoSaltItems.txt` and `.../recipes/PseudoSaltRecipes.txt` are currently identical to the corresponding `PseudoSaltRecipes/common` files, not to `PseudoTestRecipes/42` — confirming there's nothing in the current `common/` worth preserving or merging, it's a straight overwrite. The safest way to keep them in sync going forward is worth a follow-up thought (e.g. is one of the two folders supposed to be authoritative with the other generated/copied from it?) — not solved in this cycle, just flagged (see Open Question 3).
@@ -93,4 +93,21 @@ Doing this last means `common/` only gets copied to once, with finished content,
 
 ## Completion Summary
 
-*Fill in when the cycle closes. Move this document to `doc/planning/completed/` afterward.*
+**Completion Date:** 2026-06-22
+**Phases Completed:** All (1, 2, 3)
+**Work Deferred:** None within this DevCycle's scope. Two follow-ups are explicitly out of scope and noted in Notes and Risks: removing the cure-chain mechanic from `PseudoSaltRecipes` itself, and any future decision to collapse `common/`/`42/` into one (explicitly rejected this cycle — keep both live).
+
+**Accomplishments:**
+- Backfilled `Weight` (and `BadCold` where applicable) onto the five original shared `Salted*` items in `PseudoTestRecipes/42/media/scripts/items/PseudoSaltItems.txt`.
+- Changed shelf life on all 13 `Salted*` items in the same file from `DaysFresh = 240` / `DaysTotallyRotten = 540` to `DaysFresh = 150` / `DaysTotallyRotten = 360` (decision: salting is a long-lasting survival food, but Test's original numbers were tuned down).
+- Confirmed no `ReplaceOnRotten`/cured/brined items were reintroduced — `42/` stayed in the target end state throughout.
+- Copied the finished `42/` items and recipes files into `common/` verbatim (verified byte-identical via `diff`), resolving the live `common/`↔`42/` definition conflict that existed at the start of this cycle.
+- Left `PseudoSaltRecipes.old` in place in `common/` as historical reference, per explicit decision.
+
+**Metrics:**
+- Files modified: 2 (`42/media/scripts/items/PseudoSaltItems.txt` edited directly; `42/media/scripts/recipes/PseudoSaltRecipes.txt` unchanged but copied).
+- Files overwritten via copy: 2 (`common/media/scripts/items/PseudoSaltItems.txt`, `common/media/scripts/recipes/PseudoSaltRecipes.txt`).
+- Items backfilled: 5 (`Weight`/`BadCold`) + 13 (shelf life) = all 13 `Salted*` items now consistent.
+
+**Lessons / Notes:**
+File state drifted mid-cycle more than once — items I'd read and quoted earlier in planning (cured/brined items, certain field values) had changed by the time of implementation, and `common/`'s true state (stale pre-Test content) only surfaced after the user corrected an assumption. Re-reading the actual current file immediately before editing, rather than trusting earlier reads in the same conversation, caught both cases. This cycle is **Work Complete, not Verified** — in-game testing (does the mod load without errors, do the crafted items show the right `Weight`/shelf life) is still needed and is the user's call per the project's verification-authority rule.

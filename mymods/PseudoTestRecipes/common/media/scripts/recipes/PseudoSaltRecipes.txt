@@ -4,18 +4,17 @@ module Pseudonymous
 
 /************************RECIPES************************/
     
-	craftRecipe Make Salted Fillet
+	craftRecipe MakeSaltedFillet
 	{
         timedAction = SliceMeat_Surface,
-		Time = 150,
-		OnCreate = Recipe.OnCreate.CutFillet,
+		time = 150,
 		Tags = AnySurfaceCraft;Cooking,
 		category = Cooking,
 		xpAward = Cooking:5,
 		inputs
 		{
-			item 1 tags[SharpKnife;MeatCleaver] mode:keep flags[IsNotDull;SharpnessCheck],
-			item 1 [Base.FishFillet] flags[InheritFoodAge],
+			item 1 tags[base:sharpknife;base:meatcleaver] mode:keep flags[IsNotDull;SharpnessCheck],
+			item 1 [Base.FishFillet] flags[InheritFood;ItemCount],
 			item 2 [Base.Salt],
 		}
 		outputs
@@ -23,5 +22,527 @@ module Pseudonymous
 			item 1 Pseudonymous.SaltedFishFillet,
 		}
 	}
+
+    craftRecipe SaltMeatChickenStyle
+ 	{
+        timedAction = SliceMeat_Surface,
+ 		time = 150,
+ 		Tags = AnySurfaceCraft;Cooking,
+		category = Cooking,
+ 		xpAward = Cooking:5,
+ 		inputs
+ 		{
+ 			item 1 tags[base:sharpknife;base:meatcleaver] mode:keep flags[IsNotDull;SharpnessCheck],
+			item 2 [Base.Salt],
+ 			item 1 [Base.Rabbitmeat;Base.Beef;Base.Steak;Base.Venison] mappers[meatType] flags[InheritFood;ItemCount],
+ 		}
+ 		outputs
+ 		{
+ 			item 1 mapper:meatType,
+        }
+        itemMapper meatType
+        {
+            Pseudonymous.SaltedRabbitmeat = Base.Rabbitmeat,
+			Pseudonymous.SaltedBeef = Base.Beef,
+			Pseudonymous.SaltedSteak = Base.Steak,
+			Pseudonymous.SaltedVenison = Base.Venison,
+        }
+ 	}
+
+    craftRecipe SaltMeatAnimalStyle
+ 	{
+        timedAction = SliceMeat_Surface,
+ 		time = 150,
+ 		Tags = AnySurfaceCraft;Cooking,
+		category = Cooking,
+ 		xpAward = Cooking:5,
+ 		inputs
+ 		{
+ 			item 1 tags[base:sharpknife;base:meatcleaver] mode:keep flags[IsNotDull;SharpnessCheck],
+			item 2 [Base.Salt],
+ 			item 1 [Base.Rabbitmeat;Base.Venison;Base.Beef;Base.Steak;Base.Chicken;Base.ChickenFillet;Base.Pork;Base.PorkChop;Base.TurkeyFillet;Base.MuttonChop;Base.Smallbirdmeat;Base.Smallanimalmeat] mappers[meatType] flags[InheritFood;ItemCount],
+ 		}
+ 		outputs
+ 		{
+ 			item 1 mapper:meatType,
+        }
+        itemMapper meatType
+        {
+            Pseudonymous.SaltedRabbitmeat = Base.Rabbitmeat,
+            Pseudonymous.SaltedVenison = Base.Venison,
+            Pseudonymous.SaltedBeef = Base.Beef,
+            Pseudonymous.SaltedSteak = Base.Steak,
+            Pseudonymous.SaltedChickenFillet = Base.ChickenFillet,
+            Pseudonymous.SaltedChicken = Base.Chicken,
+            Pseudonymous.SaltedPork = Base.Pork,
+            Pseudonymous.SaltedPorkChop = Base.PorkChop,
+            Pseudonymous.SaltedTurkeyFillet = Base.TurkeyFillet,
+            Pseudonymous.SaltedMuttonChop = Base.MuttonChop,
+            Pseudonymous.SaltedSmallbirdmeat = Base.Smallbirdmeat,
+            Pseudonymous.SaltedSmallanimalmeat = Base.Smallanimalmeat,
+        }
+ 	}
+
+    craftRecipe MakeSauerkraut
+    {
+        timedAction = SliceMeat_Surface,
+        time = 200,
+        Tags = AnySurfaceCraft;Cooking,
+        category = Cooking,
+        xpAward = Cooking:10,
+        inputs
+        {
+            item 1 tags[base:sharpknife] mode:keep flags[IsNotDull;SharpnessCheck],
+            item 1 [Base.EmptyJar] mode:destroy flags[ItemCount],
+            item 1 [Base.Cabbage] flags[InheritFoodAge;ItemCount] mode:destroy,
+            item 3 [Base.Salt],
+            item 1 [*] mode:keep,
+            		-fluid 1.0 [Water;TaintedWater],
+        }
+        outputs
+        {
+            item 1 Pseudonymous.LactoFermentedCabbage,
+        }
+    }
+
+    craftRecipe MakeClayJarSauerkraut
+    {
+        timedAction = SliceMeat_Surface,
+        time = 200,
+        Tags = AnySurfaceCraft;Cooking,
+        category = Cooking,
+        xpAward = Cooking:10,
+        inputs
+        {
+            item 1 tags[base:sharpknife] mode:keep flags[IsNotDull;SharpnessCheck],
+            item 1 [Base.ClayJar] mode:destroy flags[ItemCount],
+            item 1 [Base.Cabbage] flags[InheritFoodAge;ItemCount] mode:destroy,
+            item 3 [Base.Salt],
+            item 1 [*] mode:keep,
+            		-fluid 1.0 [Water;TaintedWater],
+        }
+        outputs
+        {
+            item 1 Pseudonymous.LactoFermentedCabbageClayJar,
+        }
+    }
+
+    craftRecipe MakeGlazedJarSauerkraut
+    {
+        timedAction = SliceMeat_Surface,
+        time = 200,
+        Tags = AnySurfaceCraft;Cooking,
+        category = Cooking,
+        xpAward = Cooking:10,
+        inputs
+        {
+            item 1 tags[base:sharpknife] mode:keep flags[IsNotDull;SharpnessCheck],
+            item 1 [Base.ClayJarGlazed] mode:destroy flags[ItemCount],
+            item 1 [Base.Cabbage] flags[InheritFoodAge;ItemCount] mode:destroy,
+            item 3 [Base.Salt],
+            item 1 [*] mode:keep,
+            		-fluid 1.0 [Water;TaintedWater],
+        }
+        outputs
+        {
+            item 1 Pseudonymous.LactoFermentedCabbageGlazedJar,
+        }
+    }
+
+    craftRecipe MakeFermentedCucumbers
+    {
+        timedAction = SliceMeat_Surface,
+        time = 200,
+        Tags = AnySurfaceCraft;Cooking,
+        category = Cooking,
+        xpAward = Cooking:10,
+        inputs
+        {
+            item 1 tags[base:sharpknife] mode:keep flags[IsNotDull;SharpnessCheck],
+            item 1 [Base.EmptyJar] mode:destroy flags[ItemCount],
+            item 3 [Base.Cucumber] flags[InheritFoodAge;ItemCount] mode:destroy,
+            item 3 [Base.Salt],
+            item 1 [*] mode:keep,
+            		-fluid 1.0 [Water;TaintedWater],
+        }
+        outputs
+        {
+            item 1 Pseudonymous.LactoFermentedCucumber,
+        }
+    }
+
+    craftRecipe MakeClayJarFermentedCucumbers
+    {
+        timedAction = SliceMeat_Surface,
+        time = 200,
+        Tags = AnySurfaceCraft;Cooking,
+        category = Cooking,
+        xpAward = Cooking:10,
+        inputs
+        {
+            item 1 tags[base:sharpknife] mode:keep flags[IsNotDull;SharpnessCheck],
+            item 1 [Base.ClayJar] mode:destroy flags[ItemCount],
+            item 3 [Base.Cucumber] flags[InheritFoodAge;ItemCount] mode:destroy,
+            item 3 [Base.Salt],
+            item 1 [*] mode:keep,
+            		-fluid 1.0 [Water;TaintedWater],
+        }
+        outputs
+        {
+            item 1 Pseudonymous.LactoFermentedCucumberClayJar,
+        }
+    }
+
+    craftRecipe MakeGlazedJarFermentedCucumbers
+    {
+        timedAction = SliceMeat_Surface,
+        time = 200,
+        Tags = AnySurfaceCraft;Cooking,
+        category = Cooking,
+        xpAward = Cooking:10,
+        inputs
+        {
+            item 1 tags[base:sharpknife] mode:keep flags[IsNotDull;SharpnessCheck],
+            item 1 [Base.ClayJarGlazed] mode:destroy flags[ItemCount],
+            item 3 [Base.Cucumber] flags[InheritFoodAge;ItemCount] mode:destroy,
+            item 3 [Base.Salt],
+            item 1 [*] mode:keep,
+            		-fluid 1.0 [Water;TaintedWater],
+        }
+        outputs
+        {
+            item 1 Pseudonymous.LactoFermentedCucumberGlazedJar,
+        }
+    }
+
+    craftRecipe MakeFermentedCarrots
+    {
+        timedAction = SliceMeat_Surface,
+        time = 200,
+        Tags = AnySurfaceCraft;Cooking,
+        category = Cooking,
+        xpAward = Cooking:10,
+        inputs
+        {
+            item 1 tags[base:sharpknife] mode:keep flags[IsNotDull;SharpnessCheck],
+            item 1 [Base.EmptyJar] mode:destroy flags[ItemCount],
+            item 3 [Base.Carrots] flags[InheritFoodAge;ItemCount] mode:destroy,
+            item 3 [Base.Salt],
+            item 1 [*] mode:keep,
+            		-fluid 1.0 [Water;TaintedWater],
+        }
+        outputs
+        {
+            item 1 Pseudonymous.LactoFermentedCarrot,
+        }
+    }
+
+    craftRecipe MakeClayJarFermentedCarrots
+    {
+        timedAction = SliceMeat_Surface,
+        time = 200,
+        Tags = AnySurfaceCraft;Cooking,
+        category = Cooking,
+        xpAward = Cooking:10,
+        inputs
+        {
+            item 1 tags[base:sharpknife] mode:keep flags[IsNotDull;SharpnessCheck],
+            item 1 [Base.ClayJar] mode:destroy flags[ItemCount],
+            item 3 [Base.Carrots] flags[InheritFoodAge;ItemCount] mode:destroy,
+            item 3 [Base.Salt],
+            item 1 [*] mode:keep,
+            		-fluid 1.0 [Water;TaintedWater],
+        }
+        outputs
+        {
+            item 1 Pseudonymous.LactoFermentedCarrotClayJar,
+        }
+    }
+
+    craftRecipe MakeGlazedJarFermentedCarrots
+    {
+        timedAction = SliceMeat_Surface,
+        time = 200,
+        Tags = AnySurfaceCraft;Cooking,
+        category = Cooking,
+        xpAward = Cooking:10,
+        inputs
+        {
+            item 1 tags[base:sharpknife] mode:keep flags[IsNotDull;SharpnessCheck],
+            item 1 [Base.ClayJarGlazed] mode:destroy flags[ItemCount],
+            item 3 [Base.Carrots] flags[InheritFoodAge;ItemCount] mode:destroy,
+            item 3 [Base.Salt],
+            item 1 [*] mode:keep,
+            		-fluid 1.0 [Water;TaintedWater],
+        }
+        outputs
+        {
+            item 1 Pseudonymous.LactoFermentedCarrotGlazedJar,
+        }
+    }
+
+    craftRecipe MakeFermentedRadishes
+    {
+        timedAction = SliceMeat_Surface,
+        time = 200,
+        Tags = AnySurfaceCraft;Cooking,
+        category = Cooking,
+        xpAward = Cooking:10,
+        inputs
+        {
+            item 1 tags[base:sharpknife] mode:keep flags[IsNotDull;SharpnessCheck],
+            item 1 [Base.EmptyJar] mode:destroy flags[ItemCount],
+            item 8 [Base.RedRadish] flags[InheritFoodAge;ItemCount] mode:destroy,
+            item 3 [Base.Salt],
+            item 1 [*] mode:keep,
+            		-fluid 1.0 [Water;TaintedWater],
+        }
+        outputs
+        {
+            item 1 Pseudonymous.LactoFermentedRadish,
+        }
+    }
+
+    craftRecipe MakeClayJarFermentedRadishes
+    {
+        timedAction = SliceMeat_Surface,
+        time = 200,
+        Tags = AnySurfaceCraft;Cooking,
+        category = Cooking,
+        xpAward = Cooking:10,
+        inputs
+        {
+            item 1 tags[base:sharpknife] mode:keep flags[IsNotDull;SharpnessCheck],
+            item 1 [Base.ClayJar] mode:destroy flags[ItemCount],
+            item 8 [Base.RedRadish] flags[InheritFoodAge;ItemCount] mode:destroy,
+            item 3 [Base.Salt],
+            item 1 [*] mode:keep,
+            		-fluid 1.0 [Water;TaintedWater],
+        }
+        outputs
+        {
+            item 1 Pseudonymous.LactoFermentedRadishClayJar,
+        }
+    }
+
+    craftRecipe MakeGlazedJarFermentedRadishes
+    {
+        timedAction = SliceMeat_Surface,
+        time = 200,
+        Tags = AnySurfaceCraft;Cooking,
+        category = Cooking,
+        xpAward = Cooking:10,
+        inputs
+        {
+            item 1 tags[base:sharpknife] mode:keep flags[IsNotDull;SharpnessCheck],
+            item 1 [Base.ClayJarGlazed] mode:destroy flags[ItemCount],
+            item 8 [Base.RedRadish] flags[InheritFoodAge;ItemCount] mode:destroy,
+            item 3 [Base.Salt],
+            item 1 [*] mode:keep,
+            		-fluid 1.0 [Water;TaintedWater],
+        }
+        outputs
+        {
+            item 1 Pseudonymous.LactoFermentedRadishGlazedJar,
+        }
+    }
+
+    craftRecipe MakeFermentedZucchini
+    {
+        timedAction = SliceMeat_Surface,
+        time = 200,
+        Tags = AnySurfaceCraft;Cooking,
+        category = Cooking,
+        xpAward = Cooking:10,
+        inputs
+        {
+            item 1 tags[base:sharpknife] mode:keep flags[IsNotDull;SharpnessCheck],
+            item 1 [Base.EmptyJar] mode:destroy flags[ItemCount],
+            item 3 [Base.Zucchini] flags[InheritFoodAge;ItemCount] mode:destroy,
+            item 3 [Base.Salt],
+            item 1 [*] mode:keep,
+            		-fluid 1.0 [Water;TaintedWater],
+        }
+        outputs
+        {
+            item 1 Pseudonymous.LactoFermentedZucchini,
+        }
+    }
+
+    craftRecipe MakeClayJarFermentedZucchini
+    {
+        timedAction = SliceMeat_Surface,
+        time = 200,
+        Tags = AnySurfaceCraft;Cooking,
+        category = Cooking,
+        xpAward = Cooking:10,
+        inputs
+        {
+            item 1 tags[base:sharpknife] mode:keep flags[IsNotDull;SharpnessCheck],
+            item 1 [Base.ClayJar] mode:destroy flags[ItemCount],
+            item 3 [Base.Zucchini] flags[InheritFoodAge;ItemCount] mode:destroy,
+            item 3 [Base.Salt],
+            item 1 [*] mode:keep,
+            		-fluid 1.0 [Water;TaintedWater],
+        }
+        outputs
+        {
+            item 1 Pseudonymous.LactoFermentedZucchiniClayJar,
+        }
+    }
+
+    craftRecipe MakeGlazedJarFermentedZucchini
+    {
+        timedAction = SliceMeat_Surface,
+        time = 200,
+        Tags = AnySurfaceCraft;Cooking,
+        category = Cooking,
+        xpAward = Cooking:10,
+        inputs
+        {
+            item 1 tags[base:sharpknife] mode:keep flags[IsNotDull;SharpnessCheck],
+            item 1 [Base.ClayJarGlazed] mode:destroy flags[ItemCount],
+            item 3 [Base.Zucchini] flags[InheritFoodAge;ItemCount] mode:destroy,
+            item 3 [Base.Salt],
+            item 1 [*] mode:keep,
+            		-fluid 1.0 [Water;TaintedWater],
+        }
+        outputs
+        {
+            item 1 Pseudonymous.LactoFermentedZucchiniGlazedJar,
+        }
+    }
+
+    craftRecipe MakeFermentedTurnip
+    {
+        timedAction = SliceMeat_Surface,
+        time = 200,
+        Tags = AnySurfaceCraft;Cooking,
+        category = Cooking,
+        xpAward = Cooking:10,
+        inputs
+        {
+            item 1 tags[base:sharpknife] mode:keep flags[IsNotDull;SharpnessCheck],
+            item 1 [Base.EmptyJar] mode:destroy flags[ItemCount],
+            item 2 [Base.Turnip] flags[InheritFoodAge;ItemCount] mode:destroy,
+            item 3 [Base.Salt],
+            item 1 [*] mode:keep,
+            		-fluid 1.0 [Water;TaintedWater],
+        }
+        outputs
+        {
+            item 1 Pseudonymous.LactoFermentedTurnip,
+        }
+    }
+
+    craftRecipe MakeClayJarFermentedTurnip
+    {
+        timedAction = SliceMeat_Surface,
+        time = 200,
+        Tags = AnySurfaceCraft;Cooking,
+        category = Cooking,
+        xpAward = Cooking:10,
+        inputs
+        {
+            item 1 tags[base:sharpknife] mode:keep flags[IsNotDull;SharpnessCheck],
+            item 1 [Base.ClayJar] mode:destroy flags[ItemCount],
+            item 2 [Base.Turnip] flags[InheritFoodAge;ItemCount] mode:destroy,
+            item 3 [Base.Salt],
+            item 1 [*] mode:keep,
+            		-fluid 1.0 [Water;TaintedWater],
+        }
+        outputs
+        {
+            item 1 Pseudonymous.LactoFermentedTurnipClayJar,
+        }
+    }
+
+    craftRecipe MakeGlazedJarFermentedTurnip
+    {
+        timedAction = SliceMeat_Surface,
+        time = 200,
+        Tags = AnySurfaceCraft;Cooking,
+        category = Cooking,
+        xpAward = Cooking:10,
+        inputs
+        {
+            item 1 tags[base:sharpknife] mode:keep flags[IsNotDull;SharpnessCheck],
+            item 1 [Base.ClayJarGlazed] mode:destroy flags[ItemCount],
+            item 2 [Base.Turnip] flags[InheritFoodAge;ItemCount] mode:destroy,
+            item 3 [Base.Salt],
+            item 1 [*] mode:keep,
+            		-fluid 1.0 [Water;TaintedWater],
+        }
+        outputs
+        {
+            item 1 Pseudonymous.LactoFermentedTurnipGlazedJar,
+        }
+    }
+
+    craftRecipe MakeFermentedBellPeppers
+    {
+        timedAction = SliceMeat_Surface,
+        time = 200,
+        Tags = AnySurfaceCraft;Cooking,
+        category = Cooking,
+        xpAward = Cooking:10,
+        inputs
+        {
+            item 1 tags[base:sharpknife] mode:keep flags[IsNotDull;SharpnessCheck],
+            item 1 [Base.EmptyJar] mode:destroy flags[ItemCount],
+            item 3 [Base.BellPepper] flags[InheritFoodAge;ItemCount] mode:destroy,
+            item 3 [Base.Salt],
+            item 1 [*] mode:keep,
+            		-fluid 1.0 [Water;TaintedWater],
+        }
+        outputs
+        {
+            item 1 Pseudonymous.LactoFermentedBellPepper,
+        }
+    }
+
+    craftRecipe MakeClayJarFermentedBellPeppers
+    {
+        timedAction = SliceMeat_Surface,
+        time = 200,
+        Tags = AnySurfaceCraft;Cooking,
+        category = Cooking,
+        xpAward = Cooking:10,
+        inputs
+        {
+            item 1 tags[base:sharpknife] mode:keep flags[IsNotDull;SharpnessCheck],
+            item 1 [Base.ClayJar] mode:destroy flags[ItemCount],
+            item 3 [Base.BellPepper] flags[InheritFoodAge;ItemCount] mode:destroy,
+            item 3 [Base.Salt],
+            item 1 [*] mode:keep,
+            		-fluid 1.0 [Water;TaintedWater],
+        }
+        outputs
+        {
+            item 1 Pseudonymous.LactoFermentedBellPepperClayJar,
+        }
+    }
+
+    craftRecipe MakeGlazedJarFermentedBellPeppers
+    {
+        timedAction = SliceMeat_Surface,
+        time = 200,
+        Tags = AnySurfaceCraft;Cooking,
+        category = Cooking,
+        xpAward = Cooking:10,
+        inputs
+        {
+            item 1 tags[base:sharpknife] mode:keep flags[IsNotDull;SharpnessCheck],
+            item 1 [Base.ClayJarGlazed] mode:destroy flags[ItemCount],
+            item 3 [Base.BellPepper] flags[InheritFoodAge;ItemCount] mode:destroy,
+            item 3 [Base.Salt],
+            item 1 [*] mode:keep,
+            		-fluid 1.0 [Water;TaintedWater],
+        }
+        outputs
+        {
+            item 1 Pseudonymous.LactoFermentedBellPepperGlazedJar,
+        }
+    }
 
 }
