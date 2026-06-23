@@ -32,7 +32,7 @@ zomboid_42_X/
 ├── claudeDocs/          # Claude-generated technical analyses
 ├── cursorDocs/          # Cursor-generated technical analyses  
 ├── media/               # Game assets and Lua files (gitignored)
-├── zombie42_11/         # Java source code, v42.11.0 (gitignored)
+├── zombie42_11/         # Java source code, v42.11.0 (decompiled, gitignored)
 ├── zombie42_19/         # Java source code, v42.19 (decompiled, gitignored)
 ├── .gitignore          # Git ignore patterns
 ├── CURSOR.md           # This file - project guide
