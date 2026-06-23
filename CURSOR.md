@@ -13,7 +13,7 @@ This document serves as a comprehensive guide for using Cursor effectively in th
 This project serves two primary purposes:
 
 ### **1. AI Agent Code Analysis**
-- **Enable AI agents to analyze Project Zomboid source code** located in the `zombie/` and `media/` directories
+- **Enable AI agents to analyze Project Zomboid source code** located in the `zombie42_11/`, `zombie42_19/`, and `media/` directories
 - **Provide comprehensive technical documentation** of game mechanics for AI consumption
 - **Create verified, code-based analyses** that AI agents can rely on for accurate information
 - **Support AI-driven game understanding** through structured, validated documentation
@@ -32,7 +32,8 @@ zomboid_42_X/
 ├── claudeDocs/          # Claude-generated technical analyses
 ├── cursorDocs/          # Cursor-generated technical analyses  
 ├── media/               # Game assets and Lua files (gitignored)
-├── zombie/              # Java source code (gitignored)
+├── zombie42_11/         # Java source code, v42.11.0 (gitignored)
+├── zombie42_19/         # Java source code, v42.19 (decompiled, gitignored)
 ├── .gitignore          # Git ignore patterns
 ├── CURSOR.md           # This file - project guide
 ├── summary.txt         # Project summary (gitignored)

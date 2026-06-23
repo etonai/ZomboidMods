@@ -6,7 +6,7 @@
 ## Project Overview
 This is a Project Zomboid game files analysis project with two main purposes:
 
-1. **AI Agent Code Analysis**: Enable AI agents to analyze and understand Project Zomboid code located in the `zombie/` and `media/` directories
+1. **AI Agent Code Analysis**: Enable AI agents to analyze and understand Project Zomboid code located in the `zombie42_11/`, `zombie42_19/`, and `media/` directories
 2. **Mod Development Support**: Help with creating Project Zomboid mods by providing detailed understanding of game mechanics and systems
 
 The project focuses on understanding and documenting various game mechanics through code examination. The primary goal is to create accurate, code-based documentation of game systems rather than speculation or outdated information.
@@ -15,7 +15,8 @@ The project focuses on understanding and documenting various game mechanics thro
 - **claudeDocs/**: Technical analysis documents created by Claude
 - **cursorDocs/**: Analysis documents from Cursor with reviews
 - **media/**: Project Zomboid game files (Lua scripts, configurations)
-- **zombie/**: Java source files for game engine
+- **zombie42_11/**: Java source files for game engine, v42.11.0
+- **zombie42_19/**: Java source files for game engine, v42.19 (decompiled)
 
 ## Analysis Focus Areas
 - **Farming Systems**: Plant growth, disease, fertilizer, water management

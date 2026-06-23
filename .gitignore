@@ -9,8 +9,11 @@
 # PseudoAgriculture mod has its own git repo — tracked independently
 mymods/PseudoAgriculture/
 
-# Ignore zombie directory (contains Java source code)
-/zombie/
+# Ignore zombie42_11 directory (contains Java source code for v42.11.0)
+/zombie42_11/
+
+# Ignore zombie42_19 directory (decompiled Java source code for v42.19)
+/zombie42_19/
 
 # Ignore summary file
 summary.txt
