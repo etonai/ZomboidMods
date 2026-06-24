@@ -56,14 +56,14 @@ This DevCycle's Phase 1 is audit-only — no item files were modified. Phase 2 (
 
 ### Phase 2: Add default nutrition values to the five gapped Salted items
 
-**Status:** Planning
+**Status:** Work Complete
 
-- [ ] `SaltedFishFillet` — add `HungerChange = -25.0`, `Calories = 205.0`, `Carbohydrates = 1.0`, `Lipids = 12.0`, `Proteins = 28.52`.
-- [ ] `SaltedVenison` — add `HungerChange = -80.0`, `Calories = 440.0`, `Carbohydrates = 0.0`, `Lipids = 18.7`, `Proteins = 62.62`.
-- [ ] `SaltedBeef` — add `HungerChange = -80.0`, `Calories = 440.0`, `Carbohydrates = 0.0`, `Lipids = 18.7`, `Proteins = 62.62`.
-- [ ] `SaltedSteak` — add `HungerChange = -40.0`, `Calories = 220.0`, `Carbohydrates = 0.0`, `Lipids = 9.35`, `Proteins = 31.62`.
-- [ ] `SaltedRabbitmeat` — add `HungerChange = -30.0`, `Calories = 969.0`, `Carbohydrates = 20.0`, `Lipids = 20.0`, `Proteins = 185.0`.
-- [ ] Apply the same additions to the matching items in `PseudoSaltRecipes/common/media/scripts/items/PseudoSaltItems.txt`, since Phase 1 confirmed `common/` mirrors `42/` for these items.
+- [x] `SaltedFishFillet` — add `HungerChange = -25.0`, `Calories = 205.0`, `Carbohydrates = 1.0`, `Lipids = 12.0`, `Proteins = 28.52`.
+- [x] `SaltedVenison` — add `HungerChange = -80.0`, `Calories = 440.0`, `Carbohydrates = 0.0`, `Lipids = 18.7`, `Proteins = 62.62`.
+- [x] `SaltedBeef` — add `HungerChange = -80.0`, `Calories = 440.0`, `Carbohydrates = 0.0`, `Lipids = 18.7`, `Proteins = 62.62`.
+- [x] `SaltedSteak` — add `HungerChange = -40.0`, `Calories = 220.0`, `Carbohydrates = 0.0`, `Lipids = 9.35`, `Proteins = 31.62`.
+- [x] `SaltedRabbitmeat` — add `HungerChange = -30.0`, `Calories = 969.0`, `Carbohydrates = 20.0`, `Lipids = 20.0`, `Proteins = 185.0`.
+- [x] Apply the same additions to the matching items in `PseudoSaltRecipes/common/media/scripts/items/PseudoSaltItems.txt`, since Phase 1 confirmed `common/` mirrors `42/` for these items.
 
 **Technical Notes:**
 Values are sourced from each item's vanilla counterpart in `media/scripts/generated/items/food.txt` — see the table in Phase 1's Technical Notes for exact line references. These defaults only matter outside the normal craft-recipe path (e.g. debug/sandbox spawning) — `InheritFood` on the crafting recipes will continue to overwrite them at craft time, per Phase 1's findings.
@@ -85,16 +85,17 @@ Values are sourced from each item's vanilla counterpart in `media/scripts/genera
 
 ## Completion Summary
 
-*Fill in when the cycle closes.*
-
-**Completion Date:**
-**Phases Completed:**
-**Work Deferred:**
+**Completion Date:** 2026-06-23
+**Phases Completed:** All (1, 2)
+**Work Deferred:** None.
 
 **Accomplishments:**
--
+- Phase 1: confirmed `SaltedFishFillet`, `SaltedVenison`, `SaltedBeef`, `SaltedSteak`, `SaltedRabbitmeat` were missing all default nutrition fields, traced why crafting itself isn't affected (`InheritFood` overwrites nutrition at craft time regardless of meat type), and sourced replacement defaults from each item's vanilla counterpart.
+- Phase 2: added `HungerChange`/`Calories`/`Carbohydrates`/`Lipids`/`Proteins` to all five items in both `PseudoSaltRecipes/42/media/scripts/items/PseudoSaltItems.txt` and `PseudoSaltRecipes/common/media/scripts/items/PseudoSaltItems.txt`.
 
 **Metrics:**
--
+- Items fixed: 5 (`SaltedFishFillet`, `SaltedVenison`, `SaltedBeef`, `SaltedSteak`, `SaltedRabbitmeat`).
+- Files modified: 2 (`42/media/scripts/items/PseudoSaltItems.txt`, `common/media/scripts/items/PseudoSaltItems.txt`).
 
 **Lessons / Notes:**
+This DevCycle's status is recorded as **Work Complete**, not **Verified** — per the project's verification-authority rule, an agent does not set a DevCycle to `Verified` without explicit user permission. In-game confirmation (e.g. spawning a `SaltedBeef` via debug and checking it now shows nutrition) is still pending Ed's review.
