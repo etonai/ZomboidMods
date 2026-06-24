@@ -45,15 +45,42 @@ if not exist "%SOURCE_ROOT%" (
     exit /b 1
 )
 
-REM Some mods nest the actual mod contents in a same-named subfolder, e.g.
-REM mymods\PseudoSaltRecipes\PseudoSaltRecipes\{42,common} - detect that and
-REM copy from the nested folder instead of the outer one (which also holds
-REM doc\ and isn't itself a valid mod folder).
-set "SOURCE_DIR=%SOURCE_ROOT%"
-if exist "%SOURCE_ROOT%\%MOD_NAME%\42" (
-    set "SOURCE_DIR=%SOURCE_ROOT%\%MOD_NAME%"
-) else if exist "%SOURCE_ROOT%\%MOD_NAME%\common" (
-    set "SOURCE_DIR=%SOURCE_ROOT%\%MOD_NAME%"
+REM Some mods nest the actual mod contents in a subfolder instead of having
+REM 42\/common\ directly under mymods\<ModName> - e.g.
+REM mymods\PseudoSaltRecipes\PseudoSaltRecipes\{42,common} (nested folder
+REM matches ModName) or mymods\PseudoSaltWell42_19\PseudoSaltWell\{42,common}
+REM (nested folder does NOT match ModName - ModName here is just a dev-cycle
+REM label, the real mod id is the nested folder's name). Detect either case
+REM by scanning immediate subfolders of mymods\<ModName> (skipping doc\ and
+REM .git\) for one containing 42\ or common\, and use that subfolder's own
+REM name as the target folder name, since that's what the mod actually is.
+set "SOURCE_DIR="
+set "TARGET_NAME=%MOD_NAME%"
+
+if exist "%SOURCE_ROOT%\42" (
+    set "SOURCE_DIR=%SOURCE_ROOT%"
+) else if exist "%SOURCE_ROOT%\common" (
+    set "SOURCE_DIR=%SOURCE_ROOT%"
+) else (
+    set "MATCH_COUNT=0"
+    for /d %%D in ("%SOURCE_ROOT%\*") do (
+        if /i not "%%~nxD"=="doc" if /i not "%%~nxD"==".git" (
+            if exist "%%D\42" (
+                set /a MATCH_COUNT+=1
+                set "SOURCE_DIR=%%D"
+                set "TARGET_NAME=%%~nxD"
+            ) else if exist "%%D\common" (
+                set /a MATCH_COUNT+=1
+                set "SOURCE_DIR=%%D"
+                set "TARGET_NAME=%%~nxD"
+            )
+        )
+    )
+    if not "!MATCH_COUNT!"=="1" (
+        echo ERROR: Could not find a unique mod folder ^(with 42\ or common\^) under %SOURCE_ROOT%
+        echo Found !MATCH_COUNT! candidate^(s^). Pass the exact mod folder yourself if this is ambiguous.
+        exit /b 1
+    )
 )
 
 if not exist "%MODS_DIR%" (
@@ -61,9 +88,9 @@ if not exist "%MODS_DIR%" (
     exit /b 1
 )
 
-set "TARGET_DIR=%MODS_DIR%\%MOD_NAME%"
+set "TARGET_DIR=%MODS_DIR%\%TARGET_NAME%"
 
-echo Copying mod "%MOD_NAME%"
+echo Copying mod "%TARGET_NAME%"
 echo   From: %SOURCE_DIR%
 echo   To:   %TARGET_DIR%
 echo.

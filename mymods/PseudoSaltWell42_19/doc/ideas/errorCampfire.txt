@@ -1,0 +1,7 @@
+There seems to be an error with the campfire.
+
+I tried to build a campfire and I got the error in console.txt
+I also see a similar error when I try to access an existing campfire.
+It doesn't not happen when I access an oven.
+
+Could the problem have to do with the sprite? When i created the graphic for the saltwater well, I copied the campfire as the intial graphic.
