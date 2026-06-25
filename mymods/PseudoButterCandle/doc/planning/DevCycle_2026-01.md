@@ -9,15 +9,15 @@
 
 ## Goal
 
-Create the initial implementation for the `PseudoButterCandle` mod. The mod adds a recipe that combines one unit of butter with one twig to create a butter candle, then lets that candle behave as a short-lived placeable light source.
+Create the initial implementation for the `PseudoButterCandle` mod. The mod adds a recipe that combines one unit of butter, one twig, and one empty tin can to create a butter candle, then lets that candle behave as a short-lived placeable light source.
 
-The key gameplay target is simple survival utility: butter becomes an emergency candle, using a twig as the wick, with an eight-hour burn time. Ground placement follows the `OilLamps` approach rather than vanilla candle placement, because vanilla lit candles are converted back to unlit candles when dropped.
+The key gameplay target is simple survival utility: butter becomes an emergency candle, using a twig as the wick and an empty tin can as the holder, with an eight-hour burn time. Ground placement follows the `OilLamps` approach rather than vanilla candle placement, because vanilla lit candles are converted back to unlit candles when dropped.
 
 ## Desired Outcome
 
 `PseudoButterCandle` now has a working v42 mod structure, script definitions, recipes, translations, and Lua support for a butter candle that:
 
-- is crafted from one `Base.Butter` item and one `Base.Twigs` item;
+- is crafted from one `Base.Butter` item, one `Base.Twigs` item, and one `Base.TinCanEmpty` item;
 - has unlit and lit item states;
 - can be lit from normal fire-starting items or valid nearby fire;
 - emits candle-like light while held or placed;
@@ -38,7 +38,7 @@ The key gameplay target is simple survival utility: butter becomes an emergency 
 - [x] Add media folders for scripts, Lua, and translations.
 - [x] Define `PseudoButterCandle.ButterCandle` as the unlit item.
 - [x] Define `PseudoButterCandle.ButterCandleLit` as the lit drainable light source.
-- [x] Reuse vanilla candle model/icon references for the first cycle.
+- [x] Use empty tin can model/icon references for the first cycle.
 
 **Technical Notes:**
 Implemented in:
@@ -48,14 +48,14 @@ Implemented in:
 - `PseudoButterCandle/42/media/registries.lua`
 - `PseudoButterCandle/42/media/scripts/items/PseudoButterCandle_Items.txt`
 
-The custom lit item avoids vanilla `Base.CandleLit` drop conversion while preserving candle visuals with `StaticModel = Candle` and `WorldStaticModel = CandleGround`.
+The custom lit item avoids vanilla `Base.CandleLit` drop conversion while representing the butter candle as a tin can with `StaticModel = TinCanEmpty` and `WorldStaticModel = TinCanEmpty`.
 
 ### Phase 2: Crafting and Light/Extinguish Recipes
 
 **Status:** Work Complete
 
-- [x] Add a craft recipe to create `PseudoButterCandle.ButterCandle` from one butter item and one twig.
-- [x] Confirm the exact base item identifiers for butter and twig in v42 game scripts.
+- [x] Add a craft recipe to create `PseudoButterCandle.ButterCandle` from one butter item, one twig item, and one empty tin can.
+- [x] Confirm the exact base item identifiers for butter, twig, and empty tin can in v42 game scripts.
 - [x] Add a light recipe that consumes/replaces the unlit butter candle and a `base:startfire` source.
 - [x] Add an extinguish recipe that converts `ButterCandleLit` back to `ButterCandle`, preserving remaining burn uses.
 - [x] Add a light-from-fire recipe using `RecipeCodeOnTest.openFire`.
@@ -67,6 +67,7 @@ Confirmed identifiers:
 
 - `Base.Butter` from `media/scripts/generated/items/food.txt`
 - `Base.Twigs` from `media/scripts/generated/items/normal.txt`
+- `Base.TinCanEmpty` from `media/scripts/generated/items/normal.txt`
 
 ### Phase 3: OilLamps-Style Ground Placement
 
@@ -111,10 +112,10 @@ With the implemented placed drain formula, each ten-minute tick subtracts `UseDe
 **Status:** Work Complete
 
 - [x] Add English translation entries for item names and recipe names.
-- [x] Reuse vanilla candle icon references for unlit/lit butter candle states.
+- [x] Use empty tin can icon references for unlit/lit butter candle states.
 - [x] Set the item display category to `LightSource`.
 - [x] Add double-click recipes for lighting and extinguishing.
-- [x] Defer custom tooltips/art because vanilla candle visuals are adequate for the first implementation.
+- [x] Defer custom tooltips/art because empty tin can visuals are adequate for the first implementation.
 
 **Technical Notes:**
 Implemented in:
@@ -126,12 +127,12 @@ Implemented in:
 
 **Status:** Work Complete
 
-- [x] Static check: recipe consumes exactly one `Base.Butter` and one `Base.Twigs`.
+- [x] Static check: recipe consumes exactly one `Base.Butter`, one `Base.Twigs`, and one `Base.TinCanEmpty`.
 - [x] Static check: unlit/lit items, tags, double-click recipes, and translation entries are present.
 - [x] Static check: JSON translation files parse successfully.
 - [x] Static check: Lua block counts are balanced in all new Lua files.
 - [x] Static check: no accidental literal newline escape tokens remain after file edits.
-- [ ] In-game check: recipe appears in the crafting UI and consumes exactly one butter item and one twig item.
+- [ ] In-game check: recipe appears in the crafting UI and consumes exactly one butter item, one twig item, and one empty tin can.
 - [ ] In-game check: crafted butter candle starts with a full eight-hour burn value.
 - [ ] In-game check: candle can be lit and extinguished from inventory.
 - [ ] In-game check: lit candle emits light while held/equipped.
@@ -173,4 +174,4 @@ This DevCycle is marked `Work Complete`, not `Verified`. In-game verification re
 - In-game verification: Pending
 
 **Lessons / Notes:**
-`Base.Butter` is a whole food item, not a drainable portion, so the first cycle consumes one full butter item per butter candle. `Base.Twigs` is the v42 item ID for the requested twig ingredient.
+`Base.Butter` is a whole food item, not a drainable portion, so the first cycle consumes one full butter item per butter candle. `Base.Twigs` is the v42 item ID for the requested twig ingredient. `Base.TinCanEmpty` is the v42 item ID for the empty tin can holder.
