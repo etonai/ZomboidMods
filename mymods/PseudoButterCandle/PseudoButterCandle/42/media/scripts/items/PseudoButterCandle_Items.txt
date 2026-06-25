@@ -1,0 +1,38 @@
+module PseudoButterCandle
+{
+  item ButterCandle
+  {
+    DisplayCategory = LightSource,
+    ItemType = base:drainable,
+    Weight = 0.2,
+    Icon = Candle,
+    UseDelta = 0.0002083333,
+    cantBeConsolided = true,
+    StaticModel = Candle,
+    WorldStaticModel = CandleGround,
+    UseWhileEquipped = false,
+    DoubleClickRecipe = LightButterCandle,
+    Tags = pseudobuttercandle:buttercandle;pseudobuttercandle:buttercandleunlit,
+  }
+
+  item ButterCandleLit
+  {
+    DisplayCategory = LightSource,
+    ItemType = base:drainable,
+    Weight = 0.2,
+    Icon = CandleLit,
+    ActivatedItem = false,
+    LightDistance = 5,
+    LightStrength = 1.2,
+    TorchCone = false,
+    UseDelta = 0.0002083333,
+    UseWhileUnequipped = true,
+    cantBeConsolided = true,
+    StaticModel = Candle,
+    WorldStaticModel = CandleGround,
+    Tags = base:startfire;pseudobuttercandle:buttercandle;pseudobuttercandle:buttercandlelit,
+    ReplaceOnExtinguish = PseudoButterCandle.ButterCandle,
+    DoubleClickRecipe = ExtinguishButterCandle,
+    ExtinguishItem = PseudoButterCandle.ButterCandle,
+  }
+}

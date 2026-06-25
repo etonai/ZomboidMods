@@ -1,0 +1,71 @@
+module PseudoButterCandle
+{
+  craftRecipe CraftButterCandle
+  {
+    timedAction = Making,
+    time = 30,
+    Tags = InHandCraft,
+    category = Survival,
+    inputs
+    {
+      item 1 [Base.Butter] mode:destroy,
+      item 1 [Base.Twigs] mode:destroy,
+    }
+    outputs
+    {
+      item 1 PseudoButterCandle.ButterCandle,
+    }
+  }
+
+  craftRecipe LightButterCandle
+  {
+    timedAction = Making,
+    time = 30,
+    Tooltip = Tooltip_Recipe_EquipCandleHand,
+    Tags = InHandCraft;CanBeDoneInDark,
+    category = Miscellaneous,
+    inputs
+    {
+      item 1 [PseudoButterCandle.ButterCandle] mode:destroy flags[InheritUses;InheritCondition;ItemCount;AllowFavorite;InheritFavorite],
+      item 1 tags[base:startfire],
+    }
+    outputs
+    {
+      item 1 PseudoButterCandle.ButterCandleLit flags[EquipSecondary;SetActivated],
+    }
+  }
+
+  craftRecipe LightButterCandleFromFire
+  {
+    timedAction = Making,
+    time = 30,
+    Tooltip = Tooltip_Recipe_EquipCandleHand,
+    Tags = InHandCraft;CanBeDoneInDark,
+    OnTest = RecipeCodeOnTest.openFire,
+    category = Miscellaneous,
+    inputs
+    {
+      item 1 [PseudoButterCandle.ButterCandle] mode:destroy flags[InheritUses;InheritCondition;ItemCount;AllowFavorite;InheritFavorite],
+    }
+    outputs
+    {
+      item 1 PseudoButterCandle.ButterCandleLit flags[EquipSecondary;SetActivated],
+    }
+  }
+
+  craftRecipe ExtinguishButterCandle
+  {
+    timedAction = Making,
+    time = 5,
+    Tags = InHandCraft;CanBeDoneInDark,
+    category = Miscellaneous,
+    inputs
+    {
+      item 1 [PseudoButterCandle.ButterCandleLit] mode:destroy flags[InheritUses;InheritCondition;ItemCount;AllowFavorite;InheritFavorite],
+    }
+    outputs
+    {
+      item 1 PseudoButterCandle.ButterCandle,
+    }
+  }
+}
