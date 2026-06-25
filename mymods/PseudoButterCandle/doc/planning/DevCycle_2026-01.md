@@ -146,7 +146,7 @@ Phase 8 supersedes this: both unlit and lit items now use mod-local custom icon 
 - [x] Add `Item_ButterCandleLit.png` as the lit butter candle icon.
 - [x] Update `PseudoButterCandle.ButterCandle` to use `Icon = ButterCandle`.
 - [x] Update `PseudoButterCandle.ButterCandleLit` to use `Icon = ButterCandleLit`.
-- [x] Keep the shared tin-can world/static model behavior that follows the OilLamps-style placed-object approach.
+- [x] Keep the shared tin-can world/static model behavior; Phase 9 attempted custom FBX wiring but reverted to this fallback.
 
 **Technical Notes:**
 The active item icons are now mod-local files in `PseudoButterCandle/42/media/textures/`:
@@ -154,7 +154,24 @@ The active item icons are now mod-local files in `PseudoButterCandle/42/media/te
 - `Item_ButterCandle.png` for the unlit item.
 - `Item_ButterCandleLit.png` for the lit item.
 
-The items still use the tin can static/world model references in script, while inventory icons use the custom butter candle artwork.
+The items use the tin can static/world model references in script, while inventory icons use the custom butter candle artwork.
+
+### Phase 9: Custom FBX World Models
+
+**Status:** Deferred
+
+- [x] Confirm the user-provided `TinCanLamp_Unlit.fbx` and `TinCanLamp_Lit.fbx` files exist in the mod.
+- [x] Attempt OilLamps-style model wiring for the custom FBX files.
+- [x] Revert active item model references back to the stable `TinCanEmpty` model after in-game testing showed the custom FBX wiring did not work.
+- [ ] Revisit custom FBX world models in a later phase after diagnosing the model/export/script issue.
+
+**Technical Notes:**
+The custom FBX files remain in `PseudoButterCandle/42/media/models_X/WorldItems/` for future work:
+
+- `TinCanLamp_Unlit.fbx`
+- `TinCanLamp_Lit.fbx`
+
+The active item script no longer references `TinCanLamp_Unlit` or `TinCanLamp_Lit`. Both unlit and lit items use `StaticModel = TinCanEmpty` and `WorldStaticModel = TinCanEmpty` again, while inventory icons continue to use the custom PNG artwork from Phase 8.
 ### Phase 6: Verification
 
 **Status:** Work Complete
@@ -192,8 +209,8 @@ This DevCycle is marked `Work Complete`, not `Verified`. In-game verification re
 ## Completion Summary
 
 **Completion Date:** 2026-06-25
-**Phases Completed:** Phases 1-8 implementation and static verification
-**Work Deferred:** In-game and multiplayer verification remain pending.
+**Phases Completed:** Phases 1-8 implementation and static verification; Phase 9 deferred
+**Work Deferred:** Custom FBX world models, in-game verification, and multiplayer verification remain pending.
 
 **Accomplishments:**
 - Added the v42 mod structure, mod metadata, item definitions, recipes, tag registration, translations, Lua placement/burn handling, and mod-local unlit/lit icon files.
@@ -201,7 +218,8 @@ This DevCycle is marked `Work Complete`, not `Verified`. In-game verification re
 - Implemented eight-hour placed burn duration using the planned ten-minute drain formula.
 
 **Metrics:**
-- Files modified: 15
+- Files modified: 16
+- User-provided FBX assets retained but not active: 2
 - Static verification: Passed
 - In-game verification: Pending
 
