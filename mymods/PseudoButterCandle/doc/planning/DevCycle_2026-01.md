@@ -112,7 +112,7 @@ With the implemented placed drain formula, each ten-minute tick subtracts `UseDe
 **Status:** Work Complete
 
 - [x] Add English translation entries for item names and recipe names.
-- [x] Use empty tin can icon references for unlit/lit butter candle states.
+- [x] Use custom mod-local icon references for unlit/lit butter candle states.
 - [x] Set the item display category to `LightSource`.
 - [x] Add double-click recipes for lighting and extinguishing.
 - [x] Defer custom tooltips/art because empty tin can visuals are adequate for the first implementation.
@@ -123,6 +123,38 @@ Implemented in:
 - `PseudoButterCandle/42/media/lua/shared/Translate/EN/ItemName.json`
 - `PseudoButterCandle/42/media/lua/shared/Translate/EN/Recipes.json`
 
+
+### Phase 7: Custom Lit Icon Source
+
+**Status:** Work Complete
+
+- [x] Copy the base open tin can icon into the mod texture folder as an editable lit butter candle source image.
+- [x] Name the copied icon `Item_ButterCandleLit.png` so the item can reference it as `Icon = ButterCandleLit`.
+- [x] Update `PseudoButterCandle.ButterCandleLit` to use the mod-local lit icon.
+- [ ] Edit `Item_ButterCandleLit.png` in GIMP to add a visible lit wick/flame treatment.
+
+**Technical Notes:**
+Copied from the local Project Zomboid install at `C:/Program Files (x86)/Steam/steamapps/common/ProjectZomboid/media/textures/CanOpen.png` into `PseudoButterCandle/42/media/textures/Item_ButterCandleLit.png`.
+
+Phase 8 supersedes this: both unlit and lit items now use mod-local custom icon files.
+
+### Phase 8: Final Butter Candle Icons
+
+**Status:** Work Complete
+
+- [x] Add `Item_ButterCandle.png` as the unlit butter candle icon.
+- [x] Add `Item_ButterCandleLit.png` as the lit butter candle icon.
+- [x] Update `PseudoButterCandle.ButterCandle` to use `Icon = ButterCandle`.
+- [x] Update `PseudoButterCandle.ButterCandleLit` to use `Icon = ButterCandleLit`.
+- [x] Keep the shared tin-can world/static model behavior that follows the OilLamps-style placed-object approach.
+
+**Technical Notes:**
+The active item icons are now mod-local files in `PseudoButterCandle/42/media/textures/`:
+
+- `Item_ButterCandle.png` for the unlit item.
+- `Item_ButterCandleLit.png` for the lit item.
+
+The items still use the tin can static/world model references in script, while inventory icons use the custom butter candle artwork.
 ### Phase 6: Verification
 
 **Status:** Work Complete
@@ -160,16 +192,16 @@ This DevCycle is marked `Work Complete`, not `Verified`. In-game verification re
 ## Completion Summary
 
 **Completion Date:** 2026-06-25
-**Phases Completed:** Phases 1-6 implementation and static verification
+**Phases Completed:** Phases 1-8 implementation and static verification
 **Work Deferred:** In-game and multiplayer verification remain pending.
 
 **Accomplishments:**
-- Added the v42 mod structure, mod metadata, item definitions, recipes, tag registration, translations, and Lua placement/burn handling.
+- Added the v42 mod structure, mod metadata, item definitions, recipes, tag registration, translations, Lua placement/burn handling, and mod-local unlit/lit icon files.
 - Implemented self-contained OilLamps-style placed lighting for `PseudoButterCandle.ButterCandleLit`.
 - Implemented eight-hour placed burn duration using the planned ten-minute drain formula.
 
 **Metrics:**
-- Files modified: 13
+- Files modified: 15
 - Static verification: Passed
 - In-game verification: Pending
 
