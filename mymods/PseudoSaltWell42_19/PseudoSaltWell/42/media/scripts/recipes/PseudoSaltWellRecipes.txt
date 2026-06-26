@@ -1,0 +1,36 @@
+module PseudoSaltWellB42
+{
+    craftRecipe Get Salt From Pot
+    {
+        timedAction = OpenTinCan,
+        time = 200,
+        Tags = InHandCraft;CanBeDoneInDark,
+		category = Cooking,
+        inputs
+        {
+            item 1 [PseudoSaltWellB42.SaltPot],
+        }
+        outputs
+        {
+            item 2 Base.Salt,
+            item 1 Base.Pot,
+        }
+    }
+
+    craftRecipe Get Salt From Kettle
+    {
+        timedAction = OpenTinCan,
+        time = 200,
+        Tags = InHandCraft;CanBeDoneInDark,
+		category = Cooking,
+        inputs
+        {
+            item 1 [PseudoSaltWellB42.SaltKettle],
+        }
+        outputs
+        {
+            item 2 Base.Salt,
+            item 1 Base.Kettle,
+        }
+    }
+}

@@ -1,0 +1,6 @@
+name=PseudoSaltWell
+id=PseudoSaltWell
+description=Saltwater well system with location-based hole types. Create saltwater wells at specific coordinates or plain holes elsewhere. Fill containers with saltwater and cook to produce salt.
+poster=poster.png
+pack=pseudoed_salt_01
+tiledef=pseudoed_salt_01 8724
