@@ -9,8 +9,8 @@ module Pseudonymous
         xpAward = Cooking:5,
         inputs
         {
+            item 1 tags[base:rollingpin] mode:keep flags[MayDegrade],
             item 60 tags[base:flour],
-            item 1 [Base.Salt],
             item 3 tags[base:bakingfat],
             item 1 [*] mode:keep,
                     -fluid 0.25 [Water],
