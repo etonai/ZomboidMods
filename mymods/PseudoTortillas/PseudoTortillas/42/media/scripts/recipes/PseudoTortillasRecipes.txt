@@ -1,0 +1,23 @@
+module Pseudonymous
+{
+    craftRecipe MakeRawTortillas
+    {
+        timedAction = SliceMeat_Surface,
+        time = 150,
+        Tags = AnySurfaceCraft;Cooking,
+        category = Cooking,
+        xpAward = Cooking:5,
+        inputs
+        {
+            item 60 tags[base:flour],
+            item 1 [Base.Salt],
+            item 3 [Base.Butter],
+            item 1 [*] mode:keep,
+                    -fluid 0.25 [Water],
+        }
+        outputs
+        {
+            item 4 Pseudonymous.RawTortilla,
+        }
+    }
+}
