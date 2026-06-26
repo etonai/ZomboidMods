@@ -8,7 +8,7 @@ module PseudoButterCandle
     category = Survival,
     inputs
     {
-      item 1 [Base.Butter] mode:destroy,
+      item 24 [Base.Butter],
       item 1 [Base.Twigs] mode:destroy,
       item 1 [Base.TinCanEmpty] mode:destroy,
     }
@@ -70,3 +70,4 @@ module PseudoButterCandle
     }
   }
 }
+
