@@ -8,7 +8,7 @@ module PseudoButterCandle
     category = Survival,
     inputs
     {
-      item 24 [Base.Butter],
+      item 24 tags[base:bakingfat],
       item 1 [Base.Twigs] mode:destroy,
       item 1 [Base.TinCanEmpty] mode:destroy,
     }

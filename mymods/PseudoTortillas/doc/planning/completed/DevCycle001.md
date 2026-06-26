@@ -200,16 +200,19 @@ This phase requires in-game testing. An agent may mark implementation tasks as c
 
 *Fill in when the cycle closes. Move this document to `doc/planning/completed/` afterward.*
 
-**Completion Date:**
-**Phases Completed:**
-**Work Deferred:**
+**Completion Date:** 2026-06-26
+**Phases Completed:** 1-4 implementation phases
+**Work Deferred:** Phase 5 in-game verification remains pending and should be handled by Ed before marking the cycle Verified.
 
 **Accomplishments:**
-- 
+- Added the `Pseudonymous.RawTortilla` item.
+- Added the `MakeRawTortillas` recipe with flour/cornflour, salt, butter, and water.
+- Added the `SoftTaco` evolved recipe using `Base.Tortilla` and the vanilla taco template.
+- Deployed the mod after implementation and after the flour/butter quantity adjustment.
 
 **Metrics:**
-- Files modified:
-- In-game checks completed:
+- Files modified: 4 (`PseudoTortillasItems.txt`, `PseudoTortillasRecipes.txt`, `PseudoTortillasEvolvedRecipes.txt`, `DevCycle001.md`)
+- In-game checks completed: none recorded in this document
 
 **Lessons / Notes:**
-
+The cycle is closed as Work Complete, not Verified, because agent-side static checks were completed but in-game verification was not recorded. Vanilla `Base.Flour2` and `Base.Cornflour2` both share `base:flour`, so the recipe uses `tags[base:flour]` to support both.
