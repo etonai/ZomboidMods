@@ -1,5 +1,24 @@
 module Pseudonymous
 {
+    craftRecipe MakeGritsBowl
+    {
+        timedAction = MixingBowl,
+        time = 20,
+        Tags = InHandCraft;Cooking,
+        category = Cooking,
+        xpAward = Cooking:3,
+        inputs
+        {
+            item 1 [Base.Bowl;Base.ClayBowl] mode:destroy flags[ItemCount],
+            -fluid 0.3 categories[Water] mode:mixture,
+            item 24 [Base.Cornmeal2],
+        }
+        outputs
+        {
+            item 1 Pseudonymous.GritsBowl,
+        }
+    }
+
     craftRecipe MakeGritsPan
     {
         timedAction = MixingBowl,
@@ -11,7 +30,7 @@ module Pseudonymous
         {
             item 1 [Base.Saucepan] flags[InheritCondition;ItemCount] mode:destroy,
             -fluid 0.6 categories[Water] mode:mixture,
-            item 24 [Base.Cornmeal2],
+            item 48 [Base.Cornmeal2],
         }
         outputs
         {
@@ -30,7 +49,7 @@ module Pseudonymous
         {
             item 1 [Base.Pot] mode:destroy flags[InheritCondition;ItemCount],
             -fluid 1.5 categories[Water] mode:mixture,
-            item 24 [Base.Cornmeal2],
+            item 120 [Base.Cornmeal2],
         }
         outputs
         {
