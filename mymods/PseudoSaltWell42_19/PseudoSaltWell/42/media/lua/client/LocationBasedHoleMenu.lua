@@ -23,7 +23,7 @@ function LocationBasedHoleMenu.onDigHole(worldobjects, shovel, player)
     -- from the actual placement coordinates. Free placement (no locked
     -- coordinates) matches how vanilla's own grave-digging cursor behaves —
     -- see ISWorldObjectContextMenu.onDigGraves.
-    local hole = ISLocationBasedHole:new("location_community_cemetary_01_33", shovel);
+    local hole = ISLocationBasedHole:new("pseudoed_03_32", shovel);
     hole.player = player;
     hole.character = playerObj;
 

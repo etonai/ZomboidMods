@@ -43,11 +43,11 @@ function ISLocationBasedHole:create(x, y, z, north, sprite)
 
     if isSaltwater then
         -- Create saltwater well
-        holeSprite = "pseudoed_01_6";
+        holeSprite = "pseudoed_03_35";
         holeName = "SaltwaterWell";
     else
         -- Create plain hole
-        holeSprite = "location_community_cemetary_01_33";
+        holeSprite = "pseudoed_03_32";
         holeName = "Hole";
     end
 
@@ -107,7 +107,7 @@ function ISLocationBasedHole:render(x, y, z, square)
     -- Recompute the sprite per-tile so the ghost reflects whatever square is
     -- currently under the cursor, not the square the menu was opened on.
     local isSaltwater = SaltwaterLocationDetector.isSaltwaterLocation(square:getX(), square:getY());
-    local spriteName = isSaltwater and "pseudoed_01_6" or "location_community_cemetary_01_33";
+    local spriteName = isSaltwater and "pseudoed_03_35" or "pseudoed_03_32";
     local sprite = IsoSprite.new()
     sprite:LoadSingleTexture(spriteName)
 
