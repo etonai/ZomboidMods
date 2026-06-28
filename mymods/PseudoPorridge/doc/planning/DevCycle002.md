@@ -1,6 +1,6 @@
 # DevCycle 002: Porridge Bowl and Batch Scaling Adjustments
 
-**Status:** Planning
+**Status:** Work Complete
 **Start Date:** 2026-06-28
 **Target Completion:** TBD
 **Focus:** Add a bowl-sized porridge recipe and scale pan/pot porridge recipes for larger batches.
@@ -47,20 +47,20 @@ DC 2 should use that current DC 1 value as the bowl baseline.
 
 ### Phase 1: Add Porridge Bowl Item and Recipe
 
-**Status:** Planning
+**Status:** Work Complete
 
-- [ ] Add a new mod-owned food item: `Pseudonymous.PorridgeBowl`.
-- [ ] Add a new craft recipe: `MakePorridgeBowl`.
-- [ ] Require a bowl or clay bowl, water, and 60 units of flour.
-- [ ] Use the current DC 1 porridge nutrition for `PorridgeBowl`:
+- [x] Add a new mod-owned food item: `Pseudonymous.PorridgeBowl`.
+- [x] Add a new craft recipe: `MakePorridgeBowl`.
+- [x] Require a bowl or clay bowl, water, and 60 units of flour.
+- [x] Use the current DC 1 porridge nutrition for `PorridgeBowl`:
   - `HungerChange = -60.0`
   - `Calories = 50.0`
   - `Carbohydrates = 21.0`
   - `Lipids = 0.0`
   - `Proteins = 5.0`
-- [ ] Use the vanilla oatmeal bowl amount, `0.3` water.
-- [ ] Add English item and recipe translations for `PorridgeBowl` and `MakePorridgeBowl`.
-- [ ] Add a `PorridgeBowl` evolved recipe for oatmeal-style toppings.
+- [x] Use the vanilla oatmeal bowl amount, `0.3` water.
+- [x] Add English item and recipe translations for `PorridgeBowl` and `MakePorridgeBowl`.
+- [x] Add a `PorridgeBowl` evolved recipe for oatmeal-style toppings.
 
 **Technical Notes:**
 Vanilla oatmeal bowl creation uses `item 1 [Base.Bowl;Base.ClayBowl]`, `-fluid 0.3 categories[Water] mode:mixture`, and a dry ingredient input. This is the closest vanilla structure for `MakePorridgeBowl`.
@@ -69,12 +69,12 @@ Vanilla oatmeal bowl creation uses `item 1 [Base.Bowl;Base.ClayBowl]`, `-fluid 0
 
 ### Phase 2: Double Porridge Pan Batch
 
-**Status:** Planning
+**Status:** Work Complete
 
-- [ ] Update `Pseudonymous.PorridgePan` nutrition to double the bowl baseline.
-- [ ] Update `MakePorridgePan` to require double the bowl flour amount: 120 units of flour.
-- [ ] Keep the saucepan and water requirements unchanged unless implementation research shows a clear reason to scale water too.
-- [ ] Confirm evolved recipe definition remains present after nutrition and ingredient amount changes.
+- [x] Update `Pseudonymous.PorridgePan` nutrition to double the bowl baseline.
+- [x] Update `MakePorridgePan` to require double the bowl flour amount: 120 units of flour.
+- [x] Keep the saucepan and water requirements unchanged.
+- [x] Confirm evolved recipe definition remains present after nutrition and ingredient amount changes.
 
 **Target Nutrition:**
 
@@ -91,12 +91,12 @@ Current DC 1 `PorridgePan` uses 60 flour units and the bowl baseline nutrition. 
 
 ### Phase 3: Scale Porridge Pot to Five-Times Batch
 
-**Status:** Planning
+**Status:** Work Complete
 
-- [ ] Update `Pseudonymous.PorridgePot` nutrition to five times the bowl baseline.
-- [ ] Update `MakePorridgePot` to require five times the bowl flour amount: 300 units of flour.
-- [ ] Keep the cooking pot and water requirements unchanged unless implementation research shows a clear reason to scale water too.
-- [ ] Confirm evolved recipe definition remains present after nutrition and ingredient amount changes.
+- [x] Update `Pseudonymous.PorridgePot` nutrition to five times the bowl baseline.
+- [x] Update `MakePorridgePot` to require five times the bowl flour amount: 300 units of flour.
+- [x] Keep the cooking pot and water requirements unchanged.
+- [x] Confirm evolved recipe definition remains present after nutrition and ingredient amount changes.
 
 **Target Nutrition:**
 
@@ -113,12 +113,12 @@ Current DC 1 `PorridgePot` uses 60 flour units and the bowl baseline nutrition. 
 
 ### Phase 4: Static Review and In-Game Verification
 
-**Status:** Planning
+**Status:** Work Complete
 
-- [ ] Confirm `PseudoPorridgeItems.txt` contains `PorridgeBowl`, updated `PorridgePan`, and updated `PorridgePot` nutrition.
-- [ ] Confirm `PseudoPorridgeRecipes.txt` contains `MakePorridgeBowl`, `MakePorridgePan` with 120 flour units, and `MakePorridgePot` with 300 flour units.
-- [ ] Confirm EN translation JSON files parse.
-- [ ] Confirm all referenced vanilla item IDs exist, including bowl and clay bowl item IDs.
+- [x] Confirm `PseudoPorridgeItems.txt` contains `PorridgeBowl`, updated `PorridgePan`, and updated `PorridgePot` nutrition.
+- [x] Confirm `PseudoPorridgeRecipes.txt` contains `MakePorridgeBowl`, `MakePorridgePan` with 120 flour units, and `MakePorridgePot` with 300 flour units.
+- [x] Confirm EN translation JSON files parse.
+- [x] Confirm all referenced vanilla item IDs exist, including bowl and clay bowl item IDs.
 - [ ] Launch B42 with `PseudoPorridge` enabled and confirm there are no script parse errors.
 - [ ] Craft `PorridgeBowl` from a bowl, water, and 60 units of flour.
 - [ ] Craft `PorridgePan` from a saucepan, water, and 120 units of flour.
@@ -143,27 +143,31 @@ In-game verification is required before marking this cycle `Verified`. Agents ma
 
 ## Notes and Risks
 
-- Implementation has not started. The `mymods/PseudoPorridge/AGENTS.md` planning rule requires stopping after creating this DevCycle document until Ed explicitly requests implementation.
+- Implementation was requested explicitly after this DevCycle document was created, satisfying the `mymods/PseudoPorridge/AGENTS.md` planning stop rule.
 - The biggest implementation risk is mixing two unit bases: flour item nutrition versus recipe flour units. Use the current DC 1 porridge value as the bowl baseline, then multiply it by 1x, 2x, and 5x for bowl, pan, and pot respectively.
 - `PorridgePan` and `PorridgePot` already exist from DC 1; this cycle should update them rather than create replacement item IDs.
-- `PorridgeBowl` should receive item, recipe, evolved recipe, and translation entries.
+- `PorridgeBowl` was added with item, recipe, evolved recipe, and translation entries.
 
 ---
 
 ## Completion Summary
 
-*Fill in when the cycle closes. Move this document to `doc/planning/completed/` afterward.*
-
-**Completion Date:** TBD
-**Phases Completed:** TBD
-**Work Deferred:** TBD
+**Completion Date:** 2026-06-28
+**Phases Completed:** 1-4 static implementation work complete
+**Work Deferred:** In-game verification remains pending before this cycle can be marked `Verified`.
 
 **Accomplishments:**
-- TBD
+- Added `Pseudonymous.PorridgeBowl` with the DC 1 60-unit flour nutrition baseline.
+- Added `MakePorridgeBowl`, using a bowl or clay bowl, 0.3 water, and 60 units of flour.
+- Added a bowl evolved recipe using `Template = Oatmeal`.
+- Updated `MakePorridgePan` to require 120 units of flour and updated `PorridgePan` nutrition to 2x baseline.
+- Updated `MakePorridgePot` to require 300 units of flour and updated `PorridgePot` nutrition to 5x baseline.
+- Added English translations for the new bowl item, craft recipe, and evolved recipe.
 
 **Metrics:**
-- Files modified: TBD
-- In-game checks completed: TBD
+- Files modified: 8
+- In-game checks completed: 0
 
 **Lessons / Notes:**
-- TBD
+- Batch nutrition now follows one visible rule: bowl = 60 units, pan = 120 units, pot = 300 units of flour.
+- Static checks passed for script presence, referenced vanilla item IDs, and EN JSON parse validity.

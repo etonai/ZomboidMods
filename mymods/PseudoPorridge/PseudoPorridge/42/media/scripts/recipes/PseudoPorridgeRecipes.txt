@@ -1,5 +1,24 @@
 module Pseudonymous
 {
+    craftRecipe MakePorridgeBowl
+    {
+        timedAction = MixingBowl,
+        time = 20,
+        Tags = InHandCraft;Cooking,
+        category = Cooking,
+        xpAward = Cooking:3,
+        inputs
+        {
+            item 1 [Base.Bowl;Base.ClayBowl] mode:destroy flags[ItemCount],
+            -fluid 0.3 categories[Water] mode:mixture,
+            item 60 tags[base:flour],
+        }
+        outputs
+        {
+            item 1 Pseudonymous.PorridgeBowl,
+        }
+    }
+
     craftRecipe MakePorridgePan
     {
         timedAction = MixingBowl,
@@ -11,7 +30,7 @@ module Pseudonymous
         {
             item 1 [Base.Saucepan] flags[InheritCondition;ItemCount] mode:destroy,
             -fluid 0.6 categories[Water] mode:mixture,
-            item 60 tags[base:flour],
+            item 120 tags[base:flour],
         }
         outputs
         {
@@ -30,7 +49,7 @@ module Pseudonymous
         {
             item 1 [Base.Pot] mode:destroy flags[InheritCondition;ItemCount],
             -fluid 1.5 categories[Water] mode:mixture,
-            item 60 tags[base:flour],
+            item 300 tags[base:flour],
         }
         outputs
         {

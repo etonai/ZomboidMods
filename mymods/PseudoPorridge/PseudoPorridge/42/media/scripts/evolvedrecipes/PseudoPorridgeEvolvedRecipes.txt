@@ -1,5 +1,17 @@
 module Base
 {
+    evolvedrecipe PorridgeBowl
+    {
+        BaseItem = Pseudonymous.PorridgeBowl,
+        MaxItems = 3,
+        ResultItem = Pseudonymous.PorridgeBowl,
+        AddIngredientIfCooked = true,
+        Name = Porridge (crafted bowl),
+        CanAddSpicesEmpty = true,
+        Template = Oatmeal,
+        Cookable = true,
+    }
+
     evolvedrecipe PorridgePan
     {
         BaseItem = Pseudonymous.PorridgePan,
