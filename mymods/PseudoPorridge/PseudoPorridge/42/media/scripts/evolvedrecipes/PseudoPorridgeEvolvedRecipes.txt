@@ -1,0 +1,26 @@
+module Base
+{
+    evolvedrecipe PorridgePan
+    {
+        BaseItem = Pseudonymous.PorridgePan,
+        MaxItems = 3,
+        ResultItem = Pseudonymous.PorridgePan,
+        AddIngredientIfCooked = true,
+        Name = Porridge (crafted pan),
+        CanAddSpicesEmpty = true,
+        Template = Oatmeal,
+        Cookable = true,
+    }
+
+    evolvedrecipe PorridgePot
+    {
+        BaseItem = Pseudonymous.PorridgePot,
+        MaxItems = 3,
+        ResultItem = Pseudonymous.PorridgePot,
+        AddIngredientIfCooked = true,
+        Name = Porridge (crafted pot),
+        CanAddSpicesEmpty = true,
+        Template = Oatmeal,
+        Cookable = true,
+    }
+}
