@@ -1,0 +1,26 @@
+module Base
+{
+    evolvedrecipe GritsPan
+    {
+        BaseItem = Pseudonymous.GritsPan,
+        MaxItems = 3,
+        ResultItem = Pseudonymous.GritsPan,
+        AddIngredientIfCooked = true,
+        Name = Grits (crafted pan),
+        CanAddSpicesEmpty = true,
+        Template = Oatmeal,
+        Cookable = true,
+    }
+
+    evolvedrecipe GritsPot
+    {
+        BaseItem = Pseudonymous.GritsPot,
+        MaxItems = 3,
+        ResultItem = Pseudonymous.GritsPot,
+        AddIngredientIfCooked = true,
+        Name = Grits (crafted pot),
+        CanAddSpicesEmpty = true,
+        Template = Oatmeal,
+        Cookable = true,
+    }
+}

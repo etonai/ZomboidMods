@@ -1,0 +1,91 @@
+module Base
+{
+    item Cornmeal2
+    {
+        DisplayCategory = Food,
+        Type = Food,
+        ItemType = base:food,
+        Weight = 2.0,
+        Icon = Cornmeal,
+        EvolvedRecipe = Soup:6;Stew:6,
+        FoodType = Thickener,
+        CantEat = true,
+        Spice = true,
+        Tooltip = Tooltip_item_MustAddRecipe,
+        HungerChange = -80.0,
+        Calories = 496.0,
+        Carbohydrates = 152.0,
+        Lipids = 11.2,
+        Proteins = 26.4,
+        WorldStaticModel = Cornmeal,
+        Tags = base:minoringredient,
+    }
+}
+
+module Pseudonymous
+{
+    item GritsPot
+    {
+        DisplayName = Grits,
+        DisplayCategory = Food,
+        Type = Food,
+        ItemType = base:food,
+        Weight = 3.0,
+        Icon = PotFull,
+        BadInMicrowave = true,
+        CookingSound = BoilingFood,
+        EatType = Pot,
+        PourType = Pot,
+        GoodHot = true,
+        IsCookable = true,
+        ReplaceOnUse = Base.Pot,
+        MinutesToCook = 20,
+        MinutesToBurn = 50,
+        DaysFresh = 3,
+        DaysTotallyRotten = 6,
+        UnhappyChange = 20,
+        Calories = 148.8,
+        Carbohydrates = 45.6,
+        Lipids = 3.36,
+        Proteins = 7.92,
+        StaticModel = CookingPotRice_Ground,
+        WorldStaticModel = CookingPotRice_Ground,
+        Tags = base:hasmetal,
+        HungerChange = -24.0,
+        SoundMap = DumpContents EmptyPot,
+        EvolvedRecipeName = Grits,
+    }
+
+    item GritsPan
+    {
+        DisplayName = Grits,
+        DisplayCategory = Food,
+        Type = Food,
+        ItemType = base:food,
+        Weight = 3.0,
+        Icon = SaucepanFilled,
+        EatType = Plate,
+        PourType = saucepan,
+        BadInMicrowave = true,
+        CookingSound = BoilingFood,
+        GoodHot = true,
+        IsCookable = true,
+        ConditionMax = 5,
+        ReplaceOnUse = Base.Saucepan,
+        MinutesToCook = 20,
+        MinutesToBurn = 50,
+        DaysFresh = 3,
+        DaysTotallyRotten = 6,
+        UnhappyChange = 20,
+        Calories = 148.8,
+        Carbohydrates = 45.6,
+        Lipids = 3.36,
+        Proteins = 7.92,
+        StaticModel = WaterSaucepanRice,
+        WorldStaticModel = WaterSaucepanRice,
+        Tags = base:hasmetal,
+        HungerChange = -24.0,
+        SoundMap = DumpContents EmptyPan,
+        EvolvedRecipeName = Grits,
+    }
+}
