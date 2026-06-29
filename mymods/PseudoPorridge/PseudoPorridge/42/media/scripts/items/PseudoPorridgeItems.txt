@@ -28,6 +28,38 @@ module Pseudonymous
         EvolvedRecipeName = Porridge,
     }
 
+    item WaterPotPorridge
+    {
+        DisplayName = Cooking Pot with Porridge,
+        DisplayCategory = Food,
+        Type = Food,
+        ItemType = base:food,
+        Weight = 3.0,
+        Icon = Pot_Water,
+        BadInMicrowave = true,
+        CookingSound = BoilingFood,
+        EatType = Pot,
+        PourType = Pot,
+        GoodHot = true,
+        IsCookable = true,
+        ReplaceOnUse = Base.Pot,
+        MinutesToCook = 20,
+        MinutesToBurn = 50,
+        DaysFresh = 3,
+        DaysTotallyRotten = 6,
+        UnhappyChange = 20,
+        Calories = 250.0,
+        Carbohydrates = 105.0,
+        Lipids = 0.0,
+        Proteins = 25.0,
+        StaticModel = CookingPotRice_Ground,
+        WorldStaticModel = CookingPotRice_Ground,
+        Tags = base:hasmetal,
+        HungerChange = -300.0,
+        SoundMap = DumpContents EmptyPot,
+        EvolvedRecipeName = Porridge,
+    }
+
     item PorridgePot
     {
         DisplayName = Porridge,
@@ -57,6 +89,39 @@ module Pseudonymous
         Tags = base:hasmetal,
         HungerChange = -300.0,
         SoundMap = DumpContents EmptyPot,
+        EvolvedRecipeName = Porridge,
+    }
+
+    item WaterSaucepanPorridge
+    {
+        DisplayName = Saucepan with Porridge,
+        DisplayCategory = Food,
+        Type = Food,
+        ItemType = base:food,
+        Weight = 3.0,
+        Icon = SaucepanFilled,
+        EatType = Plate,
+        PourType = saucepan,
+        BadInMicrowave = true,
+        CookingSound = BoilingFood,
+        GoodHot = true,
+        IsCookable = true,
+        ConditionMax = 5,
+        ReplaceOnUse = Base.Saucepan,
+        MinutesToCook = 20,
+        MinutesToBurn = 50,
+        DaysFresh = 3,
+        DaysTotallyRotten = 6,
+        UnhappyChange = 20,
+        Calories = 100.0,
+        Carbohydrates = 42.0,
+        Lipids = 0.0,
+        Proteins = 10.0,
+        StaticModel = WaterSaucepanRice,
+        WorldStaticModel = WaterSaucepanRice,
+        Tags = base:hasmetal,
+        HungerChange = -120.0,
+        SoundMap = DumpContents EmptyPan,
         EvolvedRecipeName = Porridge,
     }
 

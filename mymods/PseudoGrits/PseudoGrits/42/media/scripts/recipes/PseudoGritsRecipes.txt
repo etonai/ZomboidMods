@@ -34,7 +34,7 @@ module Pseudonymous
         }
         outputs
         {
-            item 1 Pseudonymous.GritsPan,
+            item 1 Pseudonymous.WaterSaucepanGrits,
         }
     }
 
@@ -53,7 +53,7 @@ module Pseudonymous
         }
         outputs
         {
-            item 1 Pseudonymous.GritsPot,
+            item 1 Pseudonymous.WaterPotGrits,
         }
     }
 }

@@ -8,31 +8,32 @@ module Base
         AddIngredientIfCooked = true,
         Name = Porridge (crafted bowl),
         CanAddSpicesEmpty = true,
-        Template = Oatmeal,
+        Template = Rice,
         Cookable = true,
     }
 
     evolvedrecipe PorridgePan
     {
-        BaseItem = Pseudonymous.PorridgePan,
+        BaseItem = Pseudonymous.WaterSaucepanPorridge,
         MaxItems = 3,
         ResultItem = Pseudonymous.PorridgePan,
         AddIngredientIfCooked = true,
         Name = Porridge (crafted pan),
         CanAddSpicesEmpty = true,
-        Template = Oatmeal,
+        Template = Rice,
         Cookable = true,
     }
 
     evolvedrecipe PorridgePot
     {
-        BaseItem = Pseudonymous.PorridgePot,
+        BaseItem = Pseudonymous.WaterPotPorridge,
         MaxItems = 3,
         ResultItem = Pseudonymous.PorridgePot,
         AddIngredientIfCooked = true,
         Name = Porridge (crafted pot),
         CanAddSpicesEmpty = true,
-        Template = Oatmeal,
+        Template = Rice,
         Cookable = true,
     }
 }
+
