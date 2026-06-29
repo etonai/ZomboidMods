@@ -15,7 +15,7 @@ module Pseudonymous
         }
         outputs
         {
-            item 1 Pseudonymous.PeasePottagePan,
+            item 1 Pseudonymous.WaterSaucepanPeasePottage,
         }
     }
 
@@ -34,7 +34,7 @@ module Pseudonymous
         }
         outputs
         {
-            item 1 Pseudonymous.PeasePottagePot,
+            item 1 Pseudonymous.WaterPotPeasePottage,
         }
     }
 }
