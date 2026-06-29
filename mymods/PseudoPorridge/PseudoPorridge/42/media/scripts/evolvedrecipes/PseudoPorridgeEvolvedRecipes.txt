@@ -1,39 +1,74 @@
 module Base
 {
-    evolvedrecipe PorridgeBowl
+    evolvedrecipe PorridgeBowlSweet
     {
         BaseItem = Pseudonymous.PorridgeBowl,
         MaxItems = 3,
-        ResultItem = Pseudonymous.PorridgeBowl,
+        ResultItem = Pseudonymous.PorridgeBowlSweet,
         AddIngredientIfCooked = true,
-        Name = Porridge (crafted bowl),
+        Name = Sweet Porridge,
         CanAddSpicesEmpty = true,
-        Template = Rice,
+        Template = Oatmeal,
         Cookable = true,
     }
 
-    evolvedrecipe PorridgePan
+    evolvedrecipe PorridgeBowlSavory
+    {
+        BaseItem = Pseudonymous.PorridgeBowl,
+        MaxItems = 3,
+        ResultItem = Pseudonymous.PorridgeBowlSavory,
+        AddIngredientIfCooked = true,
+        Name = Savory Porridge,
+        CanAddSpicesEmpty = true,
+        Template = Stew,
+        Cookable = true,
+    }
+
+    evolvedrecipe PorridgePanSweet
     {
         BaseItem = Pseudonymous.WaterSaucepanPorridge,
         MaxItems = 3,
-        ResultItem = Pseudonymous.PorridgePan,
+        ResultItem = Pseudonymous.PorridgePanSweet,
         AddIngredientIfCooked = true,
-        Name = Porridge (crafted pan),
+        Name = Sweet Porridge,
         CanAddSpicesEmpty = true,
-        Template = Rice,
+        Template = Oatmeal,
         Cookable = true,
     }
 
-    evolvedrecipe PorridgePot
+    evolvedrecipe PorridgePanSavory
+    {
+        BaseItem = Pseudonymous.WaterSaucepanPorridge,
+        MaxItems = 3,
+        ResultItem = Pseudonymous.PorridgePanSavory,
+        AddIngredientIfCooked = true,
+        Name = Savory Porridge,
+        CanAddSpicesEmpty = true,
+        Template = Stew,
+        Cookable = true,
+    }
+
+    evolvedrecipe PorridgePotSweet
     {
         BaseItem = Pseudonymous.WaterPotPorridge,
         MaxItems = 3,
-        ResultItem = Pseudonymous.PorridgePot,
+        ResultItem = Pseudonymous.PorridgePotSweet,
         AddIngredientIfCooked = true,
-        Name = Porridge (crafted pot),
+        Name = Sweet Porridge,
         CanAddSpicesEmpty = true,
-        Template = Rice,
+        Template = Oatmeal,
+        Cookable = true,
+    }
+
+    evolvedrecipe PorridgePotSavory
+    {
+        BaseItem = Pseudonymous.WaterPotPorridge,
+        MaxItems = 3,
+        ResultItem = Pseudonymous.PorridgePotSavory,
+        AddIngredientIfCooked = true,
+        Name = Savory Porridge,
+        CanAddSpicesEmpty = true,
+        Template = Stew,
         Cookable = true,
     }
 }
-

@@ -1,5 +1,8 @@
 {
-  "ContextMenu_EvolvedRecipe_GritsBowl": "Grits (crafted bowl)",
-  "ContextMenu_EvolvedRecipe_GritsPot": "Grits (crafted pot)",
-  "ContextMenu_EvolvedRecipe_GritsPan": "Grits (crafted pan)"
+  "ContextMenu_EvolvedRecipe_GritsBowlSweet": "Sweet Grits",
+  "ContextMenu_EvolvedRecipe_GritsBowlSavory": "Savory Grits",
+  "ContextMenu_EvolvedRecipe_GritsPotSweet": "Sweet Grits",
+  "ContextMenu_EvolvedRecipe_GritsPotSavory": "Savory Grits",
+  "ContextMenu_EvolvedRecipe_GritsPanSweet": "Sweet Grits",
+  "ContextMenu_EvolvedRecipe_GritsPanSavory": "Savory Grits"
 }

@@ -1,39 +1,74 @@
 module Base
 {
-    evolvedrecipe GritsBowl
+    evolvedrecipe GritsBowlSweet
     {
         BaseItem = Pseudonymous.GritsBowl,
         MaxItems = 3,
-        ResultItem = Pseudonymous.GritsBowl,
+        ResultItem = Pseudonymous.GritsBowlSweet,
         AddIngredientIfCooked = true,
-        Name = Grits (crafted bowl),
+        Name = Sweet Grits,
         CanAddSpicesEmpty = true,
-        Template = Rice,
+        Template = Oatmeal,
         Cookable = true,
     }
 
-    evolvedrecipe GritsPan
+    evolvedrecipe GritsBowlSavory
+    {
+        BaseItem = Pseudonymous.GritsBowl,
+        MaxItems = 3,
+        ResultItem = Pseudonymous.GritsBowlSavory,
+        AddIngredientIfCooked = true,
+        Name = Savory Grits,
+        CanAddSpicesEmpty = true,
+        Template = Stew,
+        Cookable = true,
+    }
+
+    evolvedrecipe GritsPanSweet
     {
         BaseItem = Pseudonymous.WaterSaucepanGrits,
         MaxItems = 3,
-        ResultItem = Pseudonymous.GritsPan,
+        ResultItem = Pseudonymous.GritsPanSweet,
         AddIngredientIfCooked = true,
-        Name = Grits (crafted pan),
+        Name = Sweet Grits,
         CanAddSpicesEmpty = true,
-        Template = Rice,
+        Template = Oatmeal,
         Cookable = true,
     }
 
-    evolvedrecipe GritsPot
+    evolvedrecipe GritsPanSavory
+    {
+        BaseItem = Pseudonymous.WaterSaucepanGrits,
+        MaxItems = 3,
+        ResultItem = Pseudonymous.GritsPanSavory,
+        AddIngredientIfCooked = true,
+        Name = Savory Grits,
+        CanAddSpicesEmpty = true,
+        Template = Stew,
+        Cookable = true,
+    }
+
+    evolvedrecipe GritsPotSweet
     {
         BaseItem = Pseudonymous.WaterPotGrits,
         MaxItems = 3,
-        ResultItem = Pseudonymous.GritsPot,
+        ResultItem = Pseudonymous.GritsPotSweet,
         AddIngredientIfCooked = true,
-        Name = Grits (crafted pot),
+        Name = Sweet Grits,
         CanAddSpicesEmpty = true,
-        Template = Rice,
+        Template = Oatmeal,
+        Cookable = true,
+    }
+
+    evolvedrecipe GritsPotSavory
+    {
+        BaseItem = Pseudonymous.WaterPotGrits,
+        MaxItems = 3,
+        ResultItem = Pseudonymous.GritsPotSavory,
+        AddIngredientIfCooked = true,
+        Name = Savory Grits,
+        CanAddSpicesEmpty = true,
+        Template = Stew,
         Cookable = true,
     }
 }
-

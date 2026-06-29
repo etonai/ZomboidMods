@@ -3,5 +3,11 @@
   "Pseudonymous.WaterPotGrits": "Grits",
   "Pseudonymous.GritsPot": "Grits",
   "Pseudonymous.WaterSaucepanGrits": "Grits",
-  "Pseudonymous.GritsPan": "Grits"
+  "Pseudonymous.GritsPan": "Grits",
+  "Pseudonymous.GritsBowlSweet": "Sweet Grits",
+  "Pseudonymous.GritsBowlSavory": "Savory Grits",
+  "Pseudonymous.GritsPotSweet": "Sweet Grits",
+  "Pseudonymous.GritsPotSavory": "Savory Grits",
+  "Pseudonymous.GritsPanSweet": "Sweet Grits",
+  "Pseudonymous.GritsPanSavory": "Savory Grits"
 }

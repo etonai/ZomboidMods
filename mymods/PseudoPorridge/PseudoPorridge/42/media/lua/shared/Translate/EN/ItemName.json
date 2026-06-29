@@ -3,5 +3,11 @@
   "Pseudonymous.WaterPotPorridge": "Cooking Pot with Porridge",
   "Pseudonymous.PorridgePot": "Porridge",
   "Pseudonymous.WaterSaucepanPorridge": "Saucepan with Porridge",
-  "Pseudonymous.PorridgePan": "Porridge"
+  "Pseudonymous.PorridgePan": "Porridge",
+  "Pseudonymous.PorridgeBowlSweet": "Sweet Porridge",
+  "Pseudonymous.PorridgeBowlSavory": "Savory Porridge",
+  "Pseudonymous.PorridgePotSweet": "Sweet Porridge",
+  "Pseudonymous.PorridgePotSavory": "Savory Porridge",
+  "Pseudonymous.PorridgePanSweet": "Sweet Porridge",
+  "Pseudonymous.PorridgePanSavory": "Savory Porridge"
 }

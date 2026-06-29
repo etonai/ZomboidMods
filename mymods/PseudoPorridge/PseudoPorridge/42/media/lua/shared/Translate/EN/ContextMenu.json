@@ -1,5 +1,8 @@
 {
-  "ContextMenu_EvolvedRecipe_PorridgeBowl": "Porridge (crafted bowl)",
-  "ContextMenu_EvolvedRecipe_PorridgePot": "Porridge (crafted pot)",
-  "ContextMenu_EvolvedRecipe_PorridgePan": "Porridge (crafted pan)"
+  "ContextMenu_EvolvedRecipe_PorridgeBowlSweet": "Sweet Porridge",
+  "ContextMenu_EvolvedRecipe_PorridgeBowlSavory": "Savory Porridge",
+  "ContextMenu_EvolvedRecipe_PorridgePotSweet": "Sweet Porridge",
+  "ContextMenu_EvolvedRecipe_PorridgePotSavory": "Savory Porridge",
+  "ContextMenu_EvolvedRecipe_PorridgePanSweet": "Sweet Porridge",
+  "ContextMenu_EvolvedRecipe_PorridgePanSavory": "Savory Porridge"
 }
