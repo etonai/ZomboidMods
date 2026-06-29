@@ -45,4 +45,6 @@ TODO List:
 - Salt pork and Salt Beef in Jars
 - Porridge recipes DONE 
 - Flatbread recipes
-- Grits
+- Grits DONE
+- Adjust nutrition on Porridge recipes to seem more accurate
+- Peas pottage recipes (based on stew, but start with pea)
