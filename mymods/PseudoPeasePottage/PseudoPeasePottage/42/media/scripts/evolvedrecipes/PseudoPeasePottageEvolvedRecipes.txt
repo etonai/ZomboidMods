@@ -1,0 +1,22 @@
+module Base
+{
+    evolvedrecipe PeasePottagePan
+    {
+        BaseItem = Pseudonymous.PeasePottagePan,
+        MaxItems = 6,
+        ResultItem = Pseudonymous.PeasePottagePan,
+        Name = Pease Pottage (crafted pan),
+        Template = Stew,
+        Cookable = true,
+    }
+
+    evolvedrecipe PeasePottagePot
+    {
+        BaseItem = Pseudonymous.PeasePottagePot,
+        MaxItems = 6,
+        ResultItem = Pseudonymous.PeasePottagePot,
+        Name = Pease Pottage (crafted pot),
+        Template = Stew,
+        Cookable = true,
+    }
+}
