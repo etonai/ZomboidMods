@@ -1,6 +1,6 @@
 # DevCycle 006: Salad-Style Sweet and Savory Porridge
 
-**Status:** Work Complete
+**Status:** Verified
 **Start Date:** 2026-06-29
 **Target Completion:** 2026-06-29
 **Focus:** Make neutral porridge first, then choose sweet or savory when adding ingredients.
@@ -39,7 +39,7 @@ Expected behavior:
 
 ### Phase 1: Neutral Craft Recipes
 
-**Status:** Work Complete
+**Status:** Verified
 
 - [x] Restore one neutral bowl craft recipe: MakePorridgeBowl.
 - [x] Restore one neutral pan craft recipe: MakePorridgePan.
@@ -49,7 +49,7 @@ Expected behavior:
 
 ### Phase 2: Sweet and Savory Result Items
 
-**Status:** Work Complete
+**Status:** Verified
 
 - [x] Keep neutral legacy/current base item definitions.
 - [x] Add sweet and savory bowl result items.
@@ -60,7 +60,7 @@ Expected behavior:
 
 ### Phase 3: Salad-Style Evolved Recipes
 
-**Status:** Work Complete
+**Status:** Verified
 
 - [x] Add sweet bowl evolved recipe using the neutral bowl base item and Template = Oatmeal.
 - [x] Add savory bowl evolved recipe using the neutral bowl base item and Template = Stew.
@@ -75,7 +75,7 @@ Expected behavior:
 
 ### Phase 4: Translations
 
-**Status:** Work Complete
+**Status:** Verified
 
 - [x] Restore neutral craft recipe translations.
 - [x] Add sweet and savory item translations.
@@ -85,7 +85,7 @@ Expected behavior:
 
 ### Phase 5: Static Checks
 
-**Status:** Work Complete
+**Status:** Verified
 
 - [x] Confirm three active neutral craft recipes exist.
 - [x] Confirm six active evolved recipes exist.
@@ -98,15 +98,15 @@ Expected behavior:
 
 ### Phase 6: In-Game Verification
 
-**Status:** Pending In-Game Verification
+**Status:** Verified
 
-- [ ] Launch Project Zomboid B42 with PseudoPorridge enabled and confirm no script parse errors.
-- [ ] Confirm neutral bowl, pan, and pot porridge craft entries appear.
-- [ ] Confirm separate sweet/savory craft entries do not appear at the initial craft step.
-- [ ] Confirm sweet porridge can be created from neutral porridge when oatmeal-style ingredients are available.
-- [ ] Confirm savory porridge can be created from neutral porridge when stew-style ingredients are available.
-- [ ] Confirm pan and pot variants convert from neutral water-base items into final sweet/savory items when ingredients are added.
-- [ ] Confirm context menu labels show Sweet Porridge and Savory Porridge rather than raw translation keys.
+- [x] Launch Project Zomboid B42 with PseudoPorridge enabled and confirm no script parse errors.
+- [x] Confirm neutral bowl, pan, and pot porridge craft entries appear.
+- [x] Confirm separate sweet/savory craft entries do not appear at the initial craft step.
+- [x] Confirm sweet porridge can be created from neutral porridge when oatmeal-style ingredients are available.
+- [x] Confirm savory porridge can be created from neutral porridge when stew-style ingredients are available.
+- [x] Confirm pan and pot variants convert from neutral water-base items into final sweet/savory items when ingredients are added.
+- [x] Confirm context menu labels show Sweet Porridge and Savory Porridge rather than raw translation keys.
 
 ---
 
@@ -122,8 +122,9 @@ Expected behavior:
 ## Completion Summary
 
 **Completion Date:** 2026-06-29
-**Phases Completed:** Phases 1-5
-**Work Deferred:** Phase 6 in-game verification remains for Ed.
+**Verification Date:** 2026-06-29
+**Phases Completed:** Phases 1-6
+**Work Deferred:** None.
 
 **Accomplishments:**
 - Restored neutral craft recipes for bowl, pan, and pot.
@@ -137,7 +138,10 @@ Expected behavior:
 - Active craft recipes: 3
 - Active evolved recipes: 6
 - Active sweet/savory result item definitions: 6
-- In-game checks completed: 0
+- In-game checks completed: 7
+
+**Verification:**
+- Ed confirmed that everything tests well and approved marking this cycle Verified.
 
 **Lessons / Notes:**
 - The player choice should happen when choosing an evolved recipe outcome, not when crafting the neutral base food.

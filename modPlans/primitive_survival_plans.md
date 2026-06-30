@@ -46,5 +46,5 @@ TODO List:
 - Porridge recipes DONE 
 - Flatbread recipes
 - Grits DONE
-- Adjust nutrition on Porridge recipes to seem more accurate
-- Peas pottage recipes (based on stew, but start with pea)
+- Adjust nutrition on Porridge recipes to seem more accurate DONE
+- Peas pottage recipes (based on stew, but start with pea) DONE

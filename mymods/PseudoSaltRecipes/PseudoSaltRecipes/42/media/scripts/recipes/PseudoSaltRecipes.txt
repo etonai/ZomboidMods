@@ -15,7 +15,7 @@ module Pseudonymous
 		{
 			item 1 tags[base:sharpknife;base:meatcleaver] mode:keep flags[IsNotDull;SharpnessCheck],
 			item 1 [Base.FishFillet] flags[InheritFood;ItemCount],
-			item 2 [Base.Salt],
+			item 10 [Base.Salt],
 		}
 		outputs
 		{
@@ -26,14 +26,14 @@ module Pseudonymous
     craftRecipe SaltMeatChickenStyle
  	{
         timedAction = SliceMeat_Surface,
- 		time = 150,
+ 		time = 200,
  		Tags = AnySurfaceCraft;Cooking,
 		category = Cooking,
  		xpAward = Cooking:5,
  		inputs
  		{
  			item 1 tags[base:sharpknife;base:meatcleaver] mode:keep flags[IsNotDull;SharpnessCheck],
-			item 2 [Base.Salt],
+			item 10 [Base.Salt],
  			item 1 [Base.Rabbitmeat;Base.Beef;Base.Steak;Base.Venison] mappers[meatType] flags[InheritFood;ItemCount],
  		}
  		outputs
@@ -52,14 +52,14 @@ module Pseudonymous
     craftRecipe SaltMeatAnimalStyle
  	{
         timedAction = SliceMeat_Surface,
- 		time = 150,
+ 		time = 200,
  		Tags = AnySurfaceCraft;Cooking,
 		category = Cooking,
  		xpAward = Cooking:5,
  		inputs
  		{
  			item 1 tags[base:sharpknife;base:meatcleaver] mode:keep flags[IsNotDull;SharpnessCheck],
-			item 2 [Base.Salt],
+			item 10 [Base.Salt],
  			item 1 [Base.Rabbitmeat;Base.Venison;Base.Beef;Base.Steak;Base.Chicken;Base.ChickenFillet;Base.Pork;Base.PorkChop;Base.TurkeyFillet;Base.MuttonChop;Base.Smallbirdmeat;Base.Smallanimalmeat] mappers[meatType] flags[InheritFood;ItemCount],
  		}
  		outputs
