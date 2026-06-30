@@ -1,9 +1,9 @@
-# DevCycle 003: Investigate Porridge Hunger Values
+# DevCycle 003: Investigate Porridge and Pease Pottage Balance
 
 **Status:** Planning
 **Start Date:** 2026-06-30
 **Target Completion:** TBD
-**Focus:** Investigate whether porridge hunger values are too high relative to calories.
+**Focus:** Investigate whether porridge hunger values are too high and whether pease pottage uses enough peas relative to calories.
 
 ---
 
@@ -15,13 +15,15 @@ The current porridge values look high on hunger reduction compared to their calo
 
 ## Desired Outcome
 
-Decide whether porridge should keep its current hunger values or receive a balance adjustment in a later implementation cycle.
+Decide whether porridge should keep its current hunger values and whether pease pottage should change pea quantities, hunger, or calories in a later implementation cycle.
 
 Expected investigation output:
 
 - Compare porridge hunger and calories against vanilla flour-related ingredients.
+- Compare pease pottage recipe quantities against dry pea calories and hunger.
 - Confirm whether porridge values are directly derived from flour values.
 - Decide whether current porridge hunger is acceptable, or propose revised values.
+- Decide whether current pease pottage pea counts are acceptable, or propose revised recipe quantities and nutrition values.
 - Avoid changing item values during this investigation cycle unless Ed explicitly requests implementation.
 
 ---
@@ -84,6 +86,35 @@ Sources: `media/scripts/generated/entities/agricultural/workstations/entity_ston
 | `GrindFlour` / `MillFlour` | 12 `Base.WheatSeed`, `Base.RyeSeed`, or `Base.BarleySeed` | 1 `Base.Flour2` | 12 x -5 = -60, matching flour hunger. |
 | `GrindCornflour` / `MillCornflour` | 20 `Base.CornSeed` | 1 `Base.Cornflour2` | 20 x -4 = -80, but vanilla corn flour is -60 hunger. |
 | `GrindCornmeal` / `MillCornmeal` | 20 `Base.CornSeed` | 1 `Base.Cornmeal2` | 20 x -4 = -80, matching the combined mod cornmeal override but not vanilla cornmeal. |
+
+### Current Pease Pottage Values
+
+Sources: `mymods/PseudoGritsPorridgePottage/PseudoGritsPorridgePottage/42/media/scripts/items/PseudoPeasePottageItems.txt` and `mymods/PseudoGritsPorridgePottage/PseudoGritsPorridgePottage/42/media/scripts/recipes/PseudoPeasePottageRecipes.txt`.
+
+| Pease Pottage Item | Recipe Input | HungerChange | Calories | Notes |
+| --- | ---: | ---: | ---: | --- |
+| `Pseudonymous.WaterSaucepanPeasePottage` | 3 `Base.Greenpeas` or `Base.GreenpeasSeed` | -3.0 | 52.5 | Matches 3 dry peas at 17.5 calories each. |
+| `Pseudonymous.PeasePottagePan` | Result after adding ingredients | -3.0 | 52.5 | Same base nutrition as water-base saucepan item. |
+| `Pseudonymous.WaterPotPeasePottage` | 8 `Base.Greenpeas` or `Base.GreenpeasSeed` | -8.0 | 140.0 | Matches 8 dry peas at 17.5 calories each. |
+| `Pseudonymous.PeasePottagePot` | Result after adding ingredients | -8.0 | 140.0 | Same base nutrition as water-base pot item. |
+
+### Pease Pottage Question
+
+A cup of dry peas is around 230 calories. If a cooking pot of pease pottage is intended to represent roughly that amount of dry peas, the current pot recipe may be low:
+
+- `Base.GreenpeasSeed` is `HungerChange = -1.0`, `Calories = 17.5`.
+- Current pot recipe uses 8 peas/dry peas.
+- 8 x 17.5 = 140 calories, matching the current pot item calories.
+- 230 / 17.5 = 13.14, so a 230-calorie pot would imply about 13 dry peas if using vanilla dry pea calories.
+- A proportional saucepan amount would be about 5 dry peas if saucepan remains smaller than the pot by roughly the current 3:8 ratio.
+
+Possible pease pottage balance directions to investigate:
+
+- Increase `MakePeasePottagePot` from 8 peas/dry peas to about 13.
+- Increase `MakePeasePottagePan` from 3 peas/dry peas to about 5.
+- Update pease pottage calories to about 230 for pot and about 87.5 for saucepan if using 13/5 dry peas.
+- Update pease pottage hunger to match the new dry pea counts if continuing the current 1 pea = -1 hunger pattern.
+- Consider whether fresh `Base.Greenpeas` and dry `Base.GreenpeasSeed` should be interchangeable in the same quantity, since their calorie profiles differ.
 
 ### Working Hypothesis
 
@@ -180,6 +211,7 @@ This keeps porridge useful, but prevents it from being more filling than oatmeal
 - [ ] Confirm the combined mod's active `Base.Cornmeal2` override values.
 - [ ] Confirm current porridge item hunger and calorie values.
 - [ ] Confirm porridge recipe input quantities.
+- [ ] Confirm pease pottage recipe input quantities and current calories/hunger values.
 - [ ] Confirm which seeds have `HungerChange = -5.0` and no listed calories.
 - [ ] Confirm flour, corn flour, and cornmeal milling/grinding input quantities.
 
@@ -189,10 +221,12 @@ This keeps porridge useful, but prevents it from being more filling than oatmeal
 
 - [ ] Determine whether porridge intentionally mirrors vanilla flour values.
 - [ ] Evaluate whether wheat/rye/barley seed hunger is too high relative to corn seed and green pea seed values.
+- [ ] Evaluate whether pease pottage should use about 13 dry peas per pot to represent about 230 calories of dry peas.
 - [ ] Compare porridge hunger/calorie ratio against oatmeal or other cooked grain foods if useful.
 - [ ] Decide whether flour's low calorie value should drive porridge calories, or whether cooked porridge should use independent values.
 - [ ] Consider whether flour should require more than 12 wheat/rye/barley seeds.
 - [ ] Identify one or more candidate revised hunger/calorie sets if current values feel wrong.
+- [ ] Identify one or more candidate revised pease pottage recipe quantities and nutrition values if current values feel low.
 
 ### Phase 3: Recommendation
 
@@ -201,6 +235,7 @@ This keeps porridge useful, but prevents it from being more filling than oatmeal
 - [x] Document the recommended porridge hunger values.
 - [x] Document whether calories should change with hunger values.
 - [x] Decide whether the recommendation should become a DC 4 implementation cycle.
+- [ ] Document the recommended pease pottage recipe quantities and nutrition values.
 
 ---
 
@@ -214,6 +249,7 @@ This keeps porridge useful, but prevents it from being more filling than oatmeal
 - Ed is leaning toward wheat/rye/barley seeds having too high a hunger value and possibly toward flour requiring more than 12 seeds.
 - Ed disagrees with the 300-calorie bowl recommendation because a bowl of Cream of Wheat is approximately 120 calories.
 - Ed and Codex now agree on candidate porridge values of -10 hunger / 120 calories per bowl, scaling to -20 / 240 for saucepan and -50 / 600 for pot.
+- Pease pottage should also be investigated: a cup of dry peas is around 230 calories, which may imply increasing pot input from 8 dry peas to about 13 and saucepan input from 3 to about 5.
 - Per the planning process, this cycle should not be marked `Verified` without explicit user approval.
 
 ---
@@ -228,6 +264,7 @@ This keeps porridge useful, but prevents it from being more filling than oatmeal
 **Accomplishments:**
 - Added recommendation to adjust porridge locally to oatmeal-style hunger/calorie values and defer broad seed/flour rebalance.
 - Added agreed candidate values after review: bowl -10 hunger / 120 calories, saucepan -20 / 240, pot -50 / 600.
+- Added pease pottage investigation notes for dry pea calorie targets and possible recipe quantity changes.
 
 **Verification:**
 - TBD.
