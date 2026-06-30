@@ -1,6 +1,6 @@
 module Pseudonymous
 {
-    craftRecipe MakeClay
+    craftRecipe ProcessDirtIntoClay
     {
         time        = 150,
         timedAction = Making,
@@ -11,7 +11,7 @@ module Pseudonymous
         {
             item 1 [*] mode:keep,
             		-fluid 2.0 [Water;TaintedWater],
-            item 1 [Base.Dirtbag],
+            item 2 [Base.Dirtbag],
             item 1 [Base.Sandbag],
         }
         outputs
