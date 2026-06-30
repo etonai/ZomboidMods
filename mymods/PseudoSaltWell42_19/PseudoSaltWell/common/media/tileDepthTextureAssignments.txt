@@ -1,0 +1,6 @@
+tileDepthTextureAssignments
+{
+    VERSION = 1,
+    pseudoed_03_32 = preset_depthmaps_01_0,
+    pseudoed_03_35 = preset_depthmaps_01_0,
+}
