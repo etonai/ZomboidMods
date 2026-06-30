@@ -1,6 +1,6 @@
-name=PseudonymousEd Saltwater Well
+name=PseudonymousEd's Saltwater Well
 id=PseudoSaltWell
-description=Saltwater well system with location-based hole types. Create saltwater wells at specific coordinates or plain holes elsewhere. Fill containers with saltwater and cook to produce salt.
+description=Real-world inspired saltwater well system with location-based hole types. Create saltwater wells at specific coordinates or plain holes elsewhere. Fill containers with saltwater and boil off to produce salt.
 poster=poster.png
 pack=pseudoed_salt_03
 tiledef=pseudoed_salt_03 1000
