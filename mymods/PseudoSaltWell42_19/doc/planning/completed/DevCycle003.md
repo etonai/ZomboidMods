@@ -1,6 +1,6 @@
 # DevCycle 003: Add planned saltwater well locations
 
-**Status:** Work Complete
+**Status:** Verified
 **Start Date:** 2026-06-28
 **Target Completion:** 2026-06-28
 **Focus:** Replace the temporary saltwater-location test coordinate with the real point and rectangle locations from `doc/ideas/well_locations.md`.
@@ -23,7 +23,7 @@ The mod recognizes only the planned saltwater well locations from `well_location
 
 ### Phase 1: Normalize the well-location list
 
-**Status:** Work Complete
+**Status:** Verified
 
 - [x] Convert every exact coordinate in `doc/ideas/well_locations.md` into a `locations` entry with matching `x1/y1/x2/y2` values.
 - [x] Convert each rectangle in `doc/ideas/well_locations.md` into a `locations` entry using its start and end coordinates.
@@ -44,7 +44,7 @@ Exact points use the same structure by setting `x1 == x2` and `y1 == y2`.
 
 ### Phase 2: Update SaltwaterLocationDetector
 
-**Status:** Work Complete
+**Status:** Verified
 
 - [x] Remove `SaltwaterLocationDetector.saltwaterXCoordinates`.
 - [x] Remove the loop that checks `saltwaterXCoordinates` in `isSaltwaterLocation`.
@@ -61,7 +61,7 @@ Current call sites:
 
 ### Phase 3: Verification pass
 
-**Status:** Work Complete
+**Status:** Verified
 
 - [x] Code-review the updated detector to confirm no references to `saltwaterXCoordinates` remain.
 - [x] Confirm every listed point and rectangle from `well_locations.md` appears in `SaltwaterLocationDetector.locations`.
@@ -71,12 +71,12 @@ Current call sites:
   - `13910,7390` returns saltwater inside the Salt River rectangle.
   - `8163,1` no longer returns saltwater from the removed broad X rule.
   - `10986,10248` returns non-saltwater as a nearby negative case.
-- [ ] In-game: test at least one exact point and one rectangle location to confirm saltwater wells are created.
-- [ ] In-game: test a nearby non-listed coordinate to confirm it creates a plain hole.
-- [ ] In-game: confirm no console errors when opening the dig menu or placing the hole/well.
+- [x] In-game: test at least one exact point and one rectangle location to confirm saltwater wells are created.
+- [x] In-game: test a nearby non-listed coordinate to confirm it creates a plain hole.
+- [x] In-game: confirm no console errors when opening the dig menu or placing the hole/well.
 
 **Technical Notes:**
-Repo-side implementation and static verification are complete. In-game verification remains user-owned, so this phase and cycle stop at **Work Complete** rather than **Verified**.
+Repo-side implementation and static verification are complete. Ed confirmed DC 3 complete on 2026-06-29, so this phase and cycle are marked **Verified**.
 
 ---
 
@@ -148,7 +148,7 @@ Rectangles added from `well_locations.md`:
 
 **Completion Date:** 2026-06-28
 **Phases Completed:** All repo-side phases
-**Work Deferred:** In-game verification of saltwater well placement and nearby plain-hole placement.
+**Work Deferred:** None.
 
 **Accomplishments:**
 - Removed the temporary `saltwaterXCoordinates` detector path.
@@ -163,3 +163,4 @@ Rectangles added from `well_locations.md`:
 
 **Lessons / Notes:**
 The existing rectangle structure is a good fit for this data because it handles exact wells and river-zone ranges without a second lookup path.
+
