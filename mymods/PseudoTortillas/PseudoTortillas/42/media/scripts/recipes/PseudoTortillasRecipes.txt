@@ -1,23 +1,59 @@
-module Pseudonymous
+﻿module Pseudonymous
 {
-    craftRecipe MakeRawTortillas
+    craftRecipe MakeRawTortilla
     {
-        timedAction = SliceMeat_Surface,
+        timedAction = Making,
+        time = 75,
+        Tags = AnySurfaceCraft;Cooking,
+        category = Cooking,
+        xpAward = Cooking:1,
+        inputs
+        {
+            item 15 tags[base:flour],
+            item 1 [*] mode:keep,
+                    -fluid 0.1 [Water],
+        }
+        outputs
+        {
+            item 1 Pseudonymous.RawTortilla,
+        }
+    }
+
+    craftRecipe Make4RawTortillas
+    {
+        timedAction = Making,
         time = 150,
         Tags = AnySurfaceCraft;Cooking,
         category = Cooking,
-        xpAward = Cooking:5,
+        xpAward = Cooking:4,
         inputs
         {
-            item 1 tags[base:rollingpin] mode:keep flags[MayDegrade],
             item 60 tags[base:flour],
-            item 3 tags[base:bakingfat],
             item 1 [*] mode:keep,
                     -fluid 0.25 [Water],
         }
         outputs
         {
             item 4 Pseudonymous.RawTortilla,
+        }
+    }
+
+    craftRecipe Make8RawTortillas
+    {
+        timedAction = Making,
+        time = 275,
+        Tags = AnySurfaceCraft;Cooking,
+        category = Cooking,
+        xpAward = Cooking:8,
+        inputs
+        {
+            item 120 tags[base:flour],
+            item 1 [*] mode:keep,
+                    -fluid 0.5 [Water],
+        }
+        outputs
+        {
+            item 8 Pseudonymous.RawTortilla,
         }
     }
 }

@@ -1,4 +1,4 @@
-module Pseudonymous
+﻿module Pseudonymous
 {
     item RawTortilla
     {
@@ -8,13 +8,13 @@ module Pseudonymous
         ItemType = base:food,
         Weight = 0.1,
         Icon = Tortilla,
-        DangerousUncooked = true,
+        DangerousUncooked = false,
         IsCookable = true,
         MinutesToCook = 4,
         MinutesToBurn = 20,
         ReplaceOnCooked = Base.Tortilla,
-        DaysFresh = 3,
-        DaysTotallyRotten = 5,
+        DaysFresh = 1,
+        DaysTotallyRotten = 2,
         HungerChange = -5.0,
         Calories = 40.0,
         Carbohydrates = 0.0,
@@ -25,3 +25,4 @@ module Pseudonymous
         CookingSound = FryingFood,
     }
 }
+
