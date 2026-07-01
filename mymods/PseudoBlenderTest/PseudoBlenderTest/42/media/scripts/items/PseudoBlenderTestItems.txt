@@ -1,0 +1,14 @@
+module Pseudonymous
+{
+
+    item MagicCube
+    {
+        DisplayName = Magic Cube,
+        DisplayCategory = Memento,
+        Type = Normal,
+        ItemType = base:normal,
+        Weight = 0.5,
+        Tags = base:ismemento,
+    }
+
+}
