@@ -1,6 +1,11 @@
 module Pseudonymous
 {
 
+    imports
+    {
+        Base
+    }
+
     item MagicCube
     {
         DisplayName = Magic Cube,
@@ -9,6 +14,8 @@ module Pseudonymous
         ItemType = base:normal,
         Weight = 0.5,
         Icon = MagicCube,
+        StaticModel = MagicCube,
+        WorldStaticModel = MagicCube,
         Tags = base:ismemento,
     }
 

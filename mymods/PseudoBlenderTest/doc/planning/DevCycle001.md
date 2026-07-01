@@ -75,6 +75,7 @@ Implementation result:
 - Defined `MagicCube` with `DisplayName = Magic Cube`, `DisplayCategory = Memento`, `Type = Normal`, `ItemType = base:normal`, `Weight = 0.5`, and `Tags = base:ismemento`.
 - Did not add icon, static model, or world model fields during the initial Phase 1 implementation. This kept the first test focused on item-script loading and left asset/model behavior for later Blender phases.
 
+
 **Verification Notes:**
 
 - Local script read-back completed.
@@ -106,6 +107,7 @@ Implementation result:
 - Copied `mymods/PseudoBlenderTest/img/magiccube.png` to `mymods/PseudoBlenderTest/PseudoBlenderTest/42/media/textures/Item_MagicCube.png`.
 - Updated `mymods/PseudoBlenderTest/PseudoBlenderTest/42/media/scripts/items/PseudoBlenderTestItems.txt` so `MagicCube` uses `Icon = MagicCube`.
 
+
 **Verification Notes:**
 
 - Local script read-back completed.
@@ -115,15 +117,15 @@ Implementation result:
 ---
 ### Phase 3: MagicCube Static and World Model
 
-**Status:** Planning
+**Status:** Work Complete
 
-- [ ] Wait for Ed to create/export a cube `.fbx` in Blender and provide the source file path.
-- [ ] Inspect the provided `.fbx` path and choose the mod runtime asset location, expected to be under `PseudoBlenderTest/42/media/models_x/`.
-- [ ] Copy the `.fbx` into the chosen mod model folder using a stable MagicCube-oriented filename.
-- [ ] Add or update a model script entry that gives the cube a script model name usable by item fields.
-- [ ] Point the `MagicCube` item at that model with `StaticModel = MagicCube` and `WorldStaticModel = MagicCube`, unless implementation testing shows separate model names are needed.
-- [ ] Read back changed scripts and check brace balance.
-- [ ] Record implementation notes and any in-game test results in this phase.
+- [x] Wait for Ed to create/export a cube `.fbx` in Blender and provide the source file path.
+- [x] Inspect the provided `.fbx` path and choose the mod runtime asset location, expected to be under `PseudoBlenderTest/42/media/models_x/`.
+- [x] Copy the `.fbx` into the chosen mod model folder using a stable MagicCube-oriented filename.
+- [x] Add or update a model script entry that gives the cube a script model name usable by item fields.
+- [x] Point the `MagicCube` item at that model with `StaticModel = MagicCube` and `WorldStaticModel = MagicCube`.
+- [x] Read back changed scripts and check brace balance.
+- [x] Record implementation notes and any in-game test results in this phase.
 
 **Technical Notes:**
 Existing B42 item scripts use `StaticModel` for the carried/preview item model and `WorldStaticModel` for the dropped world item model. Existing custom-model mods in this workspace place model assets under `media/models_x/` and define named model entries in script files with `mesh = ...` and, when needed, `texture = ...`.
@@ -141,16 +143,25 @@ item MagicCube
 
 Expected implementation targets:
 
-- Source model from Ed: TBD.
-- Runtime model asset: `mymods/PseudoBlenderTest/PseudoBlenderTest/42/media/models_x/.../MagicCube.fbx` or another path selected during implementation.
-- Model script: likely a new script file under `mymods/PseudoBlenderTest/PseudoBlenderTest/42/media/scripts/`.
+- Current source model from Ed: `mymods/PseudoBlenderTest/img/cube02.fbx`.
+- Previous source model tried: `mymods/PseudoBlenderTest/img/cube01.fbx`; it did not work in-game and was replaced by the larger `cube02.fbx`.
+- Runtime model asset: `mymods/PseudoBlenderTest/PseudoBlenderTest/42/media/models_x/WorldItems/MagicCube.fbx`.
+- Model script: `mymods/PseudoBlenderTest/PseudoBlenderTest/42/media/scripts/PseudoBlenderTestModels.txt`.
 - Item script: `mymods/PseudoBlenderTest/PseudoBlenderTest/42/media/scripts/items/PseudoBlenderTestItems.txt`.
 
+
+Implementation result:
+
+- Copied `mymods/PseudoBlenderTest/img/cube01.fbx` to `mymods/PseudoBlenderTest/PseudoBlenderTest/42/media/models_x/WorldItems/MagicCube.fbx` for the initial Phase 3 attempt.
+- Replaced that runtime model with `mymods/PseudoBlenderTest/img/cube02.fbx` after `cube01.fbx` did not work in-game.
+- Added `mymods/PseudoBlenderTest/PseudoBlenderTest/42/media/scripts/PseudoBlenderTestModels.txt` with `model MagicCube` in `module Base` and `mesh = WorldItems/MagicCube`.
+- Updated `mymods/PseudoBlenderTest/PseudoBlenderTest/42/media/scripts/items/PseudoBlenderTestItems.txt` with `imports { Base }`, `StaticModel = MagicCube`, and `WorldStaticModel = MagicCube`.
 **Verification Notes:**
 
-- Planning only. No model asset has been provided yet.
-- This phase should remain `Planning` until Ed provides the `.fbx` path and explicitly asks for implementation.
-- In-game verification should confirm the item uses the custom cube model when viewed/dropped in world contexts.
+- Local script read-back completed.
+- Brace count checked locally: opening and closing braces match in the item and model scripts.
+- `cube01.fbx` did not work in-game.
+- `cube02.fbx` has been copied into the same runtime model path and still needs in-game verification, so the phase remains `Work Complete`, not `Verified`.
 
 ---
 ## Phase Log
@@ -175,7 +186,7 @@ Add future phases below this line. Each phase should include status, tasks, impl
 - `MagicCube` item script has been added.
 - `MagicCube` now has a custom inventory icon texture attached.
 - In-game verification will be needed to confirm the item loads, appears in debug/spawn flows, behaves as a memento, and displays the custom icon.
-- Phase 3 is planned and waiting on Ed to provide the Blender-exported cube `.fbx` path.
+- Phase 3 has copied Ed's Blender-exported cube .fbx into the mod and linked it as the MagicCube static/world model.
 
 ---
 
@@ -185,14 +196,15 @@ Add future phases below this line. Each phase should include status, tasks, impl
 **Closure:** This cycle is intentionally never closed.
 
 **Current Phase:** Phase 3 - MagicCube Static and World Model
-**Current Phase Status:** Planning
+**Current Phase Status:** Work Complete
 
 **Completed Experiments:**
 - Phase 1 - `MagicCube` memento item script.
 - Phase 2 - `MagicCube` inventory icon attachment.
+- Phase 3 - `MagicCube` static/world model attachment.
 
 **Active / Pending Experiments:**
-- Phase 3 implementation after Ed provides the cube `.fbx` path.
+- In-game verification for Phase 3 custom model rendering.
 - In-game verification for `MagicCube` item loading, custom icon rendering, and custom model rendering.
 
 **Deferred Ideas:**
