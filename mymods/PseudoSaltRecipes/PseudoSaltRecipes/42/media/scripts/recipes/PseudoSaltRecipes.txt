@@ -545,4 +545,71 @@ module Pseudonymous
         }
     }
 
+
+    craftRecipe MakeFermentedGarlic
+    {
+        timedAction = SliceMeat_Surface,
+        time = 200,
+        Tags = AnySurfaceCraft;Cooking,
+        category = Cooking,
+        xpAward = Cooking:10,
+        inputs
+        {
+            item 1 tags[base:sharpknife] mode:keep flags[IsNotDull;SharpnessCheck],
+            item 1 [Base.EmptyJar] mode:destroy flags[ItemCount],
+            item 5 [Base.Garlic] flags[InheritFoodAge;ItemCount] mode:destroy,
+            item 3 [Base.Salt],
+            item 1 [*] mode:keep,
+                    -fluid 1.0 [Water;TaintedWater],
+        }
+        outputs
+        {
+            item 1 Pseudonymous.LactoFermentedGarlic,
+        }
+    }
+
+    craftRecipe MakeClayJarFermentedGarlic
+    {
+        timedAction = SliceMeat_Surface,
+        time = 200,
+        Tags = AnySurfaceCraft;Cooking,
+        category = Cooking,
+        xpAward = Cooking:10,
+        inputs
+        {
+            item 1 tags[base:sharpknife] mode:keep flags[IsNotDull;SharpnessCheck],
+            item 1 [Base.ClayJar] mode:destroy flags[ItemCount],
+            item 5 [Base.Garlic] flags[InheritFoodAge;ItemCount] mode:destroy,
+            item 3 [Base.Salt],
+            item 1 [*] mode:keep,
+                    -fluid 1.0 [Water;TaintedWater],
+        }
+        outputs
+        {
+            item 1 Pseudonymous.LactoFermentedGarlicClayJar,
+        }
+    }
+
+    craftRecipe MakeGlazedJarFermentedGarlic
+    {
+        timedAction = SliceMeat_Surface,
+        time = 200,
+        Tags = AnySurfaceCraft;Cooking,
+        category = Cooking,
+        xpAward = Cooking:10,
+        inputs
+        {
+            item 1 tags[base:sharpknife] mode:keep flags[IsNotDull;SharpnessCheck],
+            item 1 [Base.ClayJarGlazed] mode:destroy flags[ItemCount],
+            item 5 [Base.Garlic] flags[InheritFoodAge;ItemCount] mode:destroy,
+            item 3 [Base.Salt],
+            item 1 [*] mode:keep,
+                    -fluid 1.0 [Water;TaintedWater],
+        }
+        outputs
+        {
+            item 1 Pseudonymous.LactoFermentedGarlicGlazedJar,
+        }
+    }
+
 }
