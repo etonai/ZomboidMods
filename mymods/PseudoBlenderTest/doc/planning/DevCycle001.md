@@ -115,22 +115,23 @@ Implementation result:
 - In-game icon verification has not been performed yet, so the phase is `Work Complete`, not `Verified`.
 
 ---
-### Phase 3: MagicCube Static and World Model
+### Phase 3: MagicCube Cube FBX Static and World Model
 
 **Status:** Work Complete
 
 - [x] Wait for Ed to create/export a cube `.fbx` in Blender and provide the source file path.
-- [x] Inspect the provided `.fbx` path and choose the mod runtime asset location, expected to be under `PseudoBlenderTest/42/media/models_x/`.
-- [x] Copy the `.fbx` into the chosen mod model folder using a stable MagicCube-oriented filename.
+- [x] Inspect the provided `.fbx` path and choose the mod runtime asset location under `PseudoBlenderTest/42/media/models_x/`.
+- [x] Copy the `.fbx` into the chosen mod model folder using a stable MagicCube-oriented runtime filename.
 - [x] Add or update a model script entry that gives the cube a script model name usable by item fields.
 - [x] Point the `MagicCube` item at that model with `StaticModel = MagicCube` and `WorldStaticModel = MagicCube`.
+- [x] Try a larger cube export after the first cube model does not work in-game.
 - [x] Read back changed scripts and check brace balance.
-- [x] Record implementation notes and any in-game test results in this phase.
+- [x] Record implementation notes and in-game test results in this phase.
 
 **Technical Notes:**
 Existing B42 item scripts use `StaticModel` for the carried/preview item model and `WorldStaticModel` for the dropped world item model. Existing custom-model mods in this workspace place model assets under `media/models_x/` and define named model entries in script files with `mesh = ...` and, when needed, `texture = ...`.
 
-Planned implementation shape after Ed provides the `.fbx`:
+Implemented item fields:
 
 ```txt
 item MagicCube
@@ -141,27 +142,64 @@ item MagicCube
 }
 ```
 
-Expected implementation targets:
+Implementation targets:
 
-- Current source model from Ed: `mymods/PseudoBlenderTest/img/cube02.fbx`.
-- Previous source model tried: `mymods/PseudoBlenderTest/img/cube01.fbx`; it did not work in-game and was replaced by the larger `cube02.fbx`.
+- First source model from Ed: `mymods/PseudoBlenderTest/img/cube01.fbx`.
+- Second source model from Ed: `mymods/PseudoBlenderTest/img/cube02.fbx`.
 - Runtime model asset: `mymods/PseudoBlenderTest/PseudoBlenderTest/42/media/models_x/WorldItems/MagicCube.fbx`.
 - Model script: `mymods/PseudoBlenderTest/PseudoBlenderTest/42/media/scripts/PseudoBlenderTestModels.txt`.
 - Item script: `mymods/PseudoBlenderTest/PseudoBlenderTest/42/media/scripts/items/PseudoBlenderTestItems.txt`.
 
-
 Implementation result:
 
 - Copied `mymods/PseudoBlenderTest/img/cube01.fbx` to `mymods/PseudoBlenderTest/PseudoBlenderTest/42/media/models_x/WorldItems/MagicCube.fbx` for the initial Phase 3 attempt.
-- Replaced that runtime model with `mymods/PseudoBlenderTest/img/cube02.fbx` after `cube01.fbx` did not work in-game.
 - Added `mymods/PseudoBlenderTest/PseudoBlenderTest/42/media/scripts/PseudoBlenderTestModels.txt` with `model MagicCube` in `module Base` and `mesh = WorldItems/MagicCube`.
 - Updated `mymods/PseudoBlenderTest/PseudoBlenderTest/42/media/scripts/items/PseudoBlenderTestItems.txt` with `imports { Base }`, `StaticModel = MagicCube`, and `WorldStaticModel = MagicCube`.
+- Replaced the runtime model with `mymods/PseudoBlenderTest/img/cube02.fbx` after `cube01.fbx` did not work in-game.
+
 **Verification Notes:**
 
 - Local script read-back completed.
 - Brace count checked locally: opening and closing braces match in the item and model scripts.
 - `cube01.fbx` did not work in-game.
-- `cube02.fbx` has been copied into the same runtime model path and still needs in-game verification, so the phase remains `Work Complete`, not `Verified`.
+- `cube02.fbx` did not work in-game.
+- Phase 3 is complete as a failed cube-model experiment, not `Verified`.
+
+---
+
+### Phase 4: MagicCube Known-Working SurvivalLamp FBX Test
+
+**Status:** Work Complete
+
+- [x] Accept `SurvivalLamp.fbx` from a working mod as a known-working model control test.
+- [x] Copy `SurvivalLamp.fbx` into the existing MagicCube runtime model path.
+- [x] Keep the same script model name and item fields so only the FBX payload changes.
+- [x] Read back existing scripts and check brace balance.
+- [x] Record implementation notes and pending in-game verification.
+
+**Technical Notes:**
+This phase isolates whether the issue is the cube FBX exports or the mod's script/model wiring. The model script still resolves `model MagicCube` to `mesh = WorldItems/MagicCube`, and the item still uses `StaticModel = MagicCube` and `WorldStaticModel = MagicCube`. Only the file at the runtime FBX path changed.
+
+Implementation targets:
+
+- Source model from Ed: `mymods/PseudoBlenderTest/img/SurvivalLamp.fbx`.
+- Runtime model asset: `mymods/PseudoBlenderTest/PseudoBlenderTest/42/media/models_x/WorldItems/MagicCube.fbx`.
+- Model script: `mymods/PseudoBlenderTest/PseudoBlenderTest/42/media/scripts/PseudoBlenderTestModels.txt`.
+- Item script: `mymods/PseudoBlenderTest/PseudoBlenderTest/42/media/scripts/items/PseudoBlenderTestItems.txt`.
+
+Implementation result:
+
+- Replaced the runtime `MagicCube.fbx` payload with `mymods/PseudoBlenderTest/img/SurvivalLamp.fbx`.
+- Left `PseudoBlenderTestModels.txt` unchanged: `model MagicCube` still uses `mesh = WorldItems/MagicCube`.
+- Left `PseudoBlenderTestItems.txt` unchanged: `MagicCube` still uses `StaticModel = MagicCube` and `WorldStaticModel = MagicCube`.
+
+**Verification Notes:**
+
+- Local file hash check confirmed the runtime `MagicCube.fbx` matches `mymods/PseudoBlenderTest/img/SurvivalLamp.fbx`.
+- Script brace balance remained valid for the item and model scripts.
+- In-game verification: `SurvivalLamp.fbx` worked as the MagicCube runtime model.
+- Caveat: the SurvivalLamp FBX is large and sometimes does not appear immediately or consistently, so visibility/scale can make a working model look absent.
+- Follow-up caution: to be certain `cube01.fbx` and `cube02.fbx` truly failed, restore each cube FBX to the same runtime path and retest in-game while walking around/checking nearby views, in case the models were hidden, offset, too large, or otherwise difficult to see.
 
 ---
 ## Phase Log
@@ -186,7 +224,8 @@ Add future phases below this line. Each phase should include status, tasks, impl
 - `MagicCube` item script has been added.
 - `MagicCube` now has a custom inventory icon texture attached.
 - In-game verification will be needed to confirm the item loads, appears in debug/spawn flows, behaves as a memento, and displays the custom icon.
-- Phase 3 has copied Ed's Blender-exported cube .fbx into the mod and linked it as the MagicCube static/world model.
+- Phase 3 tried Ed's cube FBX exports as the `MagicCube` static/world model; both `cube01.fbx` and `cube02.fbx` did not work in-game.
+- Phase 4 replaced the runtime model payload with known-working `SurvivalLamp.fbx` while keeping the MagicCube script wiring unchanged. It worked in-game, but its large/intermittent visibility means the earlier cube FBX failures should be retested before treating them as conclusive.
 
 ---
 
@@ -195,16 +234,17 @@ Add future phases below this line. Each phase should include status, tasks, impl
 **Cycle Status:** In Progress
 **Closure:** This cycle is intentionally never closed.
 
-**Current Phase:** Phase 3 - MagicCube Static and World Model
+**Current Phase:** Phase 4 - MagicCube Known-Working SurvivalLamp FBX Test
 **Current Phase Status:** Work Complete
 
 **Completed Experiments:**
 - Phase 1 - `MagicCube` memento item script.
 - Phase 2 - `MagicCube` inventory icon attachment.
-- Phase 3 - `MagicCube` static/world model attachment.
+- Phase 3 - `MagicCube` cube FBX static/world model attempts.
+- Phase 4 - `MagicCube` SurvivalLamp FBX control model swap.
 
 **Active / Pending Experiments:**
-- In-game verification for Phase 3 custom model rendering.
+- Optional retest of `cube01.fbx` and `cube02.fbx` while moving/checking views, to rule out hidden or oversized model visibility issues.
 - In-game verification for `MagicCube` item loading, custom icon rendering, and custom model rendering.
 
 **Deferred Ideas:**
