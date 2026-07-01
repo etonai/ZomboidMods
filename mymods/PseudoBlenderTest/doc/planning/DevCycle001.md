@@ -202,6 +202,115 @@ Implementation result:
 - Follow-up caution: to be certain `cube01.fbx` and `cube02.fbx` truly failed, restore each cube FBX to the same runtime path and retest in-game while walking around/checking nearby views, in case the models were hidden, offset, too large, or otherwise difficult to see.
 
 ---
+### Phase 5: Match OilLamps SurvivalLamp Model Parameters
+
+**Status:** Work Complete
+
+- [x] Compare the OilLamps `SurvivalLamp` item/model script against PseudoBlenderTest's `MagicCube` item/model script.
+- [x] Identify model-definition differences beyond the shared FBX payload.
+- [x] Add the OilLamps texture reference to `model MagicCube`: `texture = WorldItems/TinCanEmpty`.
+- [x] Add the OilLamps scale reference to `model MagicCube`: `scale = 0.05`.
+- [x] Read back the model script and check brace balance.
+- [x] Record implementation notes and pending in-game verification.
+
+**Technical Notes:**
+The same FBX can render differently depending on its Project Zomboid model script definition. OilLamps does not use `SurvivalLamp.fbx` by itself; it wraps the mesh with an explicit texture and scale:
+
+```txt
+model SurvivalLamp
+{
+    mesh = WorldItems/SurvivalLamp,
+    texture = WorldItems/TinCanEmpty,
+    scale = 0.05,
+}
+```
+
+Before Phase 5, PseudoBlenderTest only defined:
+
+```txt
+model MagicCube
+{
+    mesh = WorldItems/MagicCube,
+}
+```
+
+This explains the Phase 4 result: the model wiring worked, but the lamp was huge and colored oddly because PseudoBlenderTest was missing OilLamps' `scale` and `texture` model parameters.
+
+Implementation target:
+
+- Model script: `mymods/PseudoBlenderTest/PseudoBlenderTest/42/media/scripts/PseudoBlenderTestModels.txt`.
+
+Implementation result:
+
+- Updated `model MagicCube` to keep `mesh = WorldItems/MagicCube`.
+- Added `texture = WorldItems/TinCanEmpty` to match the OilLamps `SurvivalLamp` model definition.
+- Added `scale = 0.05` to match the OilLamps `SurvivalLamp` model definition.
+- Left the runtime FBX path unchanged: `mymods/PseudoBlenderTest/PseudoBlenderTest/42/media/models_x/WorldItems/MagicCube.fbx` still currently contains the `SurvivalLamp.fbx` payload.
+- Left the item script unchanged: `MagicCube` still uses `StaticModel = MagicCube` and `WorldStaticModel = MagicCube`.
+
+**Verification Notes:**
+
+- Local model script read-back completed.
+- Brace count checked locally: opening and closing braces match.
+- In-game verification: Phase 5 was successful; adding the OilLamps texture and scale parameters made the SurvivalLamp payload render at the expected size/color behavior compared with the previous Phase 4 result.
+- Phase remains `Work Complete`, not `Verified`, until Ed explicitly approves `Verified` status.
+
+---
+### Phase 6: MagicCube CANdleLit Texture Test
+
+**Status:** Work Complete
+
+- [x] Accept `CANdleLit.png` as the next MagicCube texture test asset.
+- [x] Copy `CANdleLit.png` into the mod's B42 WorldItems texture path.
+- [x] Update `model MagicCube` to use `texture = WorldItems/CANdleLit`.
+- [x] Keep the Phase 5 scale value, `scale = 0.05`.
+- [x] Read back the model script and check brace balance.
+- [x] Record implementation notes and pending in-game verification.
+
+**Technical Notes:**
+Phase 5 showed that the model script texture and scale parameters are important. Phase 6 keeps the working SurvivalLamp FBX payload and the OilLamps scale value, but changes the texture from vanilla `WorldItems/TinCanEmpty` to the custom `CANdleLit` texture.
+
+Implementation targets:
+
+- Source texture: `mymods/PseudoBlenderTest/img/CANdleLit.png`.
+- Runtime texture: `mymods/PseudoBlenderTest/PseudoBlenderTest/42/media/textures/WorldItems/CANdleLit.png`.
+- Model script: `mymods/PseudoBlenderTest/PseudoBlenderTest/42/media/scripts/PseudoBlenderTestModels.txt`.
+
+Implementation result:
+
+- Copied `mymods/PseudoBlenderTest/img/CANdleLit.png` to `mymods/PseudoBlenderTest/PseudoBlenderTest/42/media/textures/WorldItems/CANdleLit.png`.
+- Updated `model MagicCube` from `texture = WorldItems/TinCanEmpty` to `texture = WorldItems/CANdleLit`.
+- Left `mesh = WorldItems/MagicCube` and `scale = 0.05` unchanged.
+- Left the item script unchanged: `MagicCube` still uses `StaticModel = MagicCube` and `WorldStaticModel = MagicCube`.
+
+**Verification Notes:**
+
+- Local model script read-back completed.
+- Brace count checked locally: opening and closing braces match.
+- Local hash check confirmed the runtime `CANdleLit.png` matches the source image.
+- In-game verification has not been performed yet, so the phase is `Work Complete`, not `Verified`.
+
+---
+### Phase 7: Stop Texture and Mesh Work For Now
+
+**Status:** Work Complete
+
+- [x] Record Ed's decision that further texture and mesh work is not worth pursuing for now.
+- [x] Treat the earlier FBX and texture experiments as useful research rather than active implementation targets.
+- [x] Defer future custom world-model texture/mesh work unless a later DevCycle explicitly reopens it.
+- [x] Update the rolling summary so there is no active texture/mesh follow-up implied.
+
+**Technical Notes:**
+After experimenting with custom cube FBXs, a known-working SurvivalLamp FBX, OilLamps model parameters, and custom texture references, the current practical conclusion is that texture and mesh work is not worth continuing in this mod for now. The experiments remain valuable because they showed how Project Zomboid model definitions depend on mesh, texture, and scale fields, but they are no longer an active development direction.
+
+For now, `PseudoBlenderTest` should preserve the findings and avoid spending more time on custom MagicCube world-model texture or mesh behavior unless a future DevCycle deliberately reopens that question.
+
+**Verification Notes:**
+
+- Planning document updated only.
+- No item scripts, model scripts, textures, or FBX files were changed for this phase.
+- Phase is `Work Complete`, not `Verified`, because this records a planning decision rather than an in-game implementation result.
+---
 ## Phase Log
 Add future phases below this line. Each phase should include status, tasks, implementation notes, verification notes, and any follow-up ideas.
 
@@ -226,6 +335,10 @@ Add future phases below this line. Each phase should include status, tasks, impl
 - In-game verification will be needed to confirm the item loads, appears in debug/spawn flows, behaves as a memento, and displays the custom icon.
 - Phase 3 tried Ed's cube FBX exports as the `MagicCube` static/world model; both `cube01.fbx` and `cube02.fbx` did not work in-game.
 - Phase 4 replaced the runtime model payload with known-working `SurvivalLamp.fbx` while keeping the MagicCube script wiring unchanged. It worked in-game, but its large/intermittent visibility means the earlier cube FBX failures should be retested before treating them as conclusive.
+- Phase 5 matched OilLamps model-script parameters by adding `texture = WorldItems/TinCanEmpty` and `scale = 0.05` to `model MagicCube`.
+- Phase 6 swapped the MagicCube model texture to custom `texture = WorldItems/CANdleLit` while keeping `scale = 0.05`.
+- Phase 7 records that, after experimentation, texture and mesh work is not worth continuing for now.
+- TinCanEmpty texture copied to `mymods/PseudoBlenderTest/img/TinCanEmpty.png` for inspection/reference.
 
 ---
 
@@ -234,7 +347,7 @@ Add future phases below this line. Each phase should include status, tasks, impl
 **Cycle Status:** In Progress
 **Closure:** This cycle is intentionally never closed.
 
-**Current Phase:** Phase 4 - MagicCube Known-Working SurvivalLamp FBX Test
+**Current Phase:** Phase 7 - Stop Texture and Mesh Work For Now
 **Current Phase Status:** Work Complete
 
 **Completed Experiments:**
@@ -242,11 +355,14 @@ Add future phases below this line. Each phase should include status, tasks, impl
 - Phase 2 - `MagicCube` inventory icon attachment.
 - Phase 3 - `MagicCube` cube FBX static/world model attempts.
 - Phase 4 - `MagicCube` SurvivalLamp FBX control model swap.
+- Phase 5 - `MagicCube` OilLamps texture/scale model-parameter match.
+- Phase 6 - `MagicCube` CANdleLit custom model texture test.
+- Phase 7 - stop texture and mesh work for now after experimentation.
 
 **Active / Pending Experiments:**
-- Optional retest of `cube01.fbx` and `cube02.fbx` while moving/checking views, to rule out hidden or oversized model visibility issues.
 - In-game verification for `MagicCube` item loading, custom icon rendering, and custom model rendering.
 
 **Deferred Ideas:**
+- Further custom texture or mesh work for MagicCube, including cube FBX retests and CANdleLit world-model texture verification, unless a future DevCycle explicitly reopens the topic.
 - Inventory rendering test.
 - World placement or object behavior test.

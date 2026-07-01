@@ -1,5 +1,10 @@
 module PseudoButterCandle
 {
+  imports
+  {
+    Base
+  }
+
   item ButterCandle
   {
     DisplayCategory = LightSource,
@@ -28,10 +33,11 @@ module PseudoButterCandle
     UseDelta = 0.0002083333,
     UseWhileUnequipped = true,
     cantBeConsolided = true,
-    StaticModel = TinCanEmpty,
-    WorldStaticModel = TinCanEmpty,
+    StaticModel = ButterCandleLit,
+    WorldStaticModel = ButterCandleLit,
     Tags = base:startfire;pseudobuttercandle:buttercandle;pseudobuttercandle:buttercandlelit,
     ReplaceOnExtinguish = PseudoButterCandle.ButterCandle,
+    ReplaceOnDeplete = Base.TinCanEmpty,
     DoubleClickRecipe = ExtinguishButterCandle,
     ExtinguishItem = PseudoButterCandle.ButterCandle,
   }

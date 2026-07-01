@@ -4,6 +4,8 @@ module Base
     model MagicCube
     {
         mesh = WorldItems/MagicCube,
+        texture = WorldItems/CANdleLit,
+        scale = 0.05,
     }
 
 }

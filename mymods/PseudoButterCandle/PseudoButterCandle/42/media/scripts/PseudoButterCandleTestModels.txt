@@ -1,0 +1,11 @@
+module Base
+{
+
+    model ButterCandleLit
+    {
+        mesh = WorldItems/CanOpen,
+        texture = WorldItems/CANdleLit,
+        scale = 0.12,
+    }
+
+}
