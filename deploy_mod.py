@@ -4,7 +4,7 @@ Deploy a mod from the development directory to the local Project Zomboid mods di
 
 Usage:
     python deploy_mod.py PseudoShortBat
-    python deploy_mod.py PseudoSaltRecipes
+    python deploy_mod.py PseudoSaltRecipes.md
 """
 
 import os
