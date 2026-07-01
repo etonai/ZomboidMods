@@ -1,4 +1,4 @@
-﻿# DevCycle 001: Rolling Object Tests
+# DevCycle 001: Rolling Object Tests
 
 **Status:** In Progress
 **Start Date:** 2026-06-30
@@ -73,7 +73,7 @@ Implementation result:
 - Added `mymods/PseudoBlenderTest/PseudoBlenderTest/42/media/scripts/items/PseudoBlenderTestItems.txt`.
 - Used module `Pseudonymous` for consistency with existing PseudonymousEd mods.
 - Defined `MagicCube` with `DisplayName = Magic Cube`, `DisplayCategory = Memento`, `Type = Normal`, `ItemType = base:normal`, `Weight = 0.5`, and `Tags = base:ismemento`.
-- Did not add icon, static model, or world model fields in Phase 1. This keeps the first test focused on item-script loading and leaves asset/model behavior for later Blender phases.
+- Did not add icon, static model, or world model fields during the initial Phase 1 implementation. This kept the first test focused on item-script loading and left asset/model behavior for later Blender phases.
 
 **Verification Notes:**
 
@@ -83,8 +83,37 @@ Implementation result:
 
 ---
 
-## Phase Log
+### Phase 2: MagicCube Inventory Icon
 
+**Status:** Work Complete
+
+- [x] Place `magiccube.png` into the mod's B42 texture load path.
+- [x] Rename the deployed texture to the Project Zomboid item icon convention: `Item_MagicCube.png`.
+- [x] Attach the icon to the `MagicCube` item script with `Icon = MagicCube`.
+- [x] Read back the script file and check brace balance.
+- [x] Record implementation notes and any in-game test results in this phase.
+
+**Technical Notes:**
+Project Zomboid item icons are loaded from `media/textures` using the `Item_` filename prefix while item scripts reference the icon name without that prefix. Phase 2 therefore deploys the source image as:
+
+- Source image: `mymods/PseudoBlenderTest/img/magiccube.png`
+- Runtime texture: `mymods/PseudoBlenderTest/PseudoBlenderTest/42/media/textures/Item_MagicCube.png`
+- Item field: `Icon = MagicCube`
+
+Implementation result:
+
+- Created `mymods/PseudoBlenderTest/PseudoBlenderTest/42/media/textures/`.
+- Copied `mymods/PseudoBlenderTest/img/magiccube.png` to `mymods/PseudoBlenderTest/PseudoBlenderTest/42/media/textures/Item_MagicCube.png`.
+- Updated `mymods/PseudoBlenderTest/PseudoBlenderTest/42/media/scripts/items/PseudoBlenderTestItems.txt` so `MagicCube` uses `Icon = MagicCube`.
+
+**Verification Notes:**
+
+- Local script read-back completed.
+- Brace count checked locally: opening and closing braces match.
+- In-game icon verification has not been performed yet, so the phase is `Work Complete`, not `Verified`.
+
+---
+## Phase Log
 Add future phases below this line. Each phase should include status, tasks, implementation notes, verification notes, and any follow-up ideas.
 
 ---
@@ -104,7 +133,8 @@ Add future phases below this line. Each phase should include status, tasks, impl
 - This is a rolling DevCycle and should remain active indefinitely.
 - The mod's `AGENTS.md` says agents must stop after creating a DevCycle document and wait for explicit user approval before implementation.
 - `MagicCube` item script has been added.
-- In-game verification will be needed to confirm the item loads, appears in debug/spawn flows, and behaves as a memento.
+- `MagicCube` now has a custom inventory icon texture attached.
+- In-game verification will be needed to confirm the item loads, appears in debug/spawn flows, behaves as a memento, and displays the custom icon.
 
 ---
 
@@ -113,17 +143,17 @@ Add future phases below this line. Each phase should include status, tasks, impl
 **Cycle Status:** In Progress
 **Closure:** This cycle is intentionally never closed.
 
-**Current Phase:** Phase 1 - MagicCube Memento Item
+**Current Phase:** Phase 2 - MagicCube Inventory Icon
 **Current Phase Status:** Work Complete
 
 **Completed Experiments:**
 - Phase 1 - `MagicCube` memento item script.
+- Phase 2 - `MagicCube` inventory icon attachment.
 
 **Active / Pending Experiments:**
-- In-game verification for `MagicCube`.
+- In-game verification for `MagicCube` item loading and custom icon rendering.
 
 **Deferred Ideas:**
-- Custom icon test.
 - Custom static/world model test from Blender assets.
 - Inventory rendering test.
 - World placement or object behavior test.
