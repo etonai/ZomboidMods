@@ -1,45 +1,31 @@
-# Realistic Kentucky Farming Calendar
+# PseudonymousEd's Kentucky Kimchi
 
-A Project Zomboid mod that replaces vanilla crop growing seasons with calendar-accurate seasons for Central Kentucky.
-
-Primary sources: [almanac.com](https://www.almanac.com) and [University of Kentucky Cooperative Extension](https://extension.uky.edu).
+A Project Zomboid B42 mod that adds a Kentucky-style kimchi recipe using cabbage, salt, water, garlic, dried jalapeno, and cooked little bait fish.
 
 ## What It Does
 
-Project Zomboid's vanilla farming uses simplified growing windows that do not reflect real regional agriculture. This mod overrides `farming_vegetableconf.props` for every farmable crop with accurate sowing windows, best months, risk months, and bad months based on Central Kentucky growing conditions.
-
-It does not change game mechanics — only the crop calendar data that the farming system reads.
+PseudoKimchi adds Kentucky Kimchi as a jarred preserved food, with equivalent recipes for a glass jar, clay jar, and glazed clay jar. The first version keeps the scope deliberately small so the core recipes and food values can be verified before adding optional ingredients such as ginger.
 
 ## File Structure
 
 ```
-PseudoAgriculture/          ← mod folder (loaded by the game)
-  common/
-    media/lua/server/
-      PseudoGPTFarming.lua  ← version-agnostic crop overrides
-  42/
-    media/lua/server/
-      RealisticKentuckyFarming.lua  ← build-42-specific overrides
-    mod.info
-    poster.png
-doc/
-  planning/                 ← DevCycle planning documents
-    DevelopmentProcess.md
-    DevCycleTemplate.md
-    examples/
-AGENTS.md
-CLAUDE.md
-README.md
+PseudoKimchi/               <- wrapper folder
+  PseudoKimchi/             <- mod folder loaded by the game
+    42/
+      media/scripts/items/  <- Kentucky kimchi food item
+      media/scripts/recipes/<- Kentucky kimchi craft recipe
+      mod.info
+      poster.png
+  doc/
+    ideas/                  <- design notes
+    planning/               <- DevCycle planning documents
+  AGENTS.md
+  CLAUDE.md
+  README.md
 ```
-
-The `common/` folder applies to all supported game versions. The `42/` folder applies specifically to Project Zomboid build 42 and takes precedence over `common/` for that build.
 
 ## Development Process
 
-This project uses a DevCycle workflow. See `doc/planning/DevelopmentProcess.md` for the full process.
+This project uses a DevCycle workflow. See `doc/planning/DevelopmentProcess.md` and the active DevCycle document in `doc/planning/`.
 
-For AI agents: read `AGENTS.md` before starting any work.
-
-## Compatibility
-
-The mod targets **Project Zomboid build 42**. See the parent project's `docs/AgricultureChanges_42_19_0.md` for a record of structural changes between the version the mod was originally built against and the current game files.
+For AI agents: read `AGENTS.md` before starting work.

@@ -1,0 +1,88 @@
+module Pseudonymous
+{
+
+    item KentuckyKimchi
+    {
+        DisplayName = Jar of Kentucky Kimchi,
+        DisplayCategory = Food,
+        Type = Food,
+        ItemType = base:food,
+        Weight = 0.7,
+        Icon = JarWhite,
+        HungerChange = -24.0,
+        DaysFresh = 21,
+        DaysTotallyRotten = 730,
+        ThirstChange = 0.0,
+        UnhappyChange = -20,
+        EvolvedRecipe = Soup:12;Stew:12;Stir fry:12;Sandwich:6;Burger:6;Salad:12;Taco:6;Burrito:6,
+        FoodType = Vegetables,
+        Carbohydrates = 45.0,
+        Proteins = 10.0,
+        Lipids = 1.5,
+        Calories = 180.0,
+        Packaged = TRUE,
+        EvolvedRecipeName = Kentucky Kimchi,
+        ReplaceOnUse = Base.EmptyJar,
+        StaticModel = JarWhite,
+        WorldStaticModel = JarWhite,
+        EatType = can,
+        CustomEatSound = EatingCrispy,
+    }
+
+    item KentuckyKimchiClayJar
+    {
+        DisplayName = Clay Jar of Kentucky Kimchi,
+        DisplayCategory = Food,
+        Type = Food,
+        ItemType = base:food,
+        Weight = 0.7,
+        Icon = ClayJar_Fired,
+        HungerChange = -24.0,
+        DaysFresh = 21,
+        DaysTotallyRotten = 730,
+        ThirstChange = 0.0,
+        UnhappyChange = -20,
+        EvolvedRecipe = Soup:12;Stew:12;Stir fry:12;Sandwich:6;Burger:6;Salad:12;Taco:6;Burrito:6,
+        FoodType = Vegetables,
+        Carbohydrates = 45.0,
+        Proteins = 10.0,
+        Lipids = 1.5,
+        Calories = 180.0,
+        Packaged = TRUE,
+        EvolvedRecipeName = Kentucky Kimchi,
+        ReplaceOnUse = Base.ClayJar,
+        StaticModel = ClayJar,
+        WorldStaticModel = ClayJar,
+        EatType = can,
+        CustomEatSound = EatingCrispy,
+    }
+
+    item KentuckyKimchiGlazedJar
+    {
+        DisplayName = Glazed Jar of Kentucky Kimchi,
+        DisplayCategory = Food,
+        Type = Food,
+        ItemType = base:food,
+        Weight = 0.7,
+        Icon = ClayJar_Glazed_Fired,
+        HungerChange = -24.0,
+        DaysFresh = 21,
+        DaysTotallyRotten = 730,
+        ThirstChange = 0.0,
+        UnhappyChange = -20,
+        EvolvedRecipe = Soup:12;Stew:12;Stir fry:12;Sandwich:6;Burger:6;Salad:12;Taco:6;Burrito:6,
+        FoodType = Vegetables,
+        Carbohydrates = 45.0,
+        Proteins = 10.0,
+        Lipids = 1.5,
+        Calories = 180.0,
+        Packaged = TRUE,
+        EvolvedRecipeName = Kentucky Kimchi,
+        ReplaceOnUse = Base.ClayJarGlazed,
+        StaticModel = GlazedClayJar,
+        WorldStaticModel = GlazedClayJar,
+        EatType = can,
+        CustomEatSound = EatingCrispy,
+    }
+
+}

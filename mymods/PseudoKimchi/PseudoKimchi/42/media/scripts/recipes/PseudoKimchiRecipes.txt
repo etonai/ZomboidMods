@@ -1,0 +1,79 @@
+module Pseudonymous
+{
+
+    craftRecipe MakeKentuckyKimchi
+    {
+        timedAction = SliceMeat_Surface,
+        time = 200,
+        Tags = AnySurfaceCraft;Cooking,
+        category = Cooking,
+        xpAward = Cooking:10,
+        inputs
+        {
+            item 1 tags[base:sharpknife] mode:keep flags[IsNotDull;SharpnessCheck],
+            item 1 [Base.EmptyJar] mode:destroy flags[ItemCount],
+            item 24 [Base.Cabbage] flags[InheritFoodAge;ItemCount],
+            item 5 [Base.Salt],
+            item 1 [Base.Garlic] flags[InheritFoodAge;ItemCount],
+            item 1 [Base.PepperJalapenoDried] flags[ItemCount],
+            item 1 [Base.BaitFish] flags[IsCookedFoodItem;InheritFoodAge;ItemCount],
+            item 1 [*] mode:keep,
+                    -fluid 1.0 [Water;TaintedWater],
+        }
+        outputs
+        {
+            item 1 Pseudonymous.KentuckyKimchi,
+        }
+    }
+
+    craftRecipe MakeClayJarKentuckyKimchi
+    {
+        timedAction = SliceMeat_Surface,
+        time = 200,
+        Tags = AnySurfaceCraft;Cooking,
+        category = Cooking,
+        xpAward = Cooking:10,
+        inputs
+        {
+            item 1 tags[base:sharpknife] mode:keep flags[IsNotDull;SharpnessCheck],
+            item 1 [Base.ClayJar] mode:destroy flags[ItemCount],
+            item 24 [Base.Cabbage] flags[InheritFoodAge;ItemCount],
+            item 5 [Base.Salt],
+            item 1 [Base.Garlic] flags[InheritFoodAge;ItemCount],
+            item 1 [Base.PepperJalapenoDried] flags[ItemCount],
+            item 1 [Base.BaitFish] flags[IsCookedFoodItem;InheritFoodAge;ItemCount],
+            item 1 [*] mode:keep,
+                    -fluid 1.0 [Water;TaintedWater],
+        }
+        outputs
+        {
+            item 1 Pseudonymous.KentuckyKimchiClayJar,
+        }
+    }
+
+    craftRecipe MakeGlazedJarKentuckyKimchi
+    {
+        timedAction = SliceMeat_Surface,
+        time = 200,
+        Tags = AnySurfaceCraft;Cooking,
+        category = Cooking,
+        xpAward = Cooking:10,
+        inputs
+        {
+            item 1 tags[base:sharpknife] mode:keep flags[IsNotDull;SharpnessCheck],
+            item 1 [Base.ClayJarGlazed] mode:destroy flags[ItemCount],
+            item 24 [Base.Cabbage] flags[InheritFoodAge;ItemCount],
+            item 5 [Base.Salt],
+            item 1 [Base.Garlic] flags[InheritFoodAge;ItemCount],
+            item 1 [Base.PepperJalapenoDried] flags[ItemCount],
+            item 1 [Base.BaitFish] flags[IsCookedFoodItem;InheritFoodAge;ItemCount],
+            item 1 [*] mode:keep,
+                    -fluid 1.0 [Water;TaintedWater],
+        }
+        outputs
+        {
+            item 1 Pseudonymous.KentuckyKimchiGlazedJar,
+        }
+    }
+
+}
