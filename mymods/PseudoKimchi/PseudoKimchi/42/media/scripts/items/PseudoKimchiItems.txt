@@ -8,7 +8,7 @@ module Pseudonymous
         Type = Food,
         ItemType = base:food,
         Weight = 0.7,
-        Icon = JarWhite,
+        Icon = JarGreen,
         HungerChange = -24.0,
         DaysFresh = 21,
         DaysTotallyRotten = 730,
@@ -23,8 +23,7 @@ module Pseudonymous
         Packaged = TRUE,
         EvolvedRecipeName = Kentucky Kimchi,
         ReplaceOnUse = Base.EmptyJar,
-        StaticModel = JarWhite,
-        WorldStaticModel = JarWhite,
+        WorldStaticModel = JarFoodCabbage_Ground,
         EatType = can,
         CustomEatSound = EatingCrispy,
     }
