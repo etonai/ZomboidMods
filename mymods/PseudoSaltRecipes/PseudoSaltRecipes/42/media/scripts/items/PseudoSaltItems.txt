@@ -97,7 +97,7 @@ module Pseudonymous
 
 	item SaltedSteak
 	{
-		DisplayName = Steak,
+		DisplayName = Salted Steak,
 		DisplayCategory = Food,
 		Type = Food,
 		ItemType = base:food,
