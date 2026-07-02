@@ -1,5 +1,29 @@
-﻿module Pseudonymous
+module Pseudonymous
 {
+    item RawTortilla
+    {
+        DisplayName = Raw Tortilla,
+        DisplayCategory = Food,
+        Type = Food,
+        ItemType = base:food,
+        Weight = 0.1,
+        Icon = Tortilla,
+        DangerousUncooked = false,
+        IsCookable = true,
+        MinutesToCook = 4,
+        MinutesToBurn = 20,
+        ReplaceOnCooked = Base.Tortilla,
+        DaysFresh = 1,
+        DaysTotallyRotten = 2,
+        HungerChange = -5.0,
+        Calories = 40.0,
+        Carbohydrates = 0.0,
+        Lipids = 2.0,
+        Proteins = 2.0,
+        StaticModel = Tortilla_Ground,
+        WorldStaticModel = Tortilla_Ground,
+        CookingSound = FryingFood,
+    }
     craftRecipe MakeRawTortilla
     {
         timedAction = Making,
@@ -11,7 +35,7 @@
         {
             item 15 tags[base:flour],
             item 1 [*] mode:keep,
-                    -fluid 0.1 [Water],
+                    -fluid 0.1 categories[Water] mode:mixture,
         }
         outputs
         {
@@ -30,7 +54,7 @@
         {
             item 60 tags[base:flour],
             item 1 [*] mode:keep,
-                    -fluid 0.25 [Water],
+                    -fluid 0.25 categories[Water] mode:mixture,
         }
         outputs
         {
@@ -49,7 +73,7 @@
         {
             item 120 tags[base:flour],
             item 1 [*] mode:keep,
-                    -fluid 0.5 [Water],
+                    -fluid 0.5 categories[Water] mode:mixture,
         }
         outputs
         {

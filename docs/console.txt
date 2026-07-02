@@ -1,4 +1,4 @@
-LOG  : General      f:0> 01-07-2026 20:47:02
+LOG  : General      f:0> 01-07-2026 22:34:55
 LOG  : General      f:0> SLF4J(I): Attempting to load provider "zombie.core.logger.Slf4jBridge" specified via "slf4j.provider" system property
 LOG  : General      f:0> ===== System specs =====
 LOG  : General      f:0> CPU: 13th Gen Intel(R) Core(TM) i5-13600K, vendor: GenuineIntel, cores: 14, threads: 20
@@ -6,9 +6,9 @@ LOG  : General      f:0> RAM: 32544 Mb
 LOG  : General      f:0> Base board: MAG Z790 TOMAHAWK WIFI (MS-7D91), vendor: Micro-Star International Co., Ltd.
 LOG  : General      f:0> GPU: NVIDIA GeForce RTX 4070 Ti, vendor: NVIDIA, video memory: 12282 Mb, driver: 32.0.15.9186
 LOG  : General      f:0> GPU: Intel(R) UHD Graphics 770, vendor: Intel Corporation, video memory: 2048 Mb, driver: 32.0.101.7082
-LOG  : General      f:0> Disk info: 1906.82 Gb, free space: 89.23 Gb, usable space: 89.23 Gb
+LOG  : General      f:0> Disk info: 1906.82 Gb, free space: 92.79 Gb, usable space: 92.79 Gb
 LOG  : General      f:0> OS: Windows 11, version: 10.0, arch: amd64, build: 26200
-LOG  : General      f:0> JVM (free: 398 Mb, max: 3072 Mb, total available: 510 Mb)
+LOG  : General      f:0> JVM (free: 400 Mb, max: 3072 Mb, total available: 510 Mb)
 LOG  : General      f:0> ========================
 LOG  : General      f:0> java.specification.version=25
 LOG  : General      f:0> sun.cpu.isalist=amd64
@@ -141,20 +141,20 @@ LOG  : General      f:0> Desktop resolution 3840x2160
 LOG  : General      f:0> Initial resolution 3840x2160 fullScreen=true
 LOG  : General      f:0> OpenGL 1.5 buffer objects supported
 LOG  : General      f:0> VSync: OFF
-LOG  : General      f:0> 1782964024320 fmod: Java loging: OK
-LOG  : General      f:0> 1782964024329 fmod: FMOD::Studio::System::create() result: No errors.
-LOG  : General      f:0> 1782964024330 fmod: FMOD::Studio::System::getCoreSystem() result: No errors.
-LOG  : General      f:0> 1782964024330 fmod: FMOD_System_GetVersion() result: No errors.
-LOG  : General      f:0> 1782964024330 fmod: fmodintegration built with version 20309, fmod shared library version 20309
-LOG  : General      f:0> 1782964024331 fmod: System Create: OK
-LOG  : General      f:0> 1782964024331 fmod: FMOD_System_SetSoftwareFormat() result: No errors.
-LOG  : General      f:0> 1782964024584 fmod: FMOD::Studio::System::Initialize() result: No errors.
-LOG  : General      f:0> 1782964024584 fmod: Creating DSP for capture sound
-LOG  : General      f:0> 1782964024585 fmod: FMOD_System_CreateDSP() result: No errors.
-LOG  : General      f:0> 1782964024585 fmod: FMOD_DSP_SetBypass() result: No errors.
-LOG  : General      f:0> 1782964024585 fmod: FMOD_System_GetMasterChannelGroup() result: No errors.
-LOG  : General      f:0> 1782964024585 fmod: FMOD_ChannelGroup_AddDSP() result: No errors.
-LOG  : General      f:0> 1782964024586 fmod: FMOD_System_Set3DSettings() result: No errors.
+LOG  : General      f:0> 1782970496672 fmod: Java loging: OK
+LOG  : General      f:0> 1782970496677 fmod: FMOD::Studio::System::create() result: No errors.
+LOG  : General      f:0> 1782970496677 fmod: FMOD::Studio::System::getCoreSystem() result: No errors.
+LOG  : General      f:0> 1782970496678 fmod: FMOD_System_GetVersion() result: No errors.
+LOG  : General      f:0> 1782970496678 fmod: fmodintegration built with version 20309, fmod shared library version 20309
+LOG  : General      f:0> 1782970496678 fmod: System Create: OK
+LOG  : General      f:0> 1782970496678 fmod: FMOD_System_SetSoftwareFormat() result: No errors.
+LOG  : General      f:0> 1782970496915 fmod: FMOD::Studio::System::Initialize() result: No errors.
+LOG  : General      f:0> 1782970496915 fmod: Creating DSP for capture sound
+LOG  : General      f:0> 1782970496915 fmod: FMOD_System_CreateDSP() result: No errors.
+LOG  : General      f:0> 1782970496916 fmod: FMOD_DSP_SetBypass() result: No errors.
+LOG  : General      f:0> 1782970496916 fmod: FMOD_System_GetMasterChannelGroup() result: No errors.
+LOG  : General      f:0> 1782970496916 fmod: FMOD_ChannelGroup_AddDSP() result: No errors.
+LOG  : General      f:0> 1782970496916 fmod: FMOD_System_Set3DSettings() result: No errors.
 LOG  : Mod          f:0> refusing to list examplemod
 LOG  : General      f:0> Loading networking libraries...
 LOG  : General      f:0> Loading steam_api64...
@@ -202,12 +202,12 @@ LOG  : General      f:0> texturepack: loading Tiles2x.floor
 LOG  : General      f:0> texturepack: loading B42ChunkCaching2x
 LOG  : General      f:0> texturepack: loading B42ChunkCaching2x.floor
 LOG  : General      f:0> texturepack: loading Clock2x
-LOG  : General      f:0> 1782964047702 fmod: globalSystem = 0x4AB41068
-LOG  : General      f:0> 1782964047702 fmod: FMOD_System_GetRecordDriverInfo: nativeRate = 48000, nativeChannels = 2
-LOG  : General      f:0> 1782964047702 fmod: System create record sound: OK
-LOG  : General      f:0> 1782964047703 fmod: Create resampler: OK
-LOG  : General      f:0> 1782964047703 fmod: Create acoustic echo canceller: OK
-LOG  : General      f:0> 1782964047718 fmod: GetRecordNumDrivers id = 2, sound = 0x919c4e68 loop=1
+LOG  : General      f:0> 1782970520013 fmod: globalSystem = 0x4B099C58
+LOG  : General      f:0> 1782970520013 fmod: FMOD_System_GetRecordDriverInfo: nativeRate = 48000, nativeChannels = 2
+LOG  : General      f:0> 1782970520013 fmod: System create record sound: OK
+LOG  : General      f:0> 1782970520014 fmod: Create resampler: OK
+LOG  : General      f:0> 1782970520014 fmod: Create acoustic echo canceller: OK
+LOG  : General      f:0> 1782970520023 fmod: GetRecordNumDrivers id = 2, sound = 0x98e676c8 loop=1
 LOG  : General      f:0> STATE: exit zombie.gameStates.TermsOfServiceState
 LOG  : General      f:0> ERROR: IntegerConfigOption.setValue() "MaximumRatIndex" 100 is greater than max=50
 LOG  : General      f:0> ERROR IntegerConfigOption.parse() "FirearmUseDamageChance" string="true"
@@ -355,7 +355,7 @@ LOG  : General      f:0> Looking in these map folders:
 LOG  : General      f:0> <End of map-folders list>
 LOG  : General      f:0> IsoMetaGrid.Create: X: [ -250 250 ], Y: [ -250 250 ]
 LOG  : General      f:0> World seed: IpaDhbYCimMhPypm 406742611
-LOG  : General      f:0> IsoMetaGrid.Create: finished scanning directories in 0.065 seconds
+LOG  : General      f:0> IsoMetaGrid.Create: finished scanning directories in 0.079 seconds
 LOG  : General      f:0> IsoMetaGrid.Create: begin loading
 LOG  : General      f:0> VehiclesDB2.init() start
 LOG  : General      f:0> VehiclesDB2.init() end
@@ -370,12 +370,9 @@ LOG  : General      f:0> triggerEvent OnLoadedTileDefinitions
 LOG  : General      f:0> loadAnimalDefinitions start
 LOG  : General      f:0> loadAnimalDefinitions end
 LOG  : General      f:0> GameTime.init() and load() start
-LOG  : General      f:0> WeatherPeriod: Loading weather pattern with strength = 0.7215838
-LOG  : General      f:0> WeatherPeriod: Clearing existing stages...
-LOG  : General      f:0> WeatherPeriod: Pattern loaded!
 LOG  : General      f:0> GameTime.init() and load() end
 LOG  : General      f:0> ZomboidRadio.Init() start
-LOG  : Lua          f:0> scriptmanager = zombie.radio.scripting.RadioScriptManager@331ce478, isNewGame = false
+LOG  : Lua          f:0> scriptmanager = zombie.radio.scripting.RadioScriptManager@3d9f4335, isNewGame = false
 LOG  : Lua          f:0> name = Automated Emergency Broadcast System, freq = 100200, cat = Emergency, uuid = EMRG-711984
 LOG  : Lua          f:0> Found radio channel: Automated Emergency Broadcast System, freq = EMRG-711984, freqcheck = 100200, multi = 1
 LOG  : General      f:0> Radio Loading channels...
@@ -390,7 +387,7 @@ LOG  : General      f:0> WorldDictionary.init() start
 LOG  : General      f:0> WorldDictionary: Checking dictionary...
 LOG  : General      f:0> Loading WorldDictionary:C:\Users\edwar\Zomboid\Saves\Sandbox\PseudonymousEdMods\WorldDictionary.bin
 ERROR: General      f:0> ScriptManager.PostWorldDictionaryInit> Exception thrown
-	java.lang.Exception: MakeKentuckyKimchi item not found: Pseudonymous.KentuckyKimchi at OutputMapper.getItem(OutputMapper.java:98).
+	java.lang.Exception: Make4RawTortillas item not found: Pseudonymous.RawTortilla at OutputMapper.getItem(OutputMapper.java:98).
 	Stack trace:
 		zombie.entity.components.crafting.recipe.OutputMapper.getItem(OutputMapper.java:98)
 		zombie.entity.components.crafting.recipe.OutputMapper.OnPostWorldDictionaryInit(OutputMapper.java:124)
@@ -407,7 +404,7 @@ LOG  : General      f:0> GameEntityManager.Init() start
 LOG  : General      f:0> GameEntityManager.Init() end
 LOG  : General      f:0> PersistentOutfits.init() start
 LOG  : General      f:0> PersistentOutfits.init() end
-LOG  : General      f:0> IsoMetaGrid.Create: finished loading in 8.627 seconds
+LOG  : General      f:0> IsoMetaGrid.Create: finished loading in 8.565 seconds
 ERROR: Lua          f:0 at Lua(Vanilla).handleMannequinZone    > ERROR: Mannequin zone missing properties in media/maps/Muldraugh, KY/objects.lua coords: 13583, 1299, 0
 WARN : Lua          f:0 at Lua(Vanilla).doMapZones             > can't find map objects file: media/maps/West Point, KY/objects.lua
 WARN : Lua          f:0 at Lua(Vanilla).doMapZones             > can't find map objects file: media/maps/Valley Station, KY/objects.lua
@@ -423,8 +420,8 @@ ERROR: General      f:0 at IsoMetaGrid.load                    > invalid room me
 ERROR: General      f:0 at IsoMetaGrid.load                    > invalid room metaID #327914 in cell 25,33 while reading map_meta.bin
 ERROR: General      f:0 at IsoMetaGrid.load                    > invalid room metaID #327911 in cell 25,33 while reading map_meta.bin
 ERROR: General      f:0 at IsoMetaGrid.load                    > invalid room metaID #655594 in cell 25,33 while reading map_meta.bin
-LOG  : General      f:0> loading 11073 zones from map_zone.bin
-LOG  : General      f:0> loading 197 zones from map_animals.bin
+LOG  : General      f:0> loading 11733 zones from map_zone.bin
+LOG  : General      f:0> loading 219 zones from map_animals.bin
 LOG  : General      f:0> Max #ZONES on one chunk is 27
 LOG  : General      f:0> triggerEvent OnLoadedMapZones
 LOG  : General      f:0> ItemConfigurator.Preprocess() start
@@ -445,15 +442,7 @@ LOG  : General      f:0> CellLoader.LoadCellBinaryChunk start
 LOG  : General      f:0> MapItem.LoadWorldMap() start
 LOG  : General      f:0> MapItem.LoadWorldMap() start
 LOG  : General      f:0> WorldStreamer.isBusy() loop start
-LOG  : General      f:0> InventoryItemFactory.CreateItem() cannot create item: TYPE = item,registryID = 5406,fulltype = "Pseudonymous.KentuckyKimchiGlazedJar",modID = "PseudoKimchi",existsAsVanilla = false,isModded = true,obsolete = false,removed = true,modOverrides = 0,
-LOG  : General      f:0> InventoryItem.loadItem() item == null, skipped bytes. itemtype: Pseudonymous.KentuckyKimchiGlazedJar
-LOG  : General      f:0> InventoryItemFactory.CreateItem() cannot create item: TYPE = item,registryID = 5400,fulltype = "Pseudonymous.KentuckyKimchiClayJar",modID = "PseudoKimchi",existsAsVanilla = false,isModded = true,obsolete = false,removed = true,modOverrides = 0,
-LOG  : General      f:0> InventoryItem.loadItem() item == null, skipped bytes. itemtype: Pseudonymous.KentuckyKimchiClayJar
-LOG  : General      f:0> InventoryItemFactory.CreateItem() cannot create item: TYPE = item,registryID = 5407,fulltype = "Pseudonymous.KentuckyKimchi",modID = "PseudoKimchi",existsAsVanilla = false,isModded = true,obsolete = false,removed = true,modOverrides = 0,
-LOG  : General      f:0> InventoryItem.loadItem() item == null, skipped bytes. itemtype: Pseudonymous.KentuckyKimchi
 LOG  : General      f:0> WorldStreamer.isBusy() loop end
-LOG  : General      f:0> InventoryItemFactory.CreateItem() cannot create item: TYPE = item,registryID = 5407,fulltype = "Pseudonymous.KentuckyKimchi",modID = "PseudoKimchi",existsAsVanilla = false,isModded = true,obsolete = false,removed = true,modOverrides = 0,
-LOG  : General      f:0> InventoryItem.loadItem() item == null, skipped bytes. itemtype: Pseudonymous.KentuckyKimchi
 LOG  : General      f:0> Verifying that all Craft Recipes are Learnable
 LOG  : General      f:0> CraftRecipe MakeTarpTankTop only learnable by: Research. Profession(base:tailor;)
 LOG  : General      f:0> CraftRecipe MakeTarpChestRig only learnable by: Research. Profession(base:veteran;base:tailor;)
