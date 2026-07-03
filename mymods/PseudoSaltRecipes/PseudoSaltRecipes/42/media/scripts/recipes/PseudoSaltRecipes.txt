@@ -23,32 +23,6 @@ module Pseudonymous
 		}
 	}
 
-    craftRecipe SaltMeatChickenStyle
- 	{
-        timedAction = SliceMeat_Surface,
- 		time = 200,
- 		Tags = AnySurfaceCraft;Cooking,
-		category = Cooking,
- 		xpAward = Cooking:5,
- 		inputs
- 		{
- 			item 1 tags[base:sharpknife;base:meatcleaver] mode:keep flags[IsNotDull;SharpnessCheck],
-			item 10 [Base.Salt],
- 			item 1 [Base.Rabbitmeat;Base.Beef;Base.Steak;Base.Venison] mappers[meatType] flags[InheritFood;ItemCount],
- 		}
- 		outputs
- 		{
- 			item 1 mapper:meatType,
-        }
-        itemMapper meatType
-        {
-            Pseudonymous.SaltedRabbitmeat = Base.Rabbitmeat,
-			Pseudonymous.SaltedBeef = Base.Beef,
-			Pseudonymous.SaltedSteak = Base.Steak,
-			Pseudonymous.SaltedVenison = Base.Venison,
-        }
- 	}
-
     craftRecipe SaltMeatAnimalStyle
  	{
         timedAction = SliceMeat_Surface,
