@@ -1,0 +1,8 @@
+version=1
+title=PseudonymousEd's Saltwater Well
+description=Dig a saltwater well! Collect the saltwater in your pot, cook it until it is only a pot of salt, which you can collect.
+description=Based on how Kentucky's Salt Industry worked in the 1800s, mainly a dozen miles E of Muldraugh along the Salt river.
+description=
+description=To see the locations:  https://drive.google.com/file/d/1E0VScYdoRNuPXleP8k5icS1BjMR_EZW0/view?usp=sharing
+tags=
+visibility=public
