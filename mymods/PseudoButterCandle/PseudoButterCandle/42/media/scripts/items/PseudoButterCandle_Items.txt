@@ -9,7 +9,7 @@ module PseudoButterCandle
   {
     DisplayCategory = LightSource,
     ItemType = base:drainable,
-    Weight = 0.2,
+    Weight = 0.6,
     Icon = ButterCandle,
     UseDelta = 0.0002083333,
     cantBeConsolided = true,
@@ -24,7 +24,7 @@ module PseudoButterCandle
   {
     DisplayCategory = LightSource,
     ItemType = base:drainable,
-    Weight = 0.2,
+    Weight = 0.6,
     Icon = ButterCandleLit,
     ActivatedItem = false,
     LightDistance = 5,
