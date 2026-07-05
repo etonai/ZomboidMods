@@ -1,0 +1,80 @@
+# Project Zomboid Tin Can Texture Mapping Notes
+
+**Document Version:** 1.0
+**Purpose:** Record the observed UV mapping for the vanilla tin can texture based on in-game testing.
+
+---
+
+# Texture Layout
+
+The texture is divided into two major sections:
+
+* **Left side:** Vertical rectangular strip.
+* **Right side:** Two octagonal shapes with surrounding background.
+
+Based on color-coded testing in-game, the mapping appears to be:
+
+| Texture Region                                              | Maps To                         |
+| ----------------------------------------------------------- | ------------------------------- |
+| Left rectangular strip                                      | Exterior side wall of the can   |
+| Upper octagon                                               | Top lid (inside and outside)    |
+| Lower octagon                                               | Bottom lid (inside and outside) |
+| Right-side background (everything surrounding the octagons) | Interior side wall of the can   |
+
+---
+
+# Evidence
+
+A test texture was created using highly distinctive colors:
+
+* Exterior strip → **Red**
+* Upper octagon → **Green**
+* Lower octagon → **Blue**
+* Remaining right-side area → **Yellow**
+
+Observed results:
+
+* The **green** texture appeared on the **top lid**, visible from both inside and outside.
+* The **blue** texture appeared on the **bottom lid**, visible from both inside and outside.
+* The **red** texture appeared on the **outside cylindrical wall** of the can.
+* The **yellow** texture appeared on the **inside cylindrical wall** of the can.
+
+---
+
+# Conclusions
+
+The lid textures are **shared** between the interior and exterior surfaces. There does **not** appear to be separate UV space for:
+
+* Top inside vs. top outside
+* Bottom inside vs. bottom outside
+
+Instead, each lid uses a single shared texture.
+
+The interior cylindrical wall has its own independent texture region, allowing it to be colored differently from the exterior wall.
+
+---
+
+# Implications for the Butter Candle Mod
+
+This mapping is ideal for a butter candle or lamp item.
+
+Recommended texture design:
+
+* **Exterior strip:** Normal tin can appearance.
+* **Upper octagon:** Metal rim/top of can.
+* **Lower octagon:** Normal metal bottom.
+* **Right-side background:** Bright yellow/orange (or another warm color) to simulate candlelight reflecting from the inside of the can.
+
+Since the inside wall uses its own UV region, it can be made significantly brighter than the exterior without affecting the outside appearance.
+
+---
+
+# Remaining Unknowns
+
+These observations have not yet been verified:
+
+* Whether the interior wall uses the **entire** right-side background or only part of it.
+* Whether any portions of the right-side background are unused UV space.
+* Whether mipmapping or shading slightly alters the perceived brightness of the interior.
+
+These could be determined with a second test texture that divides the right-side background into multiple distinct colors (for example, quadrants or horizontal bands). That would allow the interior wall's UV layout to be mapped much more precisely.
