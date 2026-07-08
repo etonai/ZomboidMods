@@ -3,7 +3,7 @@ module PseudoSaltWellB42
     craftRecipe Get Salt From Pot
     {
         timedAction = OpenTinCan,
-        time = 200,
+        time = 60,
         Tags = InHandCraft;CanBeDoneInDark,
 		category = Cooking,
         inputs
@@ -20,7 +20,7 @@ module PseudoSaltWellB42
     craftRecipe Get Salt From Kettle
     {
         timedAction = OpenTinCan,
-        time = 200,
+        time = 60,
         Tags = InHandCraft;CanBeDoneInDark,
 		category = Cooking,
         inputs

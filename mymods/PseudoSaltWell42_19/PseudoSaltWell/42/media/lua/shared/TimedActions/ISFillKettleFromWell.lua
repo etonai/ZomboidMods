@@ -53,7 +53,7 @@ function ISFillKettleFromWell:perform()
 
     if saltwaterKettle then
         -- Play sound
-        self.character:getEmitter():playSound("GetWaterFromTap");
+        self.character:getEmitter():playSound("GetWaterFromLake");
     end
 end
 

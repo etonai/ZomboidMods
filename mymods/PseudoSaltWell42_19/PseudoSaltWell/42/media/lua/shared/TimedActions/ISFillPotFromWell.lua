@@ -53,7 +53,7 @@ function ISFillPotFromWell:perform()
 
     if saltwaterPot then
         -- Play sound
-        self.character:getEmitter():playSound("GetWaterFromTap");
+        self.character:getEmitter():playSound("GetWaterFromLake");
     end
 end
 
