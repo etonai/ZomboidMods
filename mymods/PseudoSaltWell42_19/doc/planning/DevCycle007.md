@@ -69,16 +69,22 @@ No equivalent "kettle full of liquid" model exists in vanilla — `Kettle`/`Kett
 
 - [x] Locate the vanilla `WorldItems/CookingPotWater` texture (the texture Phase 3's `CookingPotGround_Fluid` model uses) in the actual Project Zomboid game install
 - [x] Copy that texture into `mymods/PseudoSaltWell42_19/images/`
-- [ ] Darken the water in the copied texture
-- [ ] Wire the darkened texture into `SaltwaterPot`'s model so it renders instead of the stock `CookingPotWater` texture
+- [x] Darken the water in the copied texture
+- [x] Wire the darkened texture into `SaltwaterPot`'s model so it renders instead of the stock `CookingPotWater` texture
 
 **Technical Notes:**
 This repo does not contain game texture assets (`media/` here only has `lua/` and `scripts/`; no `media/textures/` or `.pack` files) — the source PNG came from the actual installed game.
 
 - Source: `C:\Program Files (x86)\Steam\steamapps\common\ProjectZomboid\media\textures\WorldItems\CookingPotWater.png`
 - Copied to: `mymods/PseudoSaltWell42_19/images/CookingPotWater.png`
+- User darkened the water and supplied the result as `mymods/PseudoSaltWell42_19/images/SaltwaterPot.png`, also placed at `mymods/PseudoSaltWell42_19/PseudoSaltWell/42/media/textures/WorldItems/SaltwaterPot.png` (the in-mod texture path, per-mod `42/media/textures/` convention — matches how `PseudoButterCandle` places `CANdleLIT.png` under its own `42/media/textures/WorldItems/`).
 
-Remaining work: darken the water in the copied PNG (tool/technique TBD), then wire it in — this needs a mod-specific `model` block (in this mod's own `models_items`-style script, referencing the mesh `WorldItems/CookingPotFull` vanilla already uses but pointing `texture` at a modded texture path under this mod's own `common/media/textures/WorldItems/` instead of the vanilla one), plus repointing `SaltwaterPot`'s `StaticModel`/`WorldStaticModel` (Phase 3's `CookingPotGround_Fluid`) at that new custom model name. Exact model/texture path conventions for this mod should be cross-checked against how `mymods/PseudoSaltWell42_19/PseudoSaltWell/common/media/textures/` is already structured before implementing.
+Wired in following `PseudoButterCandle`'s pattern (`doc/planning/../PseudoButterCandleTestModels.txt`, model `ButterCandleLit` in module `Base`, reusing a vanilla mesh with a modded texture):
+
+- Added `mymods/PseudoSaltWell42_19/PseudoSaltWell/42/media/scripts/PseudoSaltWellModels.txt` — module `Base`, model `SaltwaterPotFull`: same mesh (`WorldItems/CookingPotFull`), scale, and `Bip01_Prop1` attachment as vanilla's `CookingPotGround_Fluid` (`media/scripts/generated/models_items.txt:5345-5356`), but `texture = WorldItems/SaltwaterPot` instead of vanilla's `WorldItems/CookingPotWater`.
+- Repointed `SaltwaterPot`'s `StaticModel`/`WorldStaticModel` in `PseudoSaltWellItems.txt` from `CookingPotGround_Fluid` to `SaltwaterPotFull` (no module prefix needed — `Base` is the default module, same as `ButterCandleLit`'s usage).
+
+Not yet verified in-game — needs a load test to confirm the darker texture actually renders on the pot model.
 
 ---
 

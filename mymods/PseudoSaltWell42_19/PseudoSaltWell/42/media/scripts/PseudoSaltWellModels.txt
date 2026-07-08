@@ -1,0 +1,17 @@
+module Base
+{
+
+    model SaltwaterPotFull
+    {
+        mesh = WorldItems/CookingPotFull,
+        texture = WorldItems/SaltwaterPot,
+        scale = 0.4,
+        attachment Bip01_Prop1
+        {
+            offset = 0.0355 0.1534 -0.1613,
+            rotate = 90.806 0.2262 -0.1529,
+            scale = 0.89,
+        }
+    }
+
+}

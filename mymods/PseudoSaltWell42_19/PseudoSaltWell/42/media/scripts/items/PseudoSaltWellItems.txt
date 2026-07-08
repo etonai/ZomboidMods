@@ -20,8 +20,8 @@ module PseudoSaltWellB42
         ReplaceOnUse    =   Pot,
         ReplaceOnCooked     =   PseudoSaltWellB42.SaltPot,
 		MetalValue = 40,
-		StaticModel = CookingPotGround_Fluid,
-		WorldStaticModel = CookingPotGround_Fluid,
+		StaticModel = SaltwaterPotFull,
+		WorldStaticModel = SaltwaterPotFull,
 		CookingSound = BoilingFood,
 		Tags = base:cookable;base:hasmetal;base:smeltablesteelmedium,
 	}
