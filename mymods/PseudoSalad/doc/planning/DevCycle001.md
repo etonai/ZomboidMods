@@ -1,7 +1,7 @@
 # DevCycle001 - Build PseudoSalad Auto Salad
 
 Created: 2026-07-10
-Status: In Progress
+Status: Work Complete
 
 ## Goal
 
@@ -54,7 +54,7 @@ The implementation should rely on vanilla evolved-recipe validation where practi
 
 ## Phase 2 - Refine Ingredient Selection
 
-Status: Planning
+Status: Work Complete
 
 ### Goal
 
@@ -71,15 +71,19 @@ Refine the PseudoSalad ingredient planner so each priority tier chooses the olde
 
 ### Tasks
 
-- [ ] Track per-full-type ingredient usage during the auto-salad plan.
-- [ ] Update preferred tier selection to choose the oldest valid item whose type has been used fewer than two times.
-- [ ] Update fallback selection to choose the oldest valid item whose type has been used fewer than two times.
-- [ ] Add final fallback behavior that allows a third or later use of an ingredient type only when no under-limit valid candidates remain.
-- [ ] Re-check the add loop after each ingredient because vanilla may partially consume or remove the source item.
-- [ ] Update implementation notes and completion summary after Phase 2 work is done.
+- [x] Track per-full-type ingredient usage during the auto-salad plan.
+- [x] Update preferred tier selection to choose the oldest valid item whose type has been used fewer than two times.
+- [x] Update fallback selection to choose the oldest valid item whose type has been used fewer than two times.
+- [x] Add final fallback behavior that allows a third or later use of an ingredient type only when no under-limit valid candidates remain.
+- [x] Re-check the add loop after each ingredient because vanilla may partially consume or remove the source item.
+- [x] Update implementation notes and completion summary after Phase 2 work is done.
 
 ## Completion Summary
 
 Implemented PseudoSalad.lua under the 42.19+ mod tree with context-menu integration for bowls/clay bowls, vanilla evolved-recipe lookup, priority ingredient buckets, fallback filling, inventory transfers, and a continuation action. Added English context-menu translations. Local validation completed with JSON parsing and code review against 42.19 ISAddItemInRecipe; no in-game verification was run in this environment.
 
 Implementation decision: despite the original task wording mentioning common/media/lua, the Lua implementation was placed under 42/media/lua because this mod is explicitly scoped to Project Zomboid 42.19 and later.
+
+Phase 2 implementation: replaced per-tier type locking with per-full-type usage tracking. Ingredient selection now chooses the oldest valid preferred-tier candidate that has been used fewer than two times, falls back to the oldest valid under-limit ingredient from all buckets when the preferred tier cannot provide one, and only permits a third or later use of the same full type when no under-limit valid candidates remain. The planner still refreshes vanilla usable ingredients before each add.
+
+Phase 2 validation: reviewed the changed selection flow and re-ran JSON parsing for `ContextMenu.json`. This environment still does not provide `lua` or `luac`, so Lua syntax and in-game behavior remain pending game-side verification.

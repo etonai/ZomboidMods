@@ -176,11 +176,13 @@ function PseudoSalad.collectCandidates(items, playerObj)
     return candidates
 end
 
-function PseudoSalad.chooseBest(items, fullType)
+function PseudoSalad.chooseBest(items, usageCounts, enforceLimit)
     local chosen = nil
 
     for _, item in ipairs(items) do
-        if not fullType or item:getFullType() == fullType then
+        local fullType = item:getFullType()
+        local usedCount = usageCounts and usageCounts[fullType] or 0
+        if not enforceLimit or usedCount < 2 then
             chosen = PseudoSalad.isBetterFood(chosen, item)
         end
     end
@@ -222,25 +224,31 @@ function PseudoSalad:new(playerObj, recipe, baseItem)
     o.recipe = recipe
     o.baseItem = baseItem
     o.addAction = nil
-    o.lockedTypes = {}
+    o.usedCounts = {}
 
     return o
 end
 
 function PseudoSalad:chooseIngredientForStep(candidates, stepCategory)
-    local lockedType = self.lockedTypes[stepCategory]
-    local preferred = PseudoSalad.chooseBest(candidates[stepCategory] or {}, lockedType)
+    local preferred = PseudoSalad.chooseBest(candidates[stepCategory] or {}, self.usedCounts, true)
+    if not preferred then
+        preferred = PseudoSalad.chooseBest(candidates.all, self.usedCounts, true)
+    end
 
     if not preferred then
-        preferred = PseudoSalad.chooseBest(candidates[stepCategory] or {})
+        preferred = PseudoSalad.chooseBest(candidates.all)
     end
 
-    if preferred then
-        self.lockedTypes[stepCategory] = preferred:getFullType()
-        return preferred
+    return preferred
+end
+
+function PseudoSalad:recordIngredientUse(item)
+    if not item then
+        return
     end
 
-    return PseudoSalad.chooseBest(candidates.all)
+    local fullType = item:getFullType()
+    self.usedCounts[fullType] = (self.usedCounts[fullType] or 0) + 1
 end
 
 function PseudoSalad:continue()
@@ -270,6 +278,8 @@ function PseudoSalad:continue()
     if not usedItem then
         return
     end
+
+    self:recordIngredientUse(usedItem)
 
     if not self.playerObj:getInventory():contains(usedItem) then
         ISTimedActionQueue.add(ISInventoryTransferAction:new(self.playerObj, usedItem, usedItem:getContainer(), self.playerObj:getInventory(), nil))
