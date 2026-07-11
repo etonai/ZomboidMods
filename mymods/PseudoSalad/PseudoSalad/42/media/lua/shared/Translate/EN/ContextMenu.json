@@ -1,5 +1,5 @@
 {
-  "ContextMenu_PseudoSalad_MakeAutoSalad": "Make PseudoSalad",
+  "ContextMenu_PseudoSalad_MakeAutoSalad": "Create Ed's Salad",
   "ContextMenu_PseudoSalad_Tooltip": "Automatically fills this salad with priority ingredients when available, then valid nonrotten ingredients.",
   "ContextMenu_PseudoSalad_TooltipNoIngredients": "No valid nonrotten salad ingredients available."
 }

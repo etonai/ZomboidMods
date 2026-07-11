@@ -54,10 +54,6 @@ local function getExtraItemCount(baseItem)
     return extraItems:size()
 end
 
-local function getRemainingFreshTime(item)
-    return item:getOffAge() - item:getAge()
-end
-
 local function getRemainingRotTime(item)
     return item:getOffAgeMax() - item:getAge()
 end
@@ -70,28 +66,12 @@ function PseudoSalad.isBetterFood(leftItem, rightItem)
         return leftItem
     end
 
-    local leftFreshTime = getRemainingFreshTime(leftItem)
-    local rightFreshTime = getRemainingFreshTime(rightItem)
-    local leftIsStale = leftFreshTime <= 0
-    local rightIsStale = rightFreshTime <= 0
+    local leftRotTime = getRemainingRotTime(leftItem)
+    local rightRotTime = getRemainingRotTime(rightItem)
 
-    if leftIsStale ~= rightIsStale then
-        if rightIsStale then
-            return rightItem
-        end
-        return leftItem
-    end
-
-    if leftIsStale then
-        if getRemainingRotTime(rightItem) < getRemainingRotTime(leftItem) then
-            return rightItem
-        end
-        return leftItem
-    end
-
-    if rightFreshTime < leftFreshTime then
+    if rightRotTime < leftRotTime then
         return rightItem
-    elseif rightFreshTime > leftFreshTime then
+    elseif rightRotTime > leftRotTime then
         return leftItem
     end
 
@@ -225,12 +205,34 @@ function PseudoSalad:new(playerObj, recipe, baseItem)
     o.baseItem = baseItem
     o.addAction = nil
     o.usedCounts = {}
+    o.partialRemainders = {}
 
     return o
 end
 
+function PseudoSalad:choosePartialRemainder(items)
+    for _, item in ipairs(items) do
+        local fullType = item:getFullType()
+        local itemID = item:getID()
+        if self.partialRemainders[fullType] == itemID and (self.usedCounts[fullType] or 0) == 1 then
+            return item
+        end
+    end
+
+    return nil
+end
+
 function PseudoSalad:chooseIngredientForStep(candidates, stepCategory)
-    local preferred = PseudoSalad.chooseBest(candidates[stepCategory] or {}, self.usedCounts, true)
+    local preferred = self:choosePartialRemainder(candidates[stepCategory] or {})
+    if preferred then
+        return preferred
+    end
+
+    preferred = PseudoSalad.chooseBest(candidates[stepCategory] or {}, self.usedCounts, true)
+    if not preferred then
+        preferred = self:choosePartialRemainder(candidates.all)
+    end
+
     if not preferred then
         preferred = PseudoSalad.chooseBest(candidates.all, self.usedCounts, true)
     end
@@ -249,6 +251,21 @@ function PseudoSalad:recordIngredientUse(item)
 
     local fullType = item:getFullType()
     self.usedCounts[fullType] = (self.usedCounts[fullType] or 0) + 1
+end
+
+function PseudoSalad:onIngredientAdded(usedItem, beforeCount, afterCount)
+    if not usedItem or afterCount <= beforeCount then
+        return
+    end
+
+    self:recordIngredientUse(usedItem)
+
+    local fullType = usedItem:getFullType()
+    if usedItem:getContainer() and PseudoSalad.isValidIngredient(usedItem, self.playerObj) and (self.usedCounts[fullType] or 0) < 2 then
+        self.partialRemainders[fullType] = usedItem:getID()
+    else
+        self.partialRemainders[fullType] = nil
+    end
 end
 
 function PseudoSalad:continue()
@@ -279,8 +296,6 @@ function PseudoSalad:continue()
         return
     end
 
-    self:recordIngredientUse(usedItem)
-
     if not self.playerObj:getInventory():contains(usedItem) then
         ISTimedActionQueue.add(ISInventoryTransferAction:new(self.playerObj, usedItem, usedItem:getContainer(), self.playerObj:getInventory(), nil))
     end
@@ -289,7 +304,7 @@ function PseudoSalad:continue()
         ISTimedActionQueue.add(ISInventoryTransferAction:new(self.playerObj, self.baseItem, self.baseItem:getContainer(), self.playerObj:getInventory(), nil))
     end
 
-    self.addAction = ISAddItemInRecipe:new(self.playerObj, self.recipe, self.baseItem, usedItem)
+    self.addAction = PseudoSaladAddItemInRecipe:new(self, self.playerObj, self.recipe, self.baseItem, usedItem)
     ISTimedActionQueue.add(self.addAction)
     ISTimedActionQueue.add(PseudoSaladContinue:new(self, self.playerObj))
 end
@@ -341,6 +356,26 @@ function PseudoSalad.addContextOption(player, context, items)
 end
 
 PseudoSaladContinue = ISBaseTimedAction:derive("PseudoSaladContinue")
+
+PseudoSaladAddItemInRecipe = ISAddItemInRecipe:derive("PseudoSaladAddItemInRecipe")
+
+function PseudoSaladAddItemInRecipe:complete()
+    local beforeCount = getExtraItemCount(self.baseItem)
+    local result = ISAddItemInRecipe.complete(self)
+    local afterCount = getExtraItemCount(self.baseItem)
+
+    if result and self.planner then
+        self.planner:onIngredientAdded(self.usedItem, beforeCount, afterCount)
+    end
+
+    return result
+end
+
+function PseudoSaladAddItemInRecipe:new(planner, character, recipe, baseItem, usedItem)
+    local o = ISAddItemInRecipe.new(self, character, recipe, baseItem, usedItem)
+    o.planner = planner
+    return o
+end
 
 function PseudoSaladContinue:isValid()
     return self.target ~= nil
