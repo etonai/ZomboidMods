@@ -46,21 +46,21 @@ local forgedBucketData = {
     action = ISFillPotFromWell,
 };
 
-WellFillMenu.ContainerTypes = {
-    ["Base.Pot"] = potData,
-    ["Pot"] = potData,
-    ["Base.PotForged"] = forgedPotData,
-    ["PotForged"] = forgedPotData,
-    ["Base.Kettle"] = kettleData,
-    ["Kettle"] = kettleData,
-    ["Base.Kettle_Copper"] = copperKettleData,
-    ["Kettle_Copper"] = copperKettleData,
-    ["Base.Bucket"] = bucketData,
-    ["Bucket"] = bucketData,
-    ["Base.BucketEmpty"] = bucketData,
-    ["BucketEmpty"] = bucketData,
-    ["Base.BucketForged"] = forgedBucketData,
-    ["BucketForged"] = forgedBucketData,
+local fillableTypes = {
+    { type = "Base.Pot", data = potData },
+    { type = "Pot", data = potData },
+    { type = "Base.PotForged", data = forgedPotData },
+    { type = "PotForged", data = forgedPotData },
+    { type = "Base.Kettle", data = kettleData },
+    { type = "Kettle", data = kettleData },
+    { type = "Base.Kettle_Copper", data = copperKettleData },
+    { type = "Kettle_Copper", data = copperKettleData },
+    { type = "Base.Bucket", data = bucketData },
+    { type = "Bucket", data = bucketData },
+    { type = "Base.BucketEmpty", data = bucketData },
+    { type = "BucketEmpty", data = bucketData },
+    { type = "Base.BucketForged", data = forgedBucketData },
+    { type = "BucketForged", data = forgedBucketData },
 };
 
 local function findSaltwaterWell(worldobjects)
@@ -73,57 +73,28 @@ local function findSaltwaterWell(worldobjects)
     return nil;
 end
 
-local function getContainerData(item)
-    if not item then
-        return nil;
-    end
-
-    if item:getFluidContainer() and not item:getFluidContainer():isEmpty() then
-        return nil;
-    end
-
-    local fullType = tostring(item:getFullType() or "");
-    local type = tostring(item:getType() or "");
-    local data = WellFillMenu.ContainerTypes[fullType] or WellFillMenu.ContainerTypes[type];
-    if data then
-        return data;
-    end
-
-    local pourType = item:getPourType();
-    local eatType = item:getEatType();
-    local icon = tostring(item:getIcon() or "");
-
-    if pourType == "Kettle" and fullType and string.find(fullType, "Kettle_Copper", 1, true) then
-        return copperKettleData;
-    end
-
-    if pourType == "Kettle" and type and string.find(type, "Kettle_Copper", 1, true) then
-        return copperKettleData;
-    end
-
-    if pourType == "Kettle" then
-        return kettleData;
-    end
-
-    if eatType == "Pot" or pourType == "Pot" then
-        if (fullType and string.find(fullType, "Forged", 1, true)) or (type and string.find(type, "Forged", 1, true)) or (icon and string.find(icon, "Forged", 1, true)) then
-            return forgedPotData;
-        end
-        return potData;
-    end
-
-    if eatType == "Bucket" or pourType == "Bucket" then
-        if (fullType and string.find(fullType, "Forged", 1, true)) or (type and string.find(type, "Forged", 1, true)) or (icon and string.find(icon, "Forged", 1, true)) then
-            return forgedBucketData;
-        end
-        return bucketData;
-    end
-
-    return nil;
+local function isEmptyFluidContainer(item)
+    return item ~= nil and (not item:getFluidContainer() or item:getFluidContainer():isEmpty());
 end
 
 local function isAccessibleInventoryItem(item)
     return item ~= nil and item:getContainer() ~= nil;
+end
+
+local function addFillableItemsByType(inventory, containers, seenItems, itemType, containerData)
+    local items = inventory:getAllTypeRecurse(itemType);
+    if not items then
+        return;
+    end
+
+    for i=0, items:size()-1 do
+        local item = items:get(i);
+        local seenKey = tostring(item);
+        if not seenItems[seenKey] and isAccessibleInventoryItem(item) and isEmptyFluidContainer(item) then
+            seenItems[seenKey] = true;
+            table.insert(containers[containerData.group], { item = item, data = containerData });
+        end
+    end
 end
 
 local function collectFillableContainers(playerObj)
@@ -133,16 +104,11 @@ local function collectFillableContainers(playerObj)
         bucket = {},
     };
 
-    local allItems = playerObj:getInventory():getAllEvalRecurse(function(item)
-        return getContainerData(item) ~= nil;
-    end);
+    local inventory = playerObj:getInventory();
+    local seenItems = {};
 
-    for i=0, allItems:size()-1 do
-        local item = allItems:get(i);
-        local containerData = getContainerData(item);
-        if containerData then
-            table.insert(containers[containerData.group], { item = item, data = containerData });
-        end
+    for _, entry in ipairs(fillableTypes) do
+        addFillableItemsByType(inventory, containers, seenItems, entry.type, entry.data);
     end
 
     return containers;
@@ -152,7 +118,7 @@ function WellFillMenu.onFillContainer(worldobjects, container, player, container
     local playerObj = getSpecificPlayer(player);
     local well = findSaltwaterWell(worldobjects);
 
-    if well and containerData and isAccessibleInventoryItem(container) then
+    if well and containerData and isAccessibleInventoryItem(container) and isEmptyFluidContainer(container) then
         ISTimedActionQueue.add(containerData.action:new(playerObj, well, container, 100, containerData.saltwaterType));
     end
 end

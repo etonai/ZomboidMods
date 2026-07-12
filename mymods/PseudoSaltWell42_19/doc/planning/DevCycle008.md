@@ -70,15 +70,15 @@ Existing fill actions reviewed and updated:
 
 ### Phase 3: Add Bucket and Forged Bucket Support
 
-**Status:** Work Complete
+**Status:** In Progress
 
 - [x] Identify vanilla item ids for bucket and forged bucket variants in B42.19.
 - [x] Add saltwater bucket and saltwater forged bucket items, or an equivalent mapper-based implementation, with 6-hour cooking time.
 - [x] Add cooked salt bucket states for bucket and forged bucket outputs.
 - [x] Add salt extraction recipes for bucket outputs that yield `7x Base.Salt`.
 - [x] Ensure bucket extraction returns the appropriate bucket or forged bucket.
-- [x] Update fill/empty context-menu or timed-action logic so buckets can be filled from saltwater wells where appropriate.
-- [x] Verify bucket capacity/yield balance does not accidentally affect normal pot/kettle behavior.
+- [x] Add fill/empty context-menu or timed-action code paths for bucket support. In-game menu detection is not yet verified and appears to suffer from the same problem as Phase 2.
+- [ ] Verify bucket capacity/yield balance and in-game menu behavior after the copper kettle issue is understood.
 
 **Technical Notes:**
 The implementation uses a parallel saltwater container family because bucket output yield and returned container differ from pot/kettle behavior.
@@ -92,19 +92,19 @@ Bucket saltwater items use `MinutesToCook = 360`, `MinutesToBurn = 480`, and ext
 
 ### Phase 4: Fix Copper Kettle Fill Menu Detection
 
-**Status:** Planning
+**Status:** Work Complete
 
 **Important Correction:** The previous copper kettle work in this DevCycle was incomplete. Although Phase 2 added `SaltwaterKettleCopper`, `SaltKettleCopper`, recipes, and menu mappings, in-game testing shows that a player with a copper kettle still does not receive the `Fill Kettle with Saltwater` menu option. This phase is dedicated specifically to making copper kettle detection and menu enablement work before returning to forged pot or bucket behavior.
 
-- [ ] Continue static/code review of the copper kettle path before adding runtime logging or debug prints.
-- [ ] Compare the copper kettle code path against the working regular kettle path, including menu mapping, item definitions, and produced saltwater item ids.
-- [ ] Adjust `WellFillMenu.lua` so a valid empty copper kettle is added to `containers.kettle`.
-- [ ] Verify that the `Fill Kettle with Saltwater` menu appears when the player carries an empty copper kettle and right-clicks a saltwater well.
-- [ ] Verify selecting the copper kettle queues `ISFillKettleFromWell` with the intended copper-kettle saltwater result.
-- [ ] Keep this phase focused on copper kettle only; forged pot and bucket fixes should wait until copper kettle behavior is understood.
+- [x] Continue static/code review of the copper kettle path before adding runtime logging or debug prints.
+- [x] Compare the copper kettle code path against the working regular kettle path, including menu mapping, item definitions, and produced saltwater item ids.
+- [x] Adjust `WellFillMenu.lua` so a valid empty copper kettle is added to `containers.kettle`.
+- [ ] Verify in-game that the `Fill Kettle with Saltwater` menu appears when the player carries an empty copper kettle and right-clicks a saltwater well.
+- [ ] Verify in-game that selecting the copper kettle queues `ISFillKettleFromWell` with the intended copper-kettle saltwater result.
+- [ ] Keep this phase focused on copper kettle only; forged pot and bucket fixes should wait until copper kettle behavior is understood. Phase 3 is not complete and likely suffers from the same detection problem, but the current investigation is intentionally narrowed.
 
 **Technical Notes:**
-Static analysis in `mymods/PseudoSaltWell42_19/doc/ideas/codex_vanillaKettleFillMenuAnalysis.md` found that vanilla `Base.Kettle_Copper` should be kettle-like: it has `PourType = Kettle` and a `FluidContainer` in `media/scripts/generated/items/normal.txt`. Since regular `Base.Kettle` works but `Base.Kettle_Copper` does not, the next step is further static/code review before adding runtime logging. Ed is not ready to use runtime logging yet; the mod is small enough that if Codex does not find the issue through code review, Ed wants to inspect the code directly before debug prints are introduced.
+Static analysis in `mymods/PseudoSaltWell42_19/doc/ideas/codex_vanillaKettleFillMenuAnalysis.md` found that vanilla `Base.Kettle_Copper` should be kettle-like: it has `PourType = Kettle` and a `FluidContainer` in `media/scripts/generated/items/normal.txt`. Phase 4 avoided runtime logging and replaced the broad generalized inventory predicate with direct `getAllTypeRecurse(...)` lookups for each supported type, including both `Base.Kettle_Copper` and `Kettle_Copper`. This mirrors the known-working regular kettle path more closely and avoids calling behavior getters across every carried item.
 
 ---
 
@@ -130,6 +130,7 @@ Static analysis in `mymods/PseudoSaltWell42_19/doc/ideas/codex_vanillaKettleFill
 - Model/icon support for new saltwater bucket states reuses existing vanilla bucket visuals. Custom assets can be added in a later cycle if desired.
 - This work has not been marked `Verified`; in-game confirmation is still required.
 - Copper kettle menu availability is known incomplete despite earlier DC8 implementation work.
+- Bucket and forged bucket menu availability are also not complete; they likely suffer from the same detection issue as copper kettle, but investigation is intentionally narrowed to copper kettle first.
 - Do not add runtime logging/debug prints for Phase 4 yet. Ed wants a static/code-review attempt first and may inspect the small mod directly if the issue is not found.
 
 ---
@@ -137,16 +138,16 @@ Static analysis in `mymods/PseudoSaltWell42_19/doc/ideas/codex_vanillaKettleFill
 ## Completion Summary
 
 **Completion Date:** 2026-07-12
-**Phases Completed:** Phase 1, Phase 3. Phase 2 is partially complete; Phase 4 is newly planned for copper kettle menu detection.
-**Work Deferred:** Copper kettle menu detection and in-game verification.
+**Phases Completed:** Phase 1 and Phase 4 implementation. Phase 2 and Phase 3 remain partially complete until copper kettle and bucket-family menu behavior are verified in-game.
+**Work Deferred:** In-game verification of copper kettle menu detection/action result, plus later investigation of bucket and forged bucket menu detection.
 
 **Accomplishments:**
 
 - Retuned pot and kettle saltwater cooking to 2 hours with 2-salt extraction yield.
 - Added forged pot and copper kettle saltwater/cooked-salt states, emptying support, and extraction recipes. Copper kettle fill-menu support was attempted but is incomplete in-game and is now tracked in Phase 4.
-- Added bucket and forged bucket saltwater/cooked-salt states with 6-hour cooking and 7-salt extraction yield. `Base.BucketEmpty` maps into the normal bucket path rather than a separate recipe.
+- Added bucket and forged bucket saltwater/cooked-salt states with 6-hour cooking and 7-salt extraction yield. `Base.BucketEmpty` maps into the normal bucket path rather than a separate recipe. Bucket-family fill-menu behavior is not complete and remains pending after the copper kettle investigation.
 - Generalized fill timed actions to accept the produced saltwater item type and remove the source container from its actual inventory container.
-- Expanded world context menus for pot, kettle, and bucket filling groups, using recursive inventory lookup and both full/bare runtime item ids so generated-script items such as `Kettle_Copper` and `BucketEmpty` can appear.
+- Expanded world context menus for pot, kettle, and bucket filling groups. Phase 4 changed inventory detection to direct recursive type lookups for each supported container id, including `Base.Kettle_Copper` and `Kettle_Copper`.
 - Expanded inventory emptying support for every new saltwater and cooked-salt state.
 
 **Metrics:**
@@ -162,6 +163,6 @@ Static analysis in `mymods/PseudoSaltWell42_19/doc/ideas/codex_vanillaKettleFill
 
 **Lessons / Notes:**
 
-- The fill actions were narrow but easy to generalize by passing the target saltwater item type from the menu mapping. The menu lookup now accepts both `Base.Kettle_Copper`/`Kettle_Copper` and `Base.BucketEmpty`/`BucketEmpty` style ids, and falls back to empty fluid-container behavior such as `PourType = Kettle`, `EatType = Bucket`, and forged type/icon markers.
-- Bucket behavior needed separate item states and recipes instead of sharing pot behavior because the cook time, yield, and return containers differ.
+- The fill actions were narrow but easy to generalize by passing the target saltwater item type from the menu mapping. The Phase 4 menu lookup no longer depends on broad behavior inference; it directly requests each supported item type from inventory, which should make copper kettle handling closer to the known-working regular kettle path.
+- Bucket behavior needed separate item states and recipes instead of sharing pot behavior because the cook time, yield, and return containers differ. Phase 3 is not complete until bucket-family menu detection is resolved and verified.
 - The DevCycle is reopened as In Progress until Phase 4 resolves copper kettle menu detection and Ed verifies the behavior in-game.
