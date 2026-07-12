@@ -2,71 +2,49 @@
 --** PseudoSaltWellB42 Part 5: Independent Items
 --** ISFillPotFromWell.lua
 --***********************************************************
---** Timed action for filling a pot with saltwater from well
+--** Timed action for filling a pot-like container with saltwater from well
 --***********************************************************
 
 require "TimedActions/ISBaseTimedAction"
 
 ISFillPotFromWell = ISBaseTimedAction:derive("ISFillPotFromWell");
 
---************************************************************************--
---** ISFillPotFromWell:isValid
---************************************************************************--
 function ISFillPotFromWell:isValid()
-    return self.well ~= nil and self.pot ~= nil;
+    return self.well ~= nil and self.pot ~= nil and self.pot:getContainer() ~= nil and self.saltwaterType ~= nil;
 end
 
---************************************************************************--
---** ISFillPotFromWell:update
---************************************************************************--
 function ISFillPotFromWell:update()
     self.character:faceThisObject(self.well);
 end
 
---************************************************************************--
---** ISFillPotFromWell:start
---************************************************************************--
 function ISFillPotFromWell:start()
     self:setActionAnim("Loot");
     self.character:SetVariable("LootPosition", "Mid");
 end
 
---************************************************************************--
---** ISFillPotFromWell:stop
---************************************************************************--
 function ISFillPotFromWell:stop()
     ISBaseTimedAction.stop(self);
 end
 
---************************************************************************--
---** ISFillPotFromWell:perform
---** This is where the actual item transformation happens
---************************************************************************--
 function ISFillPotFromWell:perform()
     ISBaseTimedAction.perform(self);
 
-    -- Remove empty pot from inventory
-    self.character:getInventory():Remove(self.pot);
+    self.pot:getContainer():Remove(self.pot);
 
-    -- Add saltwater pot to inventory
-    local saltwaterPot = self.character:getInventory():AddItem("PseudoSaltWellB42.SaltwaterPot");
-
-    if saltwaterPot then
-        -- Play sound
+    local saltwaterContainer = self.character:getInventory():AddItem(self.saltwaterType);
+    if saltwaterContainer then
         self.character:getEmitter():playSound("GetWaterFromLake");
     end
 end
 
---************************************************************************--
---** ISFillPotFromWell:new
---************************************************************************--
-function ISFillPotFromWell:new(character, well, pot, time)
+function ISFillPotFromWell:new(character, well, pot, time, saltwaterType)
     local o = {}
     setmetatable(o, self)
     self.__index = self
     o.character = character;
     o.well = well;
     o.pot = pot;
+    o.saltwaterType = saltwaterType or "PseudoSaltWellB42.SaltwaterPot";
     o.stopOnWalk = true;
     o.stopOnRun = true;
     o.maxTime = time;

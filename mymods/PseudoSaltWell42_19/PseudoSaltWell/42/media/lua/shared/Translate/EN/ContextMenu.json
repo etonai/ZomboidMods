@@ -2,5 +2,6 @@
     "ContextMenu_DigAHole": "Dig a Hole",
     "ContextMenu_FillPotWithSaltwater": "Fill Pot with Saltwater",
     "ContextMenu_FillKettleWithSaltwater": "Fill Kettle with Saltwater",
+    "ContextMenu_FillBucketWithSaltwater": "Fill Bucket with Saltwater",
     "ContextMenu_EmptyContainer": "Empty Container"
 }

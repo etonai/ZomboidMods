@@ -9,6 +9,21 @@ require "TimedActions/ISEmptySaltwaterContainer"
 
 EmptySaltwaterMenu = {};
 
+EmptySaltwaterMenu.EmptyTypes = {
+    ["PseudoSaltWellB42.SaltwaterPot"] = "Base.Pot",
+    ["PseudoSaltWellB42.SaltPot"] = "Base.Pot",
+    ["PseudoSaltWellB42.SaltwaterPotForged"] = "Base.PotForged",
+    ["PseudoSaltWellB42.SaltPotForged"] = "Base.PotForged",
+    ["PseudoSaltWellB42.SaltwaterKettle"] = "Base.Kettle",
+    ["PseudoSaltWellB42.SaltKettle"] = "Base.Kettle",
+    ["PseudoSaltWellB42.SaltwaterKettleCopper"] = "Base.Kettle_Copper",
+    ["PseudoSaltWellB42.SaltKettleCopper"] = "Base.Kettle_Copper",
+    ["PseudoSaltWellB42.SaltwaterBucket"] = "Base.Bucket",
+    ["PseudoSaltWellB42.SaltBucket"] = "Base.Bucket",
+    ["PseudoSaltWellB42.SaltwaterBucketForged"] = "Base.BucketForged",
+    ["PseudoSaltWellB42.SaltBucketForged"] = "Base.BucketForged",
+};
+
 --************************************************************************--
 --** EmptySaltwaterMenu.onEmptyContainer
 --** Called when player selects "Empty Container" from context menu
@@ -36,14 +51,7 @@ function EmptySaltwaterMenu.createMenu(playerIndex, context, items)
 
         if actualItem then
             local itemType = actualItem:getFullType();
-            local emptyType = nil;
-
-            -- Determine which container type to return
-            if itemType == "PseudoSaltWellB42.SaltwaterPot" or itemType == "PseudoSaltWellB42.SaltPot" then
-                emptyType = "Base.Pot";
-            elseif itemType == "PseudoSaltWellB42.SaltwaterKettle" or itemType == "PseudoSaltWellB42.SaltKettle" then
-                emptyType = "Base.Kettle";
-            end
+            local emptyType = EmptySaltwaterMenu.EmptyTypes[itemType];
 
             -- Add "Empty Container" option if this is one of our items
             if emptyType then

@@ -5,7 +5,7 @@ module PseudoSaltWellB42
         timedAction = OpenTinCan,
         time = 60,
         Tags = InHandCraft;CanBeDoneInDark,
-		category = Cooking,
+        category = Cooking,
         inputs
         {
             item 1 [PseudoSaltWellB42.SaltPot],
@@ -17,12 +17,29 @@ module PseudoSaltWellB42
         }
     }
 
+    craftRecipe Get Salt From Forged Pot
+    {
+        timedAction = OpenTinCan,
+        time = 60,
+        Tags = InHandCraft;CanBeDoneInDark,
+        category = Cooking,
+        inputs
+        {
+            item 1 [PseudoSaltWellB42.SaltPotForged],
+        }
+        outputs
+        {
+            item 2 Base.Salt,
+            item 1 Base.PotForged,
+        }
+    }
+
     craftRecipe Get Salt From Kettle
     {
         timedAction = OpenTinCan,
         time = 60,
         Tags = InHandCraft;CanBeDoneInDark,
-		category = Cooking,
+        category = Cooking,
         inputs
         {
             item 1 [PseudoSaltWellB42.SaltKettle],
@@ -31,6 +48,57 @@ module PseudoSaltWellB42
         {
             item 2 Base.Salt,
             item 1 Base.Kettle,
+        }
+    }
+
+    craftRecipe Get Salt From Copper Kettle
+    {
+        timedAction = OpenTinCan,
+        time = 60,
+        Tags = InHandCraft;CanBeDoneInDark,
+        category = Cooking,
+        inputs
+        {
+            item 1 [PseudoSaltWellB42.SaltKettleCopper],
+        }
+        outputs
+        {
+            item 2 Base.Salt,
+            item 1 Base.Kettle_Copper,
+        }
+    }
+
+    craftRecipe Get Salt From Bucket
+    {
+        timedAction = OpenTinCan,
+        time = 60,
+        Tags = InHandCraft;CanBeDoneInDark,
+        category = Cooking,
+        inputs
+        {
+            item 1 [PseudoSaltWellB42.SaltBucket],
+        }
+        outputs
+        {
+            item 7 Base.Salt,
+            item 1 Base.Bucket,
+        }
+    }
+
+    craftRecipe Get Salt From Forged Bucket
+    {
+        timedAction = OpenTinCan,
+        time = 60,
+        Tags = InHandCraft;CanBeDoneInDark,
+        category = Cooking,
+        inputs
+        {
+            item 1 [PseudoSaltWellB42.SaltBucketForged],
+        }
+        outputs
+        {
+            item 7 Base.Salt,
+            item 1 Base.BucketForged,
         }
     }
 }
