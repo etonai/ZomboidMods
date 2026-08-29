@@ -27,5 +27,8 @@
     "MakeGlazedJarFermentedGarlic": "Make Glazed Jar of Fermented Garlic",
     "MakeFermentedOnions": "Make Fermented Onions",
     "MakeClayJarFermentedOnions": "Make Clay Jar of Fermented Onions",
-    "MakeGlazedJarFermentedOnions": "Make Glazed Jar of Fermented Onions"
+    "MakeGlazedJarFermentedOnions": "Make Glazed Jar of Fermented Onions",
+    "MakeFermentedCauliflower": "Make Fermented Cauliflower",
+    "MakeClayJarFermentedCauliflower": "Make Clay Jar of Fermented Cauliflower",
+    "MakeGlazedJarFermentedCauliflower": "Make Glazed Jar of Fermented Cauliflower"
 }
