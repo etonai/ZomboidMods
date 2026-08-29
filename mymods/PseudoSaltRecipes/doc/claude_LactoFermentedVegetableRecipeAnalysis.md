@@ -220,6 +220,36 @@ Across all three jar tiers that's **6 items** and **3 recipes** per vegetable, m
 
 ---
 
+## Step 9: Translation strings (PseudoSaltRecipes only)
+
+`PseudoSaltRecipes` (not `PseudoTestRecipes` — it has no `Translate/` folder) also carries an English translation override at:
+
+- `mymods/PseudoSaltRecipes/PseudoSaltRecipes/42/media/lua/shared/Translate/EN/ItemName.json`
+- `mymods/PseudoSaltRecipes/PseudoSaltRecipes/42/media/lua/shared/Translate/EN/Recipes.json`
+
+Every vegetable family added so far has a matching entry in both files. This step is easy to miss because the game will still show the item/recipe correctly using its script-defined `DisplayName`/recipe name if the JSON entry is absent — but the file no longer matches the established 1:1 pattern, and if any other language's translation strings ever get added, English will silently be missing.
+
+**`ItemName.json`** — one entry per item from Steps 5–7, keyed by the item's full ID, valued by its exact `DisplayName`:
+
+```json
+"Pseudonymous.LactoFermented<Vegetable>": "<DisplayName from Step 5>",
+"Pseudonymous.<Container>Of<Vegetable>Stew": "<DisplayName from Step 6>",
+"Pseudonymous.LactoFermented<Vegetable>ClayJar": "<DisplayName from Step 7, clay>",
+"Pseudonymous.ClayJarOf<Vegetable>Stew": "<DisplayName from Step 7, clay stew>",
+"Pseudonymous.LactoFermented<Vegetable>GlazedJar": "<DisplayName from Step 7, glazed>",
+"Pseudonymous.GlazedJarOf<Vegetable>Stew": "<DisplayName from Step 7, glazed stew>"
+```
+
+**`Recipes.json`** — one entry per recipe from Step 8, keyed by the bare recipe name (no `Pseudonymous.` prefix), valued by `"Make " + <the human-readable phrase, matching the recipe name's word order>`:
+
+```json
+"Make<Variant>Fermented<Vegetable>s": "Make <Variant> Fermented <Vegetable>s"
+```
+
+So the complete unit of work per vegetable is 6 items, 3 recipes (per Step 8's summary above), **plus 6 `ItemName.json` entries and 3 `Recipes.json` entries** in `PseudoSaltRecipes` only.
+
+---
+
 ## Worked Example Template
 
 For a new vegetable `X` with vanilla `HungerChange = H`, `Carbohydrates = C`, `Proteins = P`, `Lipids = L`, `Calories = K`:
