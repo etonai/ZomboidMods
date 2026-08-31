@@ -1,0 +1,45 @@
+module Pseudonymous
+{
+    entity AutoButterChurn
+    {
+        component UiConfig
+        {
+            xuiSkin = default,
+            entityStyle = ES_AutoButterChurn,
+            uiEnabled = true,
+        }
+        component Resources
+        {
+            group churn_inputs
+            {
+                Fluid@Input@20.0@AutoButterChurnMilk@null@null,
+            }
+            group churn_outputs
+            {
+                Item@Output@2@StackAny,
+            }
+        }
+        component CraftLogic
+        {
+            Recipes = AutoButterChurn,
+            StartMode = Automatic,
+            inputGroup = churn_inputs,
+            outputGroup = churn_outputs,
+        }
+        component SpriteConfig
+        {
+            health = 100,
+            skillBaseHealth = 20,
+            // TODO: placeholder sprite reusing the manual Butter Churn's tile row.
+            // Needs real washing-machine-like custom art (see DevCycle001.md Phase 1 notes)
+            // before this entity is visually distinguishable from a Butter Churn.
+            face S
+            {
+                layer
+                {
+                    row = crafted_05_72,
+                }
+            }
+        }
+    }
+}
