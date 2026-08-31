@@ -1,9 +1,0 @@
-module Base
-{
-    fluidFilter AutoButterChurnMilk
-    {
-        whitelist = true,
-        fluid = CowMilk,
-        fluid = SheepMilk,
-    }
-}

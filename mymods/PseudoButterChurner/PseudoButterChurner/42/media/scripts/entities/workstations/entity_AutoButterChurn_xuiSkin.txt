@@ -1,0 +1,11 @@
+module Pseudonymous
+{
+    xuiSkin default
+    {
+        entity ES_AutoButterChurn
+        {
+            DisplayName = Automatic Butter Churner,
+            Icon = Build_ButterChurn,
+        }
+    }
+}
