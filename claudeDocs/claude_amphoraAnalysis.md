@@ -1,7 +1,8 @@
 # Amphora Analysis
 
 **Created:** 2026-08-30
-**Game Version:** Project Zomboid 42.19 (decompiled sources in `zombie42_19/`, scripts in `media/`)
+**Updated:** 2026-08-30 — re-verified against Project Zomboid 42.20.4
+**Game Version:** Project Zomboid 42.20.4 (decompiled sources in `zombie42_20_4/`, scripts in `media/`). Originally analyzed against 42.19; no functional differences were found for anything documented here — only source directory references were updated.
 
 ## Summary
 
@@ -22,9 +23,9 @@ fast it collects rainwater.
 | Lid toggle timed action (duration, entity swap, fluid transfer) | `media/lua/shared/TimedActions/ISOpenCloseLid.lua` |
 | Tile material metadata (for scrapping/interaction) | `media/lua/shared/Util/CustomTileProps.lua` (line 160-ish) |
 | UI strings (display name, tooltip) | `media/lua/shared/Translate/EN/Recipes.json` (lines 1178, 1182), `media/lua/shared/Translate/EN/Tooltip.json` (line 70), `media/lua/shared/Translate/EN/Fluids.json` (line 63) |
-| `time` field → skill-scaled build duration | `zombie42_19/scripting/entity/components/crafting/CraftRecipe.java` (`getTime()` / `getTime(character)`) |
+| `time` field → skill-scaled build duration | `zombie42_20_4/scripting/entity/components/crafting/CraftRecipe.java` (`getTime()` / `getTime(character)`) |
 | Build recipe → player timed-action wiring | `media/lua/server/BuildingObjects/ISBuildIsoEntity.lua` (line 914: `o.maxTime = o.craftRecipe:getTime()`) |
-| `RainFactor` → rain-collection rate field | `zombie42_19/scripting/entity/components/fluids/FluidContainerScript.java` (line 169-170, stored as `rainCatcher`) |
+| `RainFactor` → rain-collection rate field | `zombie42_20_4/scripting/entity/components/fluids/FluidContainerScript.java` (line 169-170, stored as `rainCatcher`) |
 
 ## Entity Definitions
 
@@ -97,7 +98,7 @@ block — a normal player **timed-action** craft, not the passive bench system:
   every other player-built entity (including the Churn Bucket's own `time = 50` build
   recipe). This is the ordinary character build-action duration system (scaled by the
   player's relevant skill via `CraftRecipe.getTime(IsoGameCharacter)`,
-  `zombie42_19/scripting/entity/components/crafting/CraftRecipe.java:199-207`), and is a
+  `zombie42_20_4/scripting/entity/components/crafting/CraftRecipe.java:199-207`), and is a
   different unit/system from the "game-seconds" bench-tick timing used by passive recipes
   like `churn_butter` — see the Butter Churn analysis for that mechanism.
 
@@ -105,7 +106,7 @@ block — a normal player **timed-action** craft, not the passive bench system:
 
 `FluidContainer` capacity is 300 units either way (open or closed) — this doesn't change
 with lid state. What does change is `RainFactor`, parsed into the `rainCatcher` field in
-`zombie42_19/scripting/entity/components/fluids/FluidContainerScript.java:169-170`:
+`zombie42_20_4/scripting/entity/components/fluids/FluidContainerScript.java:169-170`:
 
 - Open (`Amphora`): `RainFactor = 0.4` — the amphora passively collects rainwater while its
   lid is off.

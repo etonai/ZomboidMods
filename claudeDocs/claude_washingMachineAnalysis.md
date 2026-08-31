@@ -1,7 +1,8 @@
 # Washing Machine Analysis
 
 **Created:** 2026-08-30
-**Game Version:** Project Zomboid 42.19 (decompiled sources in `zombie42_19/`, scripts in `media/`)
+**Updated:** 2026-08-30 — re-verified against Project Zomboid 42.20.4
+**Game Version:** Project Zomboid 42.20.4 (decompiled sources in `zombie42_20_4/`, scripts in `media/`). Originally analyzed against 42.19. All cycle-timing formulas (90-in-game-minute cycle, per-minute water/blood/dirt/wetness math) are unchanged. Two things did move/change and are corrected below: `toggleClothingWasher` shifted from line 4961 to line 4966 in `ISWorldObjectContextMenuLogic.java` (the file grew ~400 lines from unrelated additions elsewhere), and `ClothingWasherLogic`/`ClothingDryerLogic` had a cosmetic refactor (a `GameTime.checkHours()` helper replaced inline bounds-checking, and the FMOD sound-parameter call was renamed) with no behavioral change.
 
 ## Summary
 
@@ -26,24 +27,24 @@ There are three related in-world objects sharing the same underlying logic class
 
 | Purpose | File |
 |---|---|
-| Washing machine object (container, power draw, save/load) | `zombie42_19/iso/objects/IsoClothingWasher.java` |
-| Washing cycle logic (the actual wash process) | `zombie42_19/iso/objects/ClothingWasherLogic.java` |
-| Dryer object | `zombie42_19/iso/objects/IsoClothingDryer.java` |
-| Drying cycle logic | `zombie42_19/iso/objects/ClothingDryerLogic.java` |
-| Combined washer/dryer object (mode-switching wrapper) | `zombie42_19/iso/objects/IsoCombinationWasherDryer.java` |
-| Shared interface both logic classes implement | `zombie42_19/iso/objects/interfaces/IClothingWasherDryerLogic.java` |
-| Context-menu Turn On/Off option, availability checks | `zombie42_19/iso/ISWorldObjectContextMenuLogic.java` (`toggleClothingWasher`, line 4961) |
+| Washing machine object (container, power draw, save/load) | `zombie42_20_4/iso/objects/IsoClothingWasher.java` |
+| Washing cycle logic (the actual wash process) | `zombie42_20_4/iso/objects/ClothingWasherLogic.java` |
+| Dryer object | `zombie42_20_4/iso/objects/IsoClothingDryer.java` |
+| Drying cycle logic | `zombie42_20_4/iso/objects/ClothingDryerLogic.java` |
+| Combined washer/dryer object (mode-switching wrapper) | `zombie42_20_4/iso/objects/IsoCombinationWasherDryer.java` |
+| Shared interface both logic classes implement | `zombie42_20_4/iso/objects/interfaces/IClothingWasherDryerLogic.java` |
+| Context-menu Turn On/Off option, availability checks | `zombie42_20_4/iso/ISWorldObjectContextMenuLogic.java` (`toggleClothingWasher`, line 4966) |
 | UI strings | `media/lua/shared/Translate/EN/Moveables.json`, `media/lua/shared/Translate/EN/UI.json`, `media/lua/shared/Translate/EN/SurvivalGuide.json` |
 | Sounds | `media/scripts/generated/sounds/objects/sounds_object_largecontainers.txt` |
 
 ## How It's Used
 
 The washing machine is turned on/off via a context-menu option
-(`ISWorldObjectContextMenuLogic.toggleClothingWasher`, line 4961-onward), which adds a
+(`ISWorldObjectContextMenuLogic.toggleClothingWasher`, line 4966-onward), which adds a
 "Turn On" / "Turn Off" entry that calls back into
 `ISWorldObjectContextMenu.onToggleClothingWasher` → `IsoClothingWasher.setActivated()`.
 Before allowing "Turn On" to actually work, it's greyed out (`notAvailable = true`) unless
-**both** of the following hold (line 4995):
+**both** of the following hold (line 5000):
 
 ```java
 if (!object.getContainer().isPowered() || object.getFluidAmount() <= 0.0F) {
@@ -64,7 +65,7 @@ if (!object.getContainer().isPowered() || object.getFluidAmount() <= 0.0F) {
 
 ## The Wash Cycle (`ClothingWasherLogic`)
 
-`ClothingWasherLogic.update()` (`zombie42_19/iso/objects/ClothingWasherLogic.java`) runs
+`ClothingWasherLogic.update()` (`zombie42_20_4/iso/objects/ClothingWasherLogic.java`) runs
 every game tick while the object exists in the world, but only does meaningful work once
 per elapsed **in-game minute**, and only while `isActivated()` is true:
 
@@ -162,3 +163,9 @@ two separate objects.
   (`cycleLengthMinutes`, unused as a variable in the actual comparison — the literal `90.0F`
   is what's checked in `cycleFinished()`); no sandbox option, skill, or item-count factor was
   found that changes it.
+- **42.20.4 note:** `ClothingWasherLogic`/`ClothingDryerLogic`'s `lastUpdate` bounds-check was
+  refactored into a shared `GameTime.checkHours(lastUpdate, worldAgeHours)` helper (previously
+  inline `if`/`else if`), and the "is machine loaded with noisy items" sound parameter is now
+  set via `emitter.setParameterValueByName(...)` instead of looking up a `FMODManager`
+  parameter description object first. Both are refactors only — the elapsed-time math, cycle
+  length, and all per-minute formulas above are unchanged.

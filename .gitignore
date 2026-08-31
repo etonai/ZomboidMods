@@ -15,6 +15,9 @@ mymods/PseudoAgriculture/
 # Ignore zombie42_19 directory (decompiled Java source code for v42.19)
 /zombie42_19/
 
+# Ignore zombie42_20_4 directory (decompiled Java source code for v42.20.4)
+/zombie42_20_4/
+
 # Ignore summary file
 summary.txt
 

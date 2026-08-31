@@ -17,6 +17,7 @@ The project focuses on understanding and documenting various game mechanics thro
 - **media/**: Project Zomboid game files (Lua scripts, configurations)
 - **zombie42_11/**: Java source files for game engine, v42.11.0
 - **zombie42_19/**: Java source files for game engine, v42.19 (decompiled)
+- **zombie42_20_4/**: Java source files for game engine, v42.20.4 (decompiled)
 
 ## Analysis Focus Areas
 - **Farming Systems**: Plant growth, disease, fertilizer, water management

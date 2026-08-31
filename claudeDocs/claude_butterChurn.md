@@ -1,7 +1,8 @@
 # Butter Churn ("Churn Bucket") Analysis
 
 **Created:** 2026-08-30
-**Game Version:** Project Zomboid 42.19 (decompiled sources in `zombie42_19/`, scripts in `media/`)
+**Updated:** 2026-08-30 — re-verified against Project Zomboid 42.20.4
+**Game Version:** Project Zomboid 42.20.4 (decompiled sources in `zombie42_20_4/`, scripts in `media/`). Originally analyzed against 42.19; the bench-tick timing mechanism (`CraftLogicSystem`, `EntitySimulation`) is byte-for-byte identical in 42.20.4 — only source directory references were updated. (Unrelated to this doc: `CraftRecipe.xp_Award` was renamed to `CraftRecipe.XpAward` in 42.20.4 — noted for completeness, doesn't affect anything documented here.)
 
 ## Summary
 
@@ -20,10 +21,10 @@ mash tuns, and furnaces), not the player's active "timed action" crafting system
 | Churning recipe (milk → butter) | `media/scripts/generated/entities/animals/craftRecipes/recipes_butter_churn.txt` |
 | `Butter` item definition | `media/scripts/generated/items/food.txt` (line 4535) |
 | UI strings ("Butter Churn", "Churn Butter", tooltip) | `media/lua/shared/Translate/EN/IG_UI.json` (line 7089), `media/lua/shared/Translate/EN/Recipes.json` (lines 1217, 1841), `media/lua/shared/Translate/EN/Tooltip.json` (line 92) |
-| Entity crafting-bench runtime (elapsed-time accumulation) | `zombie42_19/entity/components/crafting/CraftLogicSystem.java` |
-| Recipe data model (`time` field, remaining-time display) | `zombie42_19/entity/components/crafting/CraftRecipeComponent.java` |
-| Recipe script class (`getTime()`) | `zombie42_19/scripting/entity/components/crafting/CraftRecipe.java` |
-| Real-time/game-time conversion constant | `zombie42_19/entity/EntitySimulation.java` |
+| Entity crafting-bench runtime (elapsed-time accumulation) | `zombie42_20_4/entity/components/crafting/CraftLogicSystem.java` |
+| Recipe data model (`time` field, remaining-time display) | `zombie42_20_4/entity/components/crafting/CraftRecipeComponent.java` |
+| Recipe script class (`getTime()`) | `zombie42_20_4/scripting/entity/components/crafting/CraftRecipe.java` |
+| Real-time/game-time conversion constant | `zombie42_20_4/entity/EntitySimulation.java` |
 
 ## Entity Definition
 
@@ -112,12 +113,12 @@ Because `churn_butter` has no `timedAction`, it is processed by the entity **cra
 tick system**, not the player action-duration system. The mechanism, traced through the
 decompiled Java:
 
-1. `CraftLogicSystem.updateCraftLogic()` (`zombie42_19/entity/components/crafting/CraftLogicSystem.java:77`)
+1. `CraftLogicSystem.updateCraftLogic()` (`zombie42_20_4/entity/components/crafting/CraftLogicSystem.java:77`)
    advances the recipe's progress every simulation tick:
    ```java
    craftData.setElapsedTime(craftData.getElapsedTime() + EntitySimulation.getGameSecondsPerTick());
    ```
-2. `EntitySimulation` (`zombie42_19/entity/EntitySimulation.java`) defines the tick rate:
+2. `EntitySimulation` (`zombie42_20_4/entity/EntitySimulation.java`) defines the tick rate:
    ```java
    private static final double SECONDS_PER_TICK = 0.1;      // 1 simulation tick = 0.1 real seconds
    public static double getGameSecondsPerTick() { return 2.4; } // each tick advances the in-game clock by 2.4 in-game seconds
@@ -127,7 +128,7 @@ decompiled Java:
    `SandboxOptions`).
 3. `CraftRecipeComponent` compares elapsed time against the recipe's `time` field and shows
    a remaining-time readout by treating `time` as a count of seconds, decomposed into
-   `ss / mm / hh / dd` (`zombie42_19/entity/components/crafting/CraftRecipeComponent.java:807-811`):
+   `ss / mm / hh / dd` (`zombie42_20_4/entity/components/crafting/CraftRecipeComponent.java:807-811`):
    ```java
    int timeRemaining = craftRecipeData.getRecipe().getTime() - (int) craftRecipeData.getElapsedTime();
    int ss = timeRemaining % 60;
@@ -147,7 +148,7 @@ Putting it together for `churn_butter`'s `time = 500`:
 
 Unlike character-performed timed-action crafts, this bench recipe's duration is **not**
 affected by the character's Farming/Cooking skill — `CraftRecipe.getTime(IsoGameCharacter)`
-(the skill-scaled variant, in `zombie42_19/scripting/entity/components/crafting/CraftRecipe.java:199-207`)
+(the skill-scaled variant, in `zombie42_20_4/scripting/entity/components/crafting/CraftRecipe.java:199-207`)
 is only used for player-performed timed-action recipes; the passive bench path in
 `CraftRecipeComponent`/`CraftLogicSystem` calls the unscaled `getTime()` instead.
 

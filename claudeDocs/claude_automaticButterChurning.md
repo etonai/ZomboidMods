@@ -1,7 +1,8 @@
 # Mod Design: Automatic Butter Churning Machine
 
 **Created:** 2026-08-30
-**Game Version target:** Project Zomboid 42.19 (build 42 entity-component system)
+**Updated:** 2026-08-30 — re-verified against Project Zomboid 42.20.4
+**Game Version target:** Project Zomboid 42.20.4 (build 42 entity-component system). Originally targeted 42.19; every vanilla mechanism this design leans on (`CraftLogicSystem`, `CraftBenchSoundsScript`) is byte-for-byte identical in 42.20.4 — only source directory references and one line number (`toggleClothingWasher`, which shifted due to unrelated additions elsewhere in the file) were updated.
 **Related analyses:** [claude_butterChurn.md](claude_butterChurn.md), [claude_amphoraAnalysis.md](claude_amphoraAnalysis.md), [claude_washingMachineAnalysis.md](claude_washingMachineAnalysis.md)
 
 ## 1. Concept (as specified)
@@ -64,7 +65,7 @@ rather than reinventing the batch math in Lua. Specifically:
   `[CowMilk;SheepMilk] mode:mixture` → 1 `Base.Butter`, `time = 500`) but tagged for this
   entity instead of `ChurnBucket`.
 - `CraftLogic` (unlike `CraftBench`) *is* watched by a background system —
-  `CraftLogicSystem.updateSimulation()` (`zombie42_19/entity/components/crafting/CraftLogicSystem.java:31`)
+  `CraftLogicSystem.updateSimulation()` (`zombie42_20_4/entity/components/crafting/CraftLogicSystem.java:31`)
   — which ticks any entity with `ComponentType.CraftLogic` every simulation step regardless
   of whether its crafting UI window is open. No vanilla entity in the files surveyed
   actually uses plain `CraftLogic` (only its specialized siblings `DryingCraftLogic`,
@@ -146,7 +147,7 @@ module Base
         {
             -- reuse whatever sound-id the manual Butter Churn's craft flow plays;
             -- CraftBenchSoundsScript just maps an id -> a gameSound name
-            -- (zombie42_19/scripting/entity/components/sound/CraftBenchSoundsScript.java),
+            -- (zombie42_20_4/scripting/entity/components/sound/CraftBenchSoundsScript.java),
             -- so this would need the manual churn's actual sound name, which wasn't
           -- identified in the Butter Churn analysis pass
         }
@@ -240,7 +241,7 @@ end
 ```
 
 Start/Stop would be a context-menu option analogous to
-`ISWorldObjectContextMenuLogic.toggleClothingWasher` (`zombie42_19/iso/ISWorldObjectContextMenuLogic.java:4961`),
+`ISWorldObjectContextMenuLogic.toggleClothingWasher` (`zombie42_20_4/iso/ISWorldObjectContextMenuLogic.java:4966`),
 greyed out with a tooltip when unpowered or empty, exactly like the vanilla washing
 machine's Turn On option.
 
