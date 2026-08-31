@@ -1,8 +1,8 @@
 # DevCycle 001: Automatic Butter Churner Foundation
 
-**Status:** In Progress
+**Status:** Work Complete — closed without a working end-to-end result; continues in DevCycle 2
 **Start Date:** 2026-08-30
-**Target Completion:** TBD
+**Target Completion:** Closed 2026-08-31 (incomplete — see Completion Summary)
 **Focus:** Build the `AutoButterChurn` scripted entity, its auto-repeating churn recipe, and the washing-machine conversion flow that produces it, per `doc/ideas/claude_automaticButterChurning.md`.
 
 ---
@@ -312,7 +312,7 @@ This test was deliberately not meant to be a final fix — `crafted_05_72` is th
 
 ### Phase 17: Redesigned Milk Filling and Churning Around `component FluidContainer`
 
-**Status:** Work Complete — implemented, re-test pending. This is a significant architecture change, not a small bugfix.
+**Status:** Work Complete, but confirmed NOT working — cycle closed with this unresolved. See Notes and Risks / Completion Summary.
 
 With the entity now visibly appearing, the next report was about the *interaction*, not the visuals: right-clicking the placed entity showed a menu option labeled `Entity_DisplayName_Default` that opened something resembling the manual Butter Churn's own crafting window, and the user was explicit that they do not want that menu — it "seems locked to the manual butter churning process."
 
@@ -332,7 +332,7 @@ Rather than just plug that gap and keep the `component CraftLogic`/`component Re
 - [x] **Updated `ISConvertToAutoButterChurn.lua`:** requires the rewritten `AutoButterChurnCode`, and calls `AutoButterChurnCode.registerEntity(self.square)` right after a successful `addWorkstationEntity`, so newly-converted entities are picked up by the tick system immediately. Kept (not removed) a smaller set of diagnostic prints around entity creation, per the Phase 15 lesson about not tearing out logging before a fix is confirmed — this is new, untested logic.
 - [x] **Removed** the now-obsolete `auto_churn_butter` entry from `Recipes.json` and `IGUI_CraftingWindow_AutoButterChurn` from `IG_UI.json` (deleted both files, since each had exactly one now-dead entry).
 - [x] Re-copied the mod to the local Zomboid mods folder via `utilities\CopyModToZomboid.bat PseudoButterChurner`.
-- [ ] **Next step (needs you):** convert a washer/dryer, right-click the resulting entity and confirm no confusing menu appears, pour milk in via the normal "Add Fluid From Item"-style submenu (the same interaction a rain barrel or Amphora offers), wait roughly 10 in-game minutes (the tick cadence) past the 500-second threshold, and confirm Butter appears on the ground next to it. Send back any `AutoButterChurnDiag:` lines from `console.txt` either way.
+- [x] Tested by the user: **did not work.** Reported simply as "Phase 17 did not work," with no further detail or log captured before the decision was made to close this DevCycle rather than continue debugging. Which specific part failed (no fluid-transfer menu appearing at all, milk not registering as poured, the tick never firing, Butter never appearing, or something else entirely) is **unknown** — this needs fresh diagnostic evidence at the start of DevCycle 2, not a guess carried over from here.
 
 **Technical Notes:**
 While researching the periodic-tick pattern, found that vanilla ships a proper reusable framework for exactly this shape of problem — `Map/SGlobalObjectSystem` (used by `SRainBarrelSystem`, `SFarmingSystem`, etc.) — which handles the registry/save-persistence/object-validity bookkeeping generically instead of the hand-rolled `ModData` table used here. Not adopted in this pass, to avoid opening a second large unknown while already mid-rewrite, but worth a follow-up refactor once the hand-rolled version is confirmed working, since it would likely be more robust (proper serialization, no risk of a malformed/stale registry table surviving a bad save).
@@ -396,26 +396,25 @@ Carried over from `doc/ideas/claude_automaticButterChurning.md` §7. Status refl
 
 ## Completion Summary
 
-*This cycle is not yet closed — do not move to `doc/planning/completed/` yet. Filled in early per current progress; revise when the cycle actually closes.*
-
-**Completion Date:** Not yet closed.
-**Phases Completed:** 1, 2, 3 (implementation done; static checks only, no in-game verification). Phase 5 partially done (static checks). Phase 4 not started.
-**Work Deferred:** Sound (Phase 4, Q7), recipe-learn/schematic unlock (Q6), power draw/fuel consumption (Q8) — all pushed to a future DevCycle. All in-game verification (Phase 5's unchecked items) is pending.
+**Completion Date:** 2026-08-31
+**Phases Completed:** 1–16 reached a working, confirmed state in-game (entity creation, conversion flow, sprite visibility). Phase 17 (the `component FluidContainer` / trough-style redesign) was implemented but **confirmed not working**, and the cycle was closed at that point rather than continuing to debug it.
+**Work Deferred to DevCycle 2:** Diagnosing why Phase 17 doesn't work (no failure details captured yet — see Phase 17's closing note), sound (Q7), recipe-learn/schematic unlock (Q6), power draw/fuel consumption (Q8), real custom art (the entity still visually looks like the manual Butter Churn, not a washing machine), and the `SGlobalObjectSystem` refactor noted in Phase 17's Technical Notes.
 
 **Accomplishments:**
-- Implemented the `AutoButterChurn` scripted entity (`Resources` + `CraftLogic` with `StartMode = Automatic`), corrected from the design doc's original sketch after tracing the decompiled resource system (no separate `FluidContainer` component; fluid filtering via a named `fluidFilter` script object).
-- Implemented the `auto_churn_butter` recipe (5 L milk → 1 Butter, `time = 500`, tagged for `AutoButterChurn`).
-- Implemented the washing-machine-to-`AutoButterChurn` conversion flow: context-menu gate (screwdriver + Electrical 5 + empty/off) and a custom timed action swapping the legacy `IsoClothingWasher` for the new entity in place.
-- Implemented power gating via the recipe's `OnUpdate` hook, using a verified `CraftRecipeData → Resource → GameEntity → CraftLogic component` chain (not the design doc's speculative `getCharacter()` path) to force-stop the craft when its square loses power.
-- Added all required translation strings (entity name, recipe name, tooltips, context-menu option).
-- Found and fixed one real defect before finishing: Lua-style `--` comments in `entity_AutoButterChurn.txt`, which are not valid in this script format, would have broken script loading.
+- Got a placed, converted `AutoButterChurn` entity working end-to-end through Phase 16: visibly created via `square:addWorkstationEntity(...)`, correctly module-qualified (`Pseudonymous.AutoButterChurn`), with a confirmed-visible (if placeholder) sprite.
+- Built and debugged the washing-machine-to-`AutoButterChurn` conversion flow: a context-menu gate (screwdriver + Electrical 5 + empty/off, extended in Phase 8 to also cover `IsoCombinationWasherDryer`) and a timed action that swaps the legacy object for the new entity in place.
+- Traced and fixed four distinct, confirmed root causes across Phases 6–16: an invalid `//` comment in a script file, wrong fluid-input recipe syntax, a sprite-row collision, a missing module-qualified entity name, and a registered-but-blank placeholder sprite tile.
+- In Phase 17, correctly diagnosed *why* the confusing crafting-window menu was appearing (a missing `xuiSkin` entry) and redesigned milk-filling around the same generic vanilla mechanism used by troughs, rain barrels, and the Amphora (`component FluidContainer`), including a hand-rolled Lua tick system (registry + `Events.EveryTenMinutes`) to replace the `CraftLogic`-based automatic batching that turned out to be incompatible with that approach.
+- This design work and diagnosis are very likely still correct and reusable in DevCycle 2 even though the resulting implementation didn't work when tested — the failure mode (what specifically broke) was never captured before the cycle closed.
 
 **Metrics:**
-- Files created: 10 (1 entity script, 1 fluid filter script, 1 recipe script, 3 Lua files, 4 translation JSON files).
-- Static checks passed: all new JSON validated as well-formed; all referenced vanilla identifiers cross-checked against decompiled 42.20.4 sources.
-- In-game checks completed: none.
+- Files in final state: 8 (2 entity scripts, 2 Lua files for conversion/churning, 1 context-menu Lua file, 1 temporary diagnostic Lua file, 2 translation JSON files). Several earlier files (a recipe, a fluid-filter script, two translation files) were created and later deleted as the design changed.
+- Confirmed working in-game: mod loads with no script errors; conversion completes without crashing; the resulting entity is visible on the square.
+- Confirmed NOT working in-game: the Phase 17 `component FluidContainer` redesign (milk filling and/or automatic churning) — exact failure point unknown.
 
 **Lessons / Notes:**
-- The design doc (`doc/ideas/claude_automaticButterChurning.md`) got the high-level architecture right (`CraftLogic` + `StartMode = Automatic`) but its component-level sketch in §4 had three assumptions that didn't survive contact with the decompiled resource/crafting-recipe system: the `FluidContainer` component, the inline fluid `whitelist` block, and the `OnUpdate` hook's `getCharacter()`-based power check. All three are documented with their corrected replacements in the Phase 1 and Phase 3 Technical Notes above — useful precedent for future entity-based DevCycles in this mod family.
-- `Perks.Electricity`, not `Perks.Electrical`, is the correct in-code perk name for the Electrical skill.
-- This cycle is a good example of why Phase 5 exists as a separate, explicitly-gated step: a substantial amount of plausible-looking script/Lua was written and cross-checked against decompiled source, but none of it has been proven to actually work in a running game yet.
+- The design doc (`doc/ideas/claude_automaticButterChurning.md`) got the high-level architecture direction right but several of its component-level assumptions didn't survive contact with the decompiled engine: `component Resources` fluid entries are self-contained, not linked to any `component FluidContainer`; fluid filters can be inline `whitelist` blocks OR named `fluidFilter` objects depending on which component hosts them; `CraftLogic` can only read fluid inputs from `Resources`, never a sibling `FluidContainer`; and the simple vanilla "pour a container in" UX is controlled by a single generic `hasComponent(ComponentType.FluidContainer)` check, unrelated to the entity/crafting-window system entirely.
+- Two patterns copied from the vanilla Amphora's `ISOpenCloseLid.lua` didn't transfer cleanly and cost real debugging time: `self.barrel` there is a `GameEntity`-backed object with `getHealth()`/`getMaxHealth()`, while our conversion's source object (`IsoClothingWasher`/`IsoCombinationWasherDryer`) is a legacy `IsoObject` without them. Matching code shape doesn't guarantee matching object type.
+- `Perks.Electricity`, not `Perks.Electrical`, is the correct in-code perk name.
+- Sprite rows on shared vanilla sheets (`crafted_05_*`) are risky to guess: names can be registered in `IsoSpriteManager` (so `getSprite()` returns non-nil) while still having no actual drawn artwork — "registered" and "visible" are not the same thing, discovered only by directly testing a known-good sprite (`ChurnBucket`'s own) for comparison.
+- The most important process lesson from this cycle: **don't remove diagnostic logging until a fix is confirmed working**, not just "reasoned through." A fix that looked airtight from reading decompiled source alone (the module-qualified entity name) turned out to be genuinely correct, but that was only provable because logging was restored after being prematurely deleted once already — see `feedback_dont_remove_diagnostics_before_confirmed_fix.md` in project memory. This should carry directly into DevCycle 2: keep the diagnostic prints in place until Phase 17's actual failure point is understood.
