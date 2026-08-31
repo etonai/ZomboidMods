@@ -1,9 +1,10 @@
-module Pseudonymous
+module Base
 {
     xuiSkin default
     {
         entity ES_AutoButterChurn
         {
+            LuaWindowClass = ISEntityWindow,
             DisplayName = Automatic Butter Churner,
             Icon = Build_ButterChurn,
         }

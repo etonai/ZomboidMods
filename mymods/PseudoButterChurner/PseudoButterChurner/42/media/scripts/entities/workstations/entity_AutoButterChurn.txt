@@ -6,30 +6,49 @@ module Pseudonymous
         {
             xuiSkin = default,
             entityStyle = ES_AutoButterChurn,
-            uiEnabled = false,
+            uiEnabled = true,
         }
-        component FluidContainer
+        component Resources
         {
-            ContainerName = AutoButterChurn,
-            Capacity = 20.0,
-            InitialPercentMin = 0.0,
-            InitialPercentMax = 0.0,
-            whitelist
+            group churn_inputs
             {
-                fluid = CowMilk,
-                fluid = SheepMilk,
+                Item@Input@1,
             }
+            group churn_outputs
+            {
+                Item@Output@20@StackAny,
+            }
+        }
+        component DryingCraftLogic
+        {
+            Recipes = AutoButterChurn,
+            StartMode = Manual,
+            inputGroup = churn_inputs,
+            outputGroup = churn_outputs,
         }
         component SpriteConfig
         {
             health = 100,
             skillBaseHealth = 20,
+            OnCreate = AutoButterChurnBuildHooks.onCreate,
             face S
             {
                 layer
                 {
-                    row = crafted_05_78,
+                    row = crafted_05_160,
                 }
+            }
+        }
+        component CraftRecipe
+        {
+            timedAction = BuildWoodenStructureMedium,
+            time = 50,
+            category = Farming,
+            Tooltip = Tooltip_craft_autoButterChurnDesc,
+            inputs
+            {
+                item 1 tags[base:screwdriver] mode:keep flags[NoBrokenItems],
+                item 1 [Base.Plank],
             }
         }
     }

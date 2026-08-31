@@ -1,5 +1,3 @@
 {
-  "Tooltip_AutoButterChurn_NeedsScrewdriver": "Requires a screwdriver",
-  "Tooltip_AutoButterChurn_NeedsElectrical": "Requires Electrical level 5",
-  "Tooltip_AutoButterChurn_MustBeEmptyAndOff": "Must be empty and turned off"
+  "Tooltip_craft_autoButterChurnDesc": "Automatically turns Milk into Butter over time."
 }

@@ -1,0 +1,19 @@
+module Pseudonymous
+{
+    craftRecipe AutoButterChurn
+    {
+        time = 75,
+        Tags = AutoButterChurn,
+        category = Farming,
+        OnCreate = AutoButterChurnCode.onBatchComplete,
+        inputs
+        {
+            item 1 [*] mode:keep,
+            -fluid 5.0 [CowMilk;SheepMilk] mode:mixture,
+        }
+        outputs
+        {
+            item 1 Base.Butter,
+        }
+    }
+}
