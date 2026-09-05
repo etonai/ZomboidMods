@@ -169,7 +169,7 @@ module Pseudonymous
     /*
      * Titanium Handiknife - copy of vanilla Base.Handiknife, but noticeably
      * more durable: ConditionMax and ConditionLowerChanceOneIn tripled
-     * (10 -> 30, 5 -> 15) so it holds an edge and lasts far longer than the
+     * (10 -> 99, 5 -> 99) so it holds an edge and lasts far longer than the
      * vanilla knife. Adjust further if a different durability curve is wanted.
      */
     item TitaniumHandiknife
@@ -229,8 +229,8 @@ module Pseudonymous
 
     /*
      * Pseudonymous Firestarter - copy of vanilla Base.MagnesiumFirestarter,
-     * but with more uses: UseDelta cut to a third (0.02 -> 0.0067), so it
-     * lasts ~150 uses instead of the vanilla ~50 (1 / UseDelta).
+     * but with more uses: UseDelta cut (0.02 -> 0.0001), so it
+     * lasts ~10000 uses instead of the vanilla ~50 (1 / UseDelta).
      */
     item PseudonymousFirestarter
     {
