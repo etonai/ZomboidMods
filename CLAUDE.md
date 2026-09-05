@@ -6,7 +6,7 @@
 ## Project Overview
 This is a Project Zomboid game files analysis project with two main purposes:
 
-1. **AI Agent Code Analysis**: Enable AI agents to analyze and understand Project Zomboid code located in the `zombie42_11/`, `zombie42_19/`, and `media/` directories
+1. **AI Agent Code Analysis**: Enable AI agents to analyze and understand Project Zomboid code located in the `zombie42_11/`, `zombie42_19/`, `zombie42_20_4/`, `media/`, and `media42_20_4/` directories
 2. **Mod Development Support**: Help with creating Project Zomboid mods by providing detailed understanding of game mechanics and systems
 
 The project focuses on understanding and documenting various game mechanics through code examination. The primary goal is to create accurate, code-based documentation of game systems rather than speculation or outdated information.
@@ -14,10 +14,13 @@ The project focuses on understanding and documenting various game mechanics thro
 ## Directory Structure
 - **claudeDocs/**: Technical analysis documents created by Claude
 - **cursorDocs/**: Analysis documents from Cursor with reviews
-- **media/**: Project Zomboid game files (Lua scripts, configurations)
+- **media/**: Project Zomboid Lua scripts/configurations for the v42.19 build
+- **media42_20_4/**: Project Zomboid Lua scripts/configurations for the v42.20.4 build
 - **zombie42_11/**: Java source files for game engine, v42.11.0
 - **zombie42_19/**: Java source files for game engine, v42.19 (decompiled)
 - **zombie42_20_4/**: Java source files for game engine, v42.20.4 (decompiled)
+
+When analyzing Lua behavior, match the `media*/` directory to the Java source directory of the same build (`media/` ↔ `zombie42_19/`, `media42_20_4/` ↔ `zombie42_20_4/`) — the two builds' Lua/Java can differ, so don't mix files across them unless explicitly comparing versions.
 
 ## Analysis Focus Areas
 - **Farming Systems**: Plant growth, disease, fertilizer, water management

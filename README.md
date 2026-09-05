@@ -2,12 +2,12 @@
 
 This repository contains AI-assisted code analysis documentation and mod development tooling for Project Zomboid 42.X. The primary purpose is to enable accurate, code-based documentation of game mechanics and to support the creation of mods backed by verified game logic rather than community speculation.
 
-> **Note:** The game source files (`zombie42_11/`, `zombie42_19/`, `media/`) and reference mods (`notmymods/`) are **not included in this repository**. They must be present locally (e.g., from a game installation, decompiled via `notmymods/ZomboidDecompiler-0.3.1`) and are excluded via `.gitignore`. Their content may change as examples are updated.
+> **Note:** The game source files (`zombie42_11/`, `zombie42_19/`, `zombie42_20_4/`, `media/`, `media42_20_4/`) and reference mods (`notmymods/`) are **not included in this repository**. They must be present locally (e.g., from a game installation, decompiled via `notmymods/ZomboidDecompiler-0.3.1`) and are excluded via `.gitignore`. Their content may change as examples are updated.
 
 ## Tech Stack
 
-- **Java** — Core game engine source files (`zombie42_11/` directory for v42.11.0, `zombie42_19/` for v42.19, local only)
-- **Lua** — Game scripting, UI, server logic, and item definitions (`media/` directory, local only)
+- **Java** — Core game engine source files (`zombie42_11/` directory for v42.11.0, `zombie42_19/` for v42.19, `zombie42_20_4/` for v42.20.4, local only)
+- **Lua** — Game scripting, UI, server logic, and item definitions (`media/` directory for the v42.19 build, `media42_20_4/` for the v42.20.4 build, local only)
 - **Python 3** — Mod deployment tooling (`deploy_mod.py`)
 - **Markdown** — Analysis documentation (`claudeDocs/`, `cursorDocs/`)
 - **Claude Code (AI)** — Primary agent for code analysis and documentation
@@ -29,9 +29,13 @@ The following directories must be present **locally** but are excluded from vers
 ```
 zombie42_11/     Java source files for the game engine, v42.11.0 (from game installation)
 zombie42_19/     Java source files for the game engine, v42.19 (decompiled from game installation)
-media/           Lua scripts, configurations, translations, and game data (from game installation)
+zombie42_20_4/   Java source files for the game engine, v42.20.4 (decompiled from game installation)
+media/           Lua scripts, configurations, translations, and game data for the v42.19 build (from game installation)
+media42_20_4/    Lua scripts, configurations, translations, and game data for the v42.20.4 build (from game installation)
 notmymods/       Reference mods used as examples (third-party, not authored here)
 ```
+
+When analyzing Lua behavior, pair `media/` with `zombie42_19/` and `media42_20_4/` with `zombie42_20_4/` — the two builds' Lua and Java can differ.
 
 ## Analysis Focus Areas
 

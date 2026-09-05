@@ -156,3 +156,94 @@ The lid toggle is a context-menu action (`ContextMenuCode.OpenCloseAmphoraLid`,
   fluid gained per tick was not traced in this pass (see `DryingCraftLogic.java` for a
   similar, already-traced rain-intensity formula used elsewhere, as a likely analogous
   pattern).
+
+## Verified Against `media42_20_4/`
+
+**Checked:** 2026-09-05
+
+All three code paths this analysis depends on were diffed byte-for-byte between `media/`
+(v42.19) and `media42_20_4/` (v42.20.4) and found **identical**, so every finding above
+applies unchanged to the 42.20.4 build:
+
+- `media{,42_20_4}/scripts/generated/entities/outdoors/entity_amphora.txt`
+- `media{,42_20_4}/lua/shared/TimedActions/ISOpenCloseLid.lua`
+- `media{,42_20_4}/lua/client/ContextMenuCode.lua`
+
+No functional or structural changes to the Amphora, its lid mechanic, or its storage
+behavior between these two builds.
+
+## The Lid Mechanic as a Reusable Modding Pattern
+
+The Amphora's "container that can be sealed/unsealed" behavior is not bespoke code — it's
+a small, fully generic pattern built from three pieces that any modded entity can reuse:
+
+### 1. Two entities, one identity, name-convention-linked
+
+`Amphora` and `AmphoraClosed` are two independent `entity` blocks with their own
+`FluidContainer`, `SpriteConfig`, and `ContextMenuConfig`, but they're never explicitly
+cross-referenced by ID anywhere in script data. The link is a **pure string convention**,
+resolved entirely at runtime in `ISOpenCloseLid:complete()`
+(`media42_20_4/lua/shared/TimedActions/ISOpenCloseLid.lua:33-41`):
+
+```lua
+local name = self.barrel:getEntityScript():getName();
+local newName;
+if luautils.stringEnds(name, "Closed") then
+    newName = string.gsub(name, "Closed", "");
+else
+    newName = name .. "Closed";
+end
+```
+
+This means the toggle logic is entirely generic: **any** entity pair named `Foo` /
+`FooClosed` gets working open/close behavior for free, with no Lua changes — only two
+`entity` blocks in script data and one `ContextMenuConfig.contextEntry` per state. Nothing
+about this function is Amphora-specific.
+
+### 2. The swap is a full entity replacement, not a state flag
+
+`ISOpenCloseLid:complete()` (lines 33-61) doesn't flip a boolean on the existing entity —
+it removes the old one from the square (`RemoveTileObject`) and creates the other one fresh
+(`self.square:addWorkstationEntity(newName, self.sprite)`), then manually carries over the
+two pieces of state that would otherwise be lost:
+
+- **Fluid contents**: `copy()` the old `FluidContainer` before removal, `copyFluidsFrom()`
+  into the new entity's `FluidContainer` after creation (only if the entity actually has one
+  — `hasComponent(ComponentType.FluidContainer)` guards both sides, so this same action
+  works unmodified on non-fluid entities too).
+- **Health**: `getHealth()`/`getMaxHealth()` read before removal, `setHealth()`/
+  `setMaxHealth()` applied to the new entity after creation.
+
+Any other per-instance state (mod data, custom component values, item contents of a
+non-fluid `ItemContainer`, etc.) is **not** carried over automatically — a mod reusing this
+pattern for a container type with its own extra state would need to extend `complete()`
+(or fork it) to copy that state across the swap the same way health and fluids are copied.
+
+### 3. Two call sites: entity-specific vs. fully generic
+
+`ContextMenuCode.lua` actually ships **two** functions for this, and the Amphora
+deliberately uses the more specific one:
+
+- `ContextMenuCode.OpenCloseLid(context, entity, character, sprite)` (line 146) — fully
+  generic: just walks to the entity and queues `ISOpenCloseLid` with whatever `sprite`
+  string it's given. This is the one to call directly from a new entity's
+  `ContextMenuConfig.contextEntry.customFunction` for a from-scratch mod, since it requires
+  no per-entity Lua at all — the sprite name is passed straight through from script data.
+- `ContextMenuCode.OpenCloseAmphoraLid(context, entity, character, param)` (line 129) — an
+  Amphora-specific wrapper that hardcodes the four known Amphora sprite row names
+  (`crafted_04_32/33/34/35`) and picks the correct target sprite based on the entity's
+  *current* sprite before delegating to the same `ISOpenCloseLid` action. This extra layer
+  exists only because the Amphora's `SpriteConfig` uses face-specific rows (`S` vs `E`) that
+  differ between the open/closed sprite pairs, so a plain "toggle sprite by name suffix"
+  can't infer the right row — the wrapper's `if/elseif` chain is standing in for that
+  missing convention.
+
+**Takeaway for modding:** a new sealable container (e.g., a lidded crock, a corked jug, a
+capped fuel drum) can get this whole mechanic by: (1) defining two entities named `Foo`/
+`FooClosed` each with matching `FluidContainer`/`ItemContainer` blocks and a
+`ContextMenuConfig.contextEntry` pointing at `menu = CloseLid`/`OpenLid` respectively, and
+(2) wiring `customFunction` to the generic `ContextMenuCode.OpenCloseLid` (passing the
+target sprite name as `param`) if the sprite swap is a simple 1:1 row substitution, or to a
+small Amphora-style wrapper only if face-dependent sprite rows make the swap ambiguous. No
+new timed-action code is needed in either case — `ISOpenCloseLid` already handles the
+entity replacement, fluid-content preservation, and health preservation generically.

@@ -1,7 +1,10 @@
 # Project Zomboid Analysis Project .gitignore
 
-# Ignore media directory (contains game assets and Lua files)
+# Ignore media directory (contains game assets and Lua files, v42.19 build)
 /media/
+
+# Ignore media42_20_4 directory (contains game assets and Lua files, v42.20.4 build)
+/media42_20_4/
 
 # Ignore notmymods directory (contains existing mods to use as examples)
 /notmymods/

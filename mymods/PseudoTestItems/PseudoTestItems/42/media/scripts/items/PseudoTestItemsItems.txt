@@ -1,0 +1,248 @@
+module Pseudonymous
+{
+    imports
+    {
+        Base
+    }
+
+    /*
+     * Test Clawhammer - identical to vanilla Base.Hammer (display name "Claw Hammer"),
+     * except for its own display name, so it can be spawned/tested without colliding
+     * with the vanilla item in inventories, tests, or recipes.
+     */
+    item TestClawhammer
+    {
+        DisplayName = Test Clawhammer,
+        DisplayCategory = ToolWeapon,
+        ItemType = base:weapon,
+        Weight = 1.5,
+        IconsForTexture = Hammer;Hammer_Forged,
+        AttachmentType = Hammer,
+        BaseSpeed = 1.0,
+        BreakSound = HammerBreak,
+        CanBarricade = true,
+        Categories = base:smallblunt,
+        ConditionLowerChanceOneIn = 30,
+        ConditionMax = 10,
+        CritDmgMultiplier = 3.0,
+        CriticalChance = 20.0,
+        DoorDamage = 9,
+        DoorHitSound = HammerHit,
+        DropSound = HammerDrop,
+        HitFloorSound = HammerHit,
+        HitSound = HammerHit,
+        IdleAnim = Idle_Weapon2,
+        KnockBackOnNoDeath = true,
+        KnockdownMod = 0.0,
+        MaxDamage = 1.0,
+        MaxHitcount = 1,
+        MaxRange = 1.1,
+        MetalValue = 25.0,
+        MinAngle = 0.67,
+        MinDamage = 0.5,
+        MinRange = 0.61,
+        MinimumSwingtime = 3.0,
+        PushBackMod = 0.5,
+        RunAnim = Run_Weapon2,
+        SplatBloodOnNoDeath = true,
+        SplatNumber = 1,
+        SubCategory = Swinging,
+        SwingAmountBeforeImpact = 0.02,
+        SwingAnim = Bat,
+        SwingSound = HammerSwing,
+        Swingtime = 3.0,
+        TreeDamage = 0,
+        WeaponLength = 0.23,
+        WeaponSpritesByIndex = Hammer;HammerForged,
+        Tags = base:hammer;base:removebarricade;base:hastoolhead;base:killanimal;base:repairwithglue;base:repairwithtape;base:hasmetal,
+        HeadCondition = 10,
+        OnBreak = OnBreak.Clawhammer,
+        HeadConditionLowerChanceMultiplier = 2.0,
+        Researchablerecipes = Forge_Clawhammer_Head;Forge_Ball_Peen_Hammer_Head;Forge_Club_Hammer_Head;Forge_Smithing_Hammer_Head,
+    }
+
+    /*
+     * Short Bat - Test-Reinforced - identical to vanilla Base.ShortBat_Can
+     * (display name "Short Bat - Can-Reinforced"), except for its own display
+     * name, so it can be spawned/tested without colliding with the vanilla
+     * item in inventories, tests, or recipes.
+     */
+    item ShortBatTestReinforced
+    {
+        DisplayName = Short Bat - Test-Reinforced,
+        DisplayCategory = WeaponCrafted,
+        ItemType = base:weapon,
+        Weight = 2.0,
+        Icon = MedHandle_Cans,
+        AttachmentType = BigWeapon,
+        BaseSpeed = 1.1,
+        BreakSound = ShortBatBreak,
+        Categories = base:smallblunt,
+        ConditionLowerChanceOneIn = 20,
+        ConditionMax = 15,
+        CritDmgMultiplier = 3.0,
+        CriticalChance = 30.0,
+        DamageMakeHole = true,
+        DoorDamage = 7,
+        DoorHitSound = ShortBatHit,
+        DropSound = ShortBatDrop,
+        HitFloorSound = ShortBatHit,
+        HitSound = ShortBatHit,
+        IdleAnim = Idle_Weapon2,
+        KnockBackOnNoDeath = true,
+        KnockdownMod = 0.0,
+        MaxDamage = 1.1,
+        MaxHitcount = 1,
+        MaxRange = 1.26,
+        MinAngle = 0.65,
+        MinDamage = 0.6,
+        MinRange = 0.61,
+        MinimumSwingtime = 3.0,
+        PushBackMod = 0.5,
+        RunAnim = Run_Weapon2,
+        SplatBloodOnNoDeath = true,
+        SplatNumber = 1,
+        SubCategory = Swinging,
+        SwingAmountBeforeImpact = 0.02,
+        SwingAnim = Bat,
+        SwingSound = ShortBatSwing,
+        Swingtime = 3.0,
+        TreeDamage = 0,
+        WeaponLength = 0.35,
+        WeaponSprite = ShortBat_Can,
+        Tags = base:hasmetal;base:repairwithglue;base:repairwithtape,
+        Researchablerecipes = SheetMetalWeapon;CanReinforceLongWeapon;CanReinforceShortWeapon;CarveBat;CarveShortBat,
+    }
+
+    /*
+     * Short Bat - Steel-Reinforced - starts as a copy of ShortBatTestReinforced
+     * (itself a copy of vanilla Base.ShortBat_Can), except for its own display
+     * name. Stats to be differentiated later.
+     */
+    item ShortBatSteelReinforced
+    {
+        DisplayName = Short Bat - Steel-Reinforced,
+        DisplayCategory = WeaponCrafted,
+        ItemType = base:weapon,
+        Weight = 2.0,
+        Icon = MedHandle_Cans,
+        AttachmentType = BigWeapon,
+        BaseSpeed = 1.1,
+        BreakSound = ShortBatBreak,
+        Categories = base:smallblunt,
+        ConditionLowerChanceOneIn = 99,
+        ConditionMax = 99,
+        CritDmgMultiplier = 3.0,
+        CriticalChance = 30.0,
+        DamageMakeHole = true,
+        DoorDamage = 10,
+        DoorHitSound = ShortBatHit,
+        DropSound = ShortBatDrop,
+        HitFloorSound = ShortBatHit,
+        HitSound = ShortBatHit,
+        IdleAnim = Idle_Weapon2,
+        KnockBackOnNoDeath = true,
+        KnockdownMod = 0.0,
+        MaxDamage = 2.1,
+        MaxHitcount = 1,
+        MaxRange = 1.26,
+        MinAngle = 0.65,
+        MinDamage = 1.0,
+        MinRange = 0.61,
+        MinimumSwingtime = 3.0,
+        PushBackMod = 0.5,
+        RunAnim = Run_Weapon2,
+        SplatBloodOnNoDeath = true,
+        SplatNumber = 1,
+        SubCategory = Swinging,
+        SwingAmountBeforeImpact = 0.02,
+        SwingAnim = Bat,
+        SwingSound = ShortBatSwing,
+        Swingtime = 3.0,
+        TreeDamage = 0,
+        WeaponLength = 0.35,
+        WeaponSprite = ShortBat_Can,
+        Tags = base:hasmetal;base:repairwithglue;base:repairwithtape,
+        Researchablerecipes = SheetMetalWeapon;CanReinforceLongWeapon;CanReinforceShortWeapon;CarveBat;CarveShortBat,
+    }
+
+    /*
+     * Titanium Handiknife - copy of vanilla Base.Handiknife, but noticeably
+     * more durable: ConditionMax and ConditionLowerChanceOneIn tripled
+     * (10 -> 30, 5 -> 15) so it holds an edge and lasts far longer than the
+     * vanilla knife. Adjust further if a different durability curve is wanted.
+     */
+    item TitaniumHandiknife
+    {
+        DisplayName = Titanium Handiknife,
+        DisplayCategory = ToolWeapon,
+        MaxRange = 0.9,
+        WeaponSprite = Handiknife,
+        MinAngle = 0.65,
+        ItemType = base:weapon,
+        MinimumSwingtime = 2.0,
+        KnockBackOnNoDeath = false,
+        SwingAmountBeforeImpact = 0.02,
+        Categories = base:smallblade,
+        CloseKillMove = Jaw_Stab,
+        ConditionLowerChanceOneIn = 99,
+        Weight = 0.3,
+        SplatNumber = 4,
+        PushBackMod = 0.01,
+        SubCategory = Stab,
+        AimingMod = 0.8,
+        ConditionMax = 99,
+        MaxHitcount = 1,
+        IsAimedHandWeapon = true,
+        DoorDamage = 1,
+        SwingAnim = Stab,
+        MinRange = 0.61,
+        Swingtime = 2.0,
+        KnockdownMod = 0.0,
+        SplatBloodOnNoDeath = true,
+        Icon = KnifeMultitool,
+        RunAnim = Run_Weapon2,
+        IdleAnim = Idle_Weapon2,
+        BreakSound = KitchenKnifeBreak,
+        TreeDamage = 0,
+        MetalValue = 10.0,
+        CriticalChance = 25.0,
+        CritDmgMultiplier = 4.0,
+        MinDamage = 0.3,
+        MaxDamage = 0.5,
+        WeaponLength = 0.19,
+        DamageCategory = Slash,
+        DamageMakeHole = true,
+        HitFloorSound = KitchenKnifeHit,
+        ImpactSound = KitchenKnifeHit,
+        DoorHitSound = KitchenKnifeHit,
+        HitSound = KitchenKnifeHit,
+        SwingSound = KitchenKnifeSwing,
+        Tags = base:ignorezombiedensity;base:bottleopener;base:cutplant;base:sharpknife;base:butcheranimal;base:useworldstaticmodel;base:canopener;base:corkscrew;base:screwdriver;base:awl;base:fitskeyring;base:hasmetal;base:sharpenable;base:killanimal,
+        EquipSound = PocketKnifeEquip,
+        UnequipSound = PocketKnifeUnequip,
+        AttachmentType = Knife,
+        WorldStaticModel = HandiknifeClosed,
+        Researchablerecipes = Forge_Crude_Blade;Forge_Small_Knife;MakeScrewdriver;Forge_Corkscrew,
+        Sharpness = 1.0,
+    }
+
+    /*
+     * Pseudonymous Firestarter - copy of vanilla Base.MagnesiumFirestarter,
+     * but with more uses: UseDelta cut to a third (0.02 -> 0.0067), so it
+     * lasts ~150 uses instead of the vanilla ~50 (1 / UseDelta).
+     */
+    item PseudonymousFirestarter
+    {
+        DisplayName = Pseudonymous Firestarter,
+        DisplayCategory = Camping,
+        ItemType = base:drainable,
+        Weight = 0.1,
+        Icon = MagnesiumFirestarter,
+        UseDelta = 0.0001,
+        WorldStaticModel = MagnesiumFirestarter,
+        SurvivalGear = true,
+        Tags = base:startfire;base:hasmetal,
+        UseWhileEquipped = false,
+    }
+}
