@@ -7,6 +7,7 @@ module Mexiox_sw
 	item blackgloves
 	{
        		DisplayCategory = Clothing,		
+		ItemType = base:Clothing,
 		Type = Clothing,
 		DisplayName = Black Gloves,
 		ClothingItem = blackgloves,
@@ -22,6 +23,7 @@ module Mexiox_sw
 	item blackglove
 	{
        		DisplayCategory = Clothing,		
+		ItemType = base:Clothing,
 		Type = Clothing,
 		DisplayName = Black Glove,
 		ClothingItem = blackglove,

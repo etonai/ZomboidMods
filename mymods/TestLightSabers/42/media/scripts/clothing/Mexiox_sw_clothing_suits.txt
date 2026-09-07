@@ -7,6 +7,7 @@ module Mexiox_sw
 	item lukesuit
 	{
         	DisplayCategory = Clothing,			
+        	ItemType = base:Clothing,
         	Type = Clothing,
         	DisplayName = Luke's Suit,
         	ClothingItem = lukesuit,

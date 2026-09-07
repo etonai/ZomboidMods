@@ -7,6 +7,7 @@ module Mexiox_sw
 	item jediwhitepants
     	{
         	DisplayCategory = Clothing,
+        	ItemType = base:Clothing,
         	Type = Clothing,
         	DisplayName = Jedi White Pants,
         	ClothingItem = jediwhitepants,
@@ -23,6 +24,7 @@ module Mexiox_sw
 	item jedibrownpants
     	{
         	DisplayCategory = Clothing,
+        	ItemType = base:Clothing,
         	Type = Clothing,
         	DisplayName = Jedi Brown Pants,
         	ClothingItem = jedibrownpants,
@@ -39,6 +41,7 @@ module Mexiox_sw
 	item jediblackpants
     	{
         	DisplayCategory = Clothing,
+        	ItemType = base:Clothing,
         	Type = Clothing,
         	DisplayName = Jedi Black Pants,
         	ClothingItem = jediblackpants,

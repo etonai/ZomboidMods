@@ -8,6 +8,7 @@ module Mexiox_sw
 
             item luke_off
             {
+                ItemType = base:weapon,
                 DisplayCategory = Weapon,
                 MaxRange	=	1,
                 WeaponSprite	=	kenobi_off,
@@ -53,6 +54,10 @@ module Mexiox_sw
 
             item luke_on
             {
+                ItemType = base:weapon,
+                TwoHandWeapon	=	true,
+                LightDistance	=	3,
+                LightStrength	=	0.8,
                 DisplayCategory = Weapon,
                 MaxRange	=	1.23,
                 WeaponSprite	=	luke_on,

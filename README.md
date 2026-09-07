@@ -37,6 +37,8 @@ notmymods/       Reference mods used as examples (third-party, not authored here
 
 When analyzing Lua behavior, pair `media/` with `zombie42_19/` and `media42_20_4/` with `zombie42_20_4/` — the two builds' Lua and Java can differ.
 
+**The latest build is the default research target.** Unless a specific version is requested or the task is explicitly a version comparison, analysis should be performed against the newest available build (currently v42.20.4 — `zombie42_20_4/` + `media42_20_4/`).
+
 ## Analysis Focus Areas
 
 - **Farming Systems** — Plant growth, disease, fertilizer mechanics, water management
@@ -44,7 +46,7 @@ When analyzing Lua behavior, pair `media/` with `zombie42_19/` and `media42_20_4
 - **Game Balance** — Risk-reward systems, player progression
 - **Mod Feasibility** — Evaluating and planning new mod implementations
 
-## Key Findings (v42.11.0)
+## Key Findings (v42.11.0, superseded — see `claudeDocs/` for current-build analyses)
 
 - **Overwatering System**: Completely disabled — all `waterNeededMax` values are commented out in game files
 - **Fertilizer System**: Active with a 3-tier risk model (1 application = beneficial, 2+ = growth penalty, 3+ = cursed status)
@@ -67,5 +69,5 @@ All analysis documents in `claudeDocs/` follow these conventions:
 - File references and line numbers for every claim
 - Code snippets from the actual game files
 - Clear distinction between active and disabled systems
-- Version noted as `42.11.0`
+- Version noted explicitly (default target is the latest build, currently v42.20.4, unless the document is a deliberate older-version analysis)
 - Creation and update dates included in each document

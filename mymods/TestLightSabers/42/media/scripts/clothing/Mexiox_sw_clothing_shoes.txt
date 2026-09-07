@@ -8,6 +8,7 @@ module Mexiox_sw
     	item jediboots
 	{
 	    	DisplayCategory = Clothing,
+		ItemType = base:Clothing,
 		Type = Clothing,
 		DisplayName = Jedi Boots,
 		ClothingItem = jediboots,
@@ -30,6 +31,7 @@ module Mexiox_sw
 	item jedibootsblack
 	{
 	    	DisplayCategory = Clothing,
+		ItemType = base:Clothing,
 		Type = Clothing,
 		DisplayName = Jedi Boots Black,
 		ClothingItem = jedibootsblack,

@@ -8,6 +8,7 @@ module Mexiox_sw
 	item jediropes
     	{
         	DisplayCategory = Clothing,		
+	        ItemType = base:Clothing,
 	        Type = Clothing,
         	DisplayName = Jedi Ropes,
 	        ClothingItem = jediropes,
@@ -29,6 +30,7 @@ module Mexiox_sw
 	item jediropesblack
     	{
         	DisplayCategory = Clothing,		
+	        ItemType = base:Clothing,
 	        Type = Clothing,
         	DisplayName = Jedi Ropes,
 	        ClothingItem = jediropesblack,
@@ -50,6 +52,7 @@ module Mexiox_sw
 	item jediropesblackbrown
     	{
         	DisplayCategory = Clothing,		
+	        ItemType = base:Clothing,
 	        Type = Clothing,
         	DisplayName = Jedi Ropes,
 	        ClothingItem = jediropesblackbrown,
@@ -71,6 +74,7 @@ module Mexiox_sw
 	item jediropesbrown
     	{
         	DisplayCategory = Clothing,		
+	        ItemType = base:Clothing,
 	        Type = Clothing,
         	DisplayName = Jedi Ropes,
 	        ClothingItem = jediropesbrown,
@@ -92,6 +96,7 @@ module Mexiox_sw
 	item jediropesblackbelt
     	{
         	DisplayCategory = Clothing,		
+	        ItemType = base:Clothing,
 	        Type = Clothing,
         	DisplayName = Jedi Ropes,
 	        ClothingItem = jediropesblackbelt,
