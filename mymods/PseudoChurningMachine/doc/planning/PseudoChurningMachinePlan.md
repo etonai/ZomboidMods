@@ -14,8 +14,9 @@ The earlier PseudoButterChurner mod did not work. This mod replaces that approac
 
 A combination of:
 - **Blue Combo Washer/Dryer** — appearance, "Turn On" action, running audio/cycle
-- **Composter** — the "Get Butter" style menu item pattern (like "Get Compost")
 - **Amphora** — liquid container behavior (fill, remove, empty; 20L capacity)
+
+Originally also drew on the **Composter**'s "Get Compost"-style menu pattern for a fullness/percentage mechanic; that approach was dropped in favor of placing butter directly into the object's own item inventory (see Core Mechanics, revised 2026-09-12).
 
 It is explicitly **not** a Butter Churn, even though it produces a similar result.
 
@@ -23,10 +24,8 @@ It is explicitly **not** a Butter Churn, even though it produces a similar resul
 
 - Capacity: 20 liters, cow's milk only for the initial build (sheep's milk mixing is deferred, see Step 11).
 - "Turn On" starts a cycle (target: 15 minutes of game time) with the washer/dryer audio.
-- At the end of a cycle, milk is consumed in whole 5-liter increments: for every 5L consumed, fullness increases by 25%. Any remainder under 5L stays in the container for the next cycle.
-- "Churner / Get Butter" menu item shows current fullness (e.g. "Get Butter (75% full)"), mirroring the composter's "Get Compost" display.
-- Selecting "Get Butter" resets fullness to 0% and grants 1 stick of butter per 25% of fullness consumed.
-- Fullness is independent of the milk currently in the container — the machine can hold >100% worth of unprocessed milk if butter isn't collected between cycles, capped only by the 20L liquid limit.
+- At the end of a cycle, milk is consumed in whole 5-liter increments: for every 5L consumed, the machine produces 1 stick of butter, placed directly into the Churning Machine's own item inventory. Any remainder under 5L stays in the liquid container for the next cycle.
+- **Revised 2026-09-12 (DevCycle 004 Phase 4):** butter is no longer tracked via an abstract "fullness" percentage cashed out through a composter-style "Get Butter (X% full)" menu. DevCycle 004 testing found the built object already has its own 20-encumbrance item inventory; butter sticks are placed into it directly as they're produced, and the player retrieves them the normal way (opening/looting the object). This removes the need for a fullness value, a "Get Butter" menu item, and the debug "Add/Reduce Butter" testing items entirely — see the revised Incremental Steps below.
 
 ## Build Approach
 
@@ -46,17 +45,21 @@ Each step is scoped to add one piece of functionality and remain independently t
 4. **Liquid container** — 20L capacity, add/remove/empty like the Amphora.
 5. **Turn On action** — plays washer/dryer audio, runs for 1 minute (test duration), no other effect.
 6. **Liquid removal on cycle end** — removes a whole multiple of 5L at cycle end; milk simply disappears, no fullness yet.
-7. **Fullness menu item** — adds "Get Butter (0% full)" plus temporary debug items "Add Butter by 25%" / "Reduce Butter by 25%" (unbounded, for testing).
-8. **Butter generation** — "Get Butter" resets fullness to 0 and grants 1 stick of butter per 25% fullness.
-9. **Wire fullness to the cycle** — cycle end now adds 25% fullness per 5L removed (replacing the manual debug adjustment).
-10. **Clean up** — cycle time raised to 15 minutes; debug Add/Reduce Butter menu items removed.
+7. **Butter generation via inventory** (revised 2026-09-12, DevCycle 004 Phase 4) — at the end of a cycle, for every 5L of milk removed, place 1 stick of butter directly into the Churning Machine's own item inventory (the 20-encumbrance capacity discovered in DevCycle 004). No fullness value, no "Get Butter" menu item, and no debug testing items are needed — the player retrieves butter by opening/looting the object directly.
+8. **(Merged into Step 7)** — was "Butter generation" (converting a fullness percentage into butter sticks); no longer a separate step now that butter is placed directly with no intermediate fullness value.
+9. **(Merged into Step 7)** — was "Wire fullness to the cycle"; no longer applicable for the same reason.
+10. **Clean up** — cycle time raised to 15 minutes of game time (from whatever shorter test duration was used while implementing Steps 5-7).
 11. **Additional testing and follow-on planning** — manual testing pause; plan correct build materials/recipe; plan sheep's milk support.
 
 ## Deferred / Out of Scope (for now)
 
-- Sheep's milk mixing and its contribution to fullness — planned for after Step 11.
+- Sheep's milk mixing and its contribution to butter output — planned for after Step 11.
 - Final build recipe/materials — placeholder (plank + nail) until Step 11 planning.
+- **Possible need for a custom mod-owned appearance (texture pack/tile) for the Churning Machine.** DevCycle 004 confirmed the entity currently reuses the literal vanilla `appliances_laundry_01_0` tile (that part is a fact — it's what `SpriteConfig.row` points at), and found an unwanted Wash Menu, the wrong displayed name ("Blue Combo Washer/Dryer"/"Clothing Washer" instead of "Churning Machine"), and a free 20-encumbrance item inventory that Step 7's butter-storage design currently relies on. **The leading hypothesis — not yet confirmed — is that this vanilla tile is baked with a specific `ISO_TYPE` value of `"IsoCombinationWasherDryer"`, or a `CONTAINER` value of `"clothingwasher"`/`"clothingdryer"`, that makes the game reclassify the placed object as a real washer/dryer at a low level.** `CONTAINER` itself is a generic tile property (also used for `barbecue`, `fireplace`, `campfire`, `woodstove`, `microwave`, etc., each a different value of the same key) — it's not inherently washer-related, and it isn't what's being blamed here; the specific *value* assigned to it on this particular tile is what would matter. This is a strong, code-backed theory (the mechanism it describes definitely exists in `CellLoader.java`), but whether this specific tile actually carries one of those specific values has not been directly verified — the tile's own property data isn't accessible in this project's decompiled sources. Investigating and, if confirmed, fixing this (authoring a new mod-owned texture pack + tile definition, the same pattern `PseudoSaltWell42_19` uses for its own graphic) is postponed until after Step 11 by direct decision (2026-09-12), alongside the final build recipe. **Until then, expect the Wash Menu and wrong name to be present, and be aware the free item inventory may not survive if this hypothesis is later confirmed and fixed** — see `doc/planning/completed/DevCycle004.md` Phase 5 Part A for the full trace and its unconfirmed status.
+- **"Add Liquid from Item" is missing on the Churning Machine and its cause was not found.** Three candidate causes were investigated and individually ruled out (input lock, container already full, wrong fluid type in the test item) without identifying the real one. By direct decision (2026-09-13), this is deferred to DC 11 rather than continuing to chase it now. **Workaround in the meantime: use "Transfer Liquid" instead** — it works, but is a clunkier interaction than a direct one-click pour would have been. See `doc/planning/completed/DevCycle004.md` Phase 5 Part B.
 
 ## Open Questions
 
 None currently blocking — cow's-milk-only scope and the 5L-remainder behavior were clarified during planning discussion (2026-09-12).
+
+Ed question 1: How does the butter churn handle milk mixed with water?

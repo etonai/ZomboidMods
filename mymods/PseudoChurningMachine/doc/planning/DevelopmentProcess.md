@@ -129,13 +129,21 @@ When useful, tasks can include:
 A DevCycle is complete when:
 
 - the planned tasks are finished, or
-- the remaining tasks are intentionally deferred to a future DevCycle
+- the remaining tasks are *deferred scope* — work never promised by this cycle's own Desired Outcome (e.g. a follow-on feature explicitly planned for later)
+
+A DevCycle is **not** complete just because a fix was postponed. If the Desired Outcome promised something specific and it was tested and found not working, that is an *unmet goal*, not deferred scope — postponing the fix does not satisfy it. Before closing any DevCycle:
+
+- re-read its Desired Outcome line by line against what was actually verified
+- if anything in it is unmet, the DevCycle stays open (`In Progress`), even if fixing it has been postponed for good reason — record the postponement, but do not close the cycle over it
+- only close it anyway if the user explicitly says to accept the current state as final, with the gap noted
 
 When a DevCycle closes:
 
 - record any important notes in the DevCycle document
 - move the DevCycle document to `doc/planning/completed/`
 - start the next DevCycle document in `doc/planning/`
+
+Closing a DevCycle (changing its status away from `In Progress`, or moving it to `doc/planning/completed/`) is a state change agents should confirm with the user rather than deciding unilaterally, the same way `Verified` requires explicit approval below.
 
 A DevCycle or phase should not be marked `Verified` during closure unless the user has explicitly approved that status.
 

@@ -8,6 +8,17 @@ module Pseudonymous
             entityStyle = ES_ChurningMachine,
             uiEnabled = false,
         }
+        component FluidContainer
+        {
+            ContainerName = ChurningMachine,
+            Capacity = 20.0,
+            InitialPercentMin = 0.0,
+            InitialPercentMax = 0.0,
+            whitelist
+            {
+                fluid = CowMilk,
+            }
+        }
         component SpriteConfig
         {
             isThumpable = false,
