@@ -8,6 +8,14 @@ module Pseudonymous
             entityStyle = ES_ChurningMachine,
             uiEnabled = false,
         }
+        component ContextMenuConfig
+        {
+            contextEntry
+            {
+                menu = ChurningMachine,
+                customSubmenu = ChurningMachineCode.turnOnOffMenu,
+            }
+        }
         component FluidContainer
         {
             ContainerName = ChurningMachine,

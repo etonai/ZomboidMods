@@ -1,3 +1,4 @@
 {
-  "Tooltip_craft_churningMachineDesc": "A placeholder Churning Machine. No functionality yet."
+  "Tooltip_craft_churningMachineDesc": "A placeholder Churning Machine. No functionality yet.",
+  "Tooltip_ChurningMachine_NoMilk": "Needs milk before it can be turned on."
 }
