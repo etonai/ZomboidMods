@@ -34,6 +34,8 @@ Research existing analyses first (`claudeDocs/claude_washingMachineAnalysis.md`,
 
 Construction placeholder: 1 plank + 1 nail, following the same pattern PseudoSaltWell uses (simple recipe/tool interaction producing a custom-graphic object) if a comparable approach is needed here.
 
+**Before every in-game verification phase, run `utilities\CopyModToZomboid.bat PseudoChurningMachine` to copy the mod's current source into the local Zomboid mods folder.** Editing files under `mymods/PseudoChurningMachine/` has no effect on the game until this copy step runs — testing against a stale copy is a real risk (`PseudoButterChurner`'s DevCycle 2 repeatedly re-ran this after every fix, and skipping it would have made every verification result meaningless).
+
 ## Incremental Steps
 
 Each step is scoped to add one piece of functionality and remain independently testable. Detailed design for each happens in its own DevCycle when started.
