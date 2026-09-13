@@ -1,7 +1,8 @@
 # Composter Analysis
 
 **Created:** 2026-09-06
-**Version:** Project Zomboid 42.19 (source: `zombie42_19/`, `media/`)
+**Updated:** 2026-09-12 — re-verified against Project Zomboid 42.20.4
+**Version:** Project Zomboid 42.20.4 (decompiled sources in `zombie42_20_4/`, scripts in `media42_20_4/`). Originally analyzed against 42.19. All findings below are unchanged except one sandbox option range correction (see "Verified Against 42.20.4").
 **Status:** Verified against decompiled Java + shipped Lua
 
 ## Overview
@@ -73,7 +74,7 @@ COMPOST_PER_USE = COMPOST_PER_BAG / USES_PER_BAG      -- = 2.5 compost-% per "us
 |---|---|---|
 | Max compost | 100% | `IsoCompost.MaximumCompost` |
 | Default container capacity | 30 items (sprite-overridable) | `IsoCompost.DefaultCapacity` / `CONTAINER_CAPACITY` property |
-| Compost time to convert one item | 336 hours (14 days) default; sandbox range 168–1344h | `SandboxOptions.getCompostHours()` |
+| Compost time to convert one item | 336 hours (14 days) default; sandbox range 168–2016h | `SandboxOptions.getCompostHours()` |
 | Compost-% per full CompostBag | 10% | `ISGetCompost`/`ISAddCompost` `COMPOST_PER_BAG` |
 | Compost-% per CompostBag "use" | 2.5% | derived from `CompostBag.UseDelta = 0.25` |
 | Worm breed trigger | ≥2 fresh worms present, not winter+outdoors, on every conversion tick | `IsoCompost.update()` |
@@ -90,7 +91,40 @@ Because the mechanic is a generic "value accumulator fed by consuming tagged con
 5. **Worm-farming as an intentional side loop.** The ≥2-fresh-worm breeding rule (uncapped by container-space checks other than normal container capacity) means a composter maintained with a worm pair and steady compostable throughput passively multiplies worms for fishing bait — worth surfacing in any farming/fishing-integration mod, and easy to re-tune (the `2` worm threshold and 1-worm-per-conversion output are the only knobs, both trivially overridable by re-deriving `IsoCompost` in Lua if you want a from-scratch clone, or by patching the sandbox/derived class if you go the reuse route).
 6. **No player-facing cap on simultaneous composters.** Nothing in this code limits how many `IsoCompost` objects a player can build/drain, and the get/add actions never check ownership — a base with many composters is a straightforward (if slow, given the 14-day default cycle) fertilizer factory; sandbox's `CompostTime` option is the only vanilla throttle, so a "compost time" balance mod is a one-line `SandboxOptions`-driven change already exposed to server admins without any code mod at all.
 
+## Verified Against `zombie42_20_4`/`media42_20_4`
+
+**Checked:** 2026-09-12
+
+- `IsoCompost.java` diffed byte-for-byte between `zombie42_19/` and `zombie42_20_4/`. The
+  only changes in the file are: (1) the `lastUpdated` bounds-check was refactored into
+  `GameTime.checkHours(this.lastUpdated, worldAgeHours)` (previously inline `if`/`else if`)
+  — the same cosmetic refactor already noted in the Washing Machine analysis, no behavioral
+  change; (2) the `Thump()` method signature and internal zombie-thump-damage bookkeeping
+  changed (`thumpEventCount` parameter, `ThumpDamageRender` hook) — this is unrelated to the
+  compost mechanic, it only affects how much damage zombies thumping the composter object
+  deal to its health. **All compost accumulation, conversion, worm-breeding, and capacity
+  logic (lines 71-145, 209-211) is byte-for-byte identical.**
+- `ISGetCompost.lua` and `ISAddCompost.lua` are byte-for-byte identical between `media/` and
+  `media42_20_4/` — the withdrawal/deposit math (`COMPOST_PER_BAG = 10`,
+  `COMPOST_PER_USE = 2.5`) is unchanged.
+- The 10 `Dung_*` food items and their `Tags = base:iscompostable` / `IsDung = true` fields
+  are byte-for-byte identical between `media/scripts/generated/items/food.txt` and
+  `media42_20_4/scripts/generated/items/food.txt`.
+- **One correction:** `SandboxOptions.java`'s `CompostTime` enum now has **8** steps in
+  42.20.4, not 6 as originally documented — `getCompostHours()`
+  (`zombie42_20_4/SandboxOptions.java:442-452`) maps `1..8` to `168 / 336 / 504 / 672 /
+  1008 / 1344 / 1680 / 2016` hours, extending the previously-documented 168–1344h range up
+  to 2016h (84 days) at the new maximum setting. The default index (2 → 336 hours / 14 days)
+  is unchanged.
+
+No other structural or balance-relevant changes were found. The mod-exploit angles and
+general design analysis above apply unchanged to 42.20.4.
+
 ## Open Questions / Not Yet Verified
 
-- Whether `zombie42_20_4`/`media42_20_4` changed any of these constants or added new compostable tags — not checked in this pass; if a 20.4-specific mod is being designed, diff `IsoCompost.java` and `food.txt` between builds first.
-- Whether non-Food-tagged items (e.g. compostable crafted items) can be added to the container tag-wise; the container itself doesn't appear to filter *input* (that's likely UI-side, via `ContainerType.COMPOSTER` restrictions not inspected here) — worth confirming before assuming any item can be tagged `IsCompostable` and dropped in freely by players versus only spawned pre-tagged (dung is spawned with the tag already; no code path was found that lets a *recipe* apply `IsCompostable` to an existing item).
+- Whether non-Food-tagged items (e.g. compostable crafted items) can be added to the
+  container tag-wise; the container itself doesn't appear to filter *input* (that's likely
+  UI-side, via `ContainerType.COMPOSTER` restrictions not inspected here) — worth confirming
+  before assuming any item can be tagged `IsCompostable` and dropped in freely by players
+  versus only spawned pre-tagged (dung is spawned with the tag already; no code path was
+  found that lets a *recipe* apply `IsCompostable` to an existing item).
