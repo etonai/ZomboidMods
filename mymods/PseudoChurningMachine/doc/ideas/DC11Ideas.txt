@@ -18,3 +18,5 @@ What's left is everything we knowingly set aside to get there. Several real gaps
 - We should allow for any liquid to be put into the Churner machine, but only 100% milk (cow/sheep) gets converted into butter (perhaps the butter churning code has info on this)
 - Advanced: We should consider what happens if the container has a mixture of milk and another liquid, like water (perhaps the butter churning code has info on this)
 
+- The Churning Machine should require power to run, like the washing machine or dryer.
+

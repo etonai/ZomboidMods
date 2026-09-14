@@ -3,13 +3,13 @@
 **Status:** Planning
 **Start Date:** 2026-09-13
 **Target Completion:** TBD
-**Focus:** Fix item #1 only from `docs/PseudoChurningMachineDC11Plus.md` — the Churning Machine's "Turn On" running sound still doesn't play. Nothing else from that analysis document is in scope for this cycle.
+**Focus:** Fix item #1 only from `doc/ideas/PseudoChurningMachineDC11Plus.md` — the Churning Machine's "Turn On" running sound still doesn't play. Nothing else from that analysis document is in scope for this cycle.
 
 ---
 
 ## Goal
 
-Make the Churning Machine's running sound (`ClothingWasherRunning`) actually audible while a cycle is active, fixing item #1 of `docs/PseudoChurningMachineDC11Plus.md`. That analysis already tried matching the vanilla `ClothingWasherLogic.updateSound()` Java pattern exactly (`IsoWorld.instance:getFreeEmitter()`, `IsoWorld.instance:setEmitterOwner()`, `emitter:playSoundLoopedImpl()`) in DevCycle 005 Phase 6, and it stayed silent — so this cycle needs a genuinely new angle, not a repeat of that fix.
+Make the Churning Machine's running sound (`ClothingWasherRunning`) actually audible while a cycle is active, fixing item #1 of `doc/ideas/PseudoChurningMachineDC11Plus.md`. That analysis already tried matching the vanilla `ClothingWasherLogic.updateSound()` Java pattern exactly (`IsoWorld.instance:getFreeEmitter()`, `IsoWorld.instance:setEmitterOwner()`, `emitter:playSoundLoopedImpl()`) in DevCycle 005 Phase 6, and it stayed silent — so this cycle needs a genuinely new angle, not a repeat of that fix.
 
 **New lead, provided by Ed:** `mymods/PseudoSaltWell` (the bare-named mod directory — **not** `PseudoSaltWell42_19`, a separate, differently-versioned mod directory that happens to share a similar name) successfully plays audio when a player fills a container with saltwater brine from the well. That confirms at least one working, in-repo precedent for triggering sound from mod Lua — worth comparing directly against what the Churning Machine does differently, rather than only re-deriving from vanilla Java as DevCycle 005 did.
 
@@ -99,7 +99,7 @@ end
 
 ## Notes and Risks
 
-- This cycle is scoped narrowly to item #1 only. Items #2 and #8 from `docs/PseudoChurningMachineDC11Plus.md` are related (see that document's cross-references) but explicitly out of scope — if Phase 1 concludes the sound genuinely can't be fixed without adopting #8's "convert a real washer/dryer" approach, that conclusion should be reported back for a separate decision, not acted on unilaterally in this cycle.
+- This cycle is scoped narrowly to item #1 only. Items #2 and #8 from `doc/ideas/PseudoChurningMachineDC11Plus.md` are related (see that document's cross-references) but explicitly out of scope — if Phase 1 concludes the sound genuinely can't be fixed without adopting #8's "convert a real washer/dryer" approach, that conclusion should be reported back for a separate decision, not acted on unilaterally in this cycle.
 - DevCycle 005 already tried and ruled out the most obvious fix (matching vanilla's exact Java call pattern, including `setEmitterOwner`). This cycle needs to find a genuinely different angle, which is why Phase 1 leads with a working in-repo precedent (`mymods/PseudoSaltWell`) instead of re-deriving from vanilla Java again.
 - Per this project's own tracked ambiguity, "PseudoSaltWell" refers to two different mod directories that share a similar name — this cycle's working audio example is specifically `mymods/PseudoSaltWell` (the bare-named one), **not** `PseudoSaltWell42_19`.
 

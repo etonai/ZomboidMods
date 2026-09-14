@@ -102,6 +102,28 @@ This exactly mirrors the vanilla Butter Churn's own approach: `churn_butter`'s r
 
 Given `getSpecificFluidAmount(Fluid)` returns the amount of one fluid type regardless of what else is mixed in, a container holding (say) 8L milk + 4L water at cycle end would report `getSpecificFluidAmount(CowMilk) = 8.0`, and the existing 5L-increment logic would correctly remove/convert 5L of *that* (leaving 3L milk + 4L water untouched), the same way DevCycle 006's current whole-container math already handles a non-multiple-of-5 remainder — just scoped to the milk amount instead of the total. No new mixture-specific mechanic appears to be needed beyond what #11 already requires; the "advanced" difficulty Ed anticipated seems to mostly have been in *not knowing* whether per-fluid-type querying was possible at all, which this analysis now confirms it is. The one part not yet verified: whether `removeFluid(amount)` (used since DevCycle 006) removes fluid proportionally across all types in the container or specifically from one type — if it's the former, converting only the milk portion would need a different, more targeted removal call than the one DevCycle 006 currently uses, and that method should be identified before implementing #11/#12.
 
+## 13. Require power to run, like the real washer/dryer
+
+**Status:** Open, no design yet, but a clean, low-risk implementation path was found — likely the easiest item in this whole list to implement correctly.
+
+Traced the real washer/dryer's own power-gating mechanism in full, not just its existence. `ClothingWasherLogic.update()` (`zombie42_20_4/iso/objects/ClothingWasherLogic.java:58-62`) force-deactivates itself every tick if unpowered:
+```java
+if (!this.getContainer().isPowered()) {
+    this.setActivated(false);
+}
+```
+`ItemContainer.isPowered()` (`zombie42_20_4/inventory/ItemContainer.java:2316-2318`) delegates to `this.parent.checkObjectPowered()` (`IsoObject.java:6999-7010`), which resolves to `ItemContainer.isObjectPowered(this, true)` (`ItemContainer.java:2320-2368`) — the same generic power check used by fridges, freezers, stoves, and TVs: true if the object's square has grid power (in-room, or in an adjacent room if outdoors, via a private helper `isSquarePowered`, `ItemContainer.java:2289-2314`) or, if `includeGenerators` is true, a nearby running generator (`square.haveElectricity()`).
+
+**Confirmed Lua-callable, and already used exactly this way by the real washer/dryer's own toggle UI** — not a Java-only mechanism. `media42_20_4/lua/client/ISUI/LootWindow/Handlers/ClothingWasherToggle.lua:10` (and the matching dryer/combo handlers in the same folder) call `self.container:isPowered()` directly to decide whether the Turn On/Off toggle is even enabled. `media42_20_4/lua/client/ISUI/ISWorldObjectContextMenu.lua:1178/1183` do the same for the general appliance context menu.
+
+**Directly usable by the Churning Machine, no new mechanism needed — confirmed by cross-checking against DevCycle 007.** `IsoObject.getContainer()` (`IsoObject.java:1940-1942`) and `IsoObject.getItemContainer()` (`IsoObject.java:2499-2501`) are both plain getters for the *exact same field* (`this.container`) — meaning `entity:getContainer():isPowered()` calls the identical object DevCycle 007 already confirmed works reliably for `AddItem("Base.Butter")`. This means power-gating doesn't require any new component, any new tile property, or resolving the still-unconfirmed reclassification hypothesis (#2) — it rides on the same borrowed container #7's butter placement already depends on, with the same defensive nil-check DevCycle 007 already established (`if itemContainer then ... end`) applying equally here.
+
+**Suggested implementation, minimal and consistent with the existing code:** in `ChurningMachineCode.onToggleOption` (`ChurningMachineCode.lua:60-69`), before allowing `startMachine`, add a check like `local container = entity:getContainer(); if container and container:isPowered() then startMachine(entity, playerObj) end` — and mirror the same check in `turnOnOffMenu` (`ChurningMachineCode.lua:71-92`) to grey out/label "Turn On" as unavailable when unpowered, the same way the milk-gate (`hasMilk`) already does, rather than only silently failing when clicked. A currently-running machine should also plausibly stop early if power is lost mid-cycle, mirroring `ClothingWasherLogic.update()`'s own per-tick check — `checkRunningMachines` (`ChurningMachineCode.lua:94-107`), which already runs on `Events.OnTick`, is the natural place to add that, alongside its existing time-based stop condition.
+
+**Open design question, not resolved here:** whether losing power mid-cycle should count as "completed" (removing milk / producing butter, per DevCycle 006/007) or as an interrupted cycle like manual "Turn Off" (no removal, no butter) — this needs a decision before Phase 2 implementation, not just a code change. The real washer/dryer's own behavior (simply pausing/stopping, not consuming a load) suggests treating it like manual "Turn Off," not like natural completion.
+
+**Also worth deciding:** whether "power" here means grid electricity specifically (matching the real washer/dryer, and requiring the player to have restored/maintained electricity — a real, meaningful survival constraint) or whether a portable generator should count too (`includeGenerators = true` in the vanilla check already allows this) — `isObjectPowered`'s `includeGenerators` parameter is already `true` in the real washer/dryer's own call chain, so generator support comes for free if the same method/pattern is reused, without needing a separate decision to add it.
+
 ---
 
 ## Summary Table
@@ -120,3 +142,4 @@ Given `getSpecificFluidAmount(Fluid)` returns the amount of one fluid type regar
 | 10 | Extraneous menu item | Open, not found in source | Needs exact in-game detail from Ed |
 | 11 | Any liquid in, only milk converts | Open, mechanism found (`getSpecificFluidAmount`) | Same mechanism as #5/#12 |
 | 12 | Milk/water mixture handling | Open, mostly answered by #11 | Verify `removeFluid`'s per-type behavior before implementing |
+| 13 | Require power to run | Open, clean implementation path found | Reuses #7/#8's borrowed container (`getContainer():isPowered()`); one open design question (mid-cycle power loss = "Turn Off" or completion?) |
