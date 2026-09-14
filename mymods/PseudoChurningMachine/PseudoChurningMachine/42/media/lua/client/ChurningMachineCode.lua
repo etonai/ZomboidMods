@@ -44,7 +44,7 @@ local function stopMachine(entity, completedCycle)
     end
 end
 
-local function startMachine(entity)
+local function startMachine(entity, playerObj)
     local modData = entity:getModData()
     modData.churningMachineRunning = true
     modData.churningMachineStartHour = getGameTime():getWorldAgeHours()
@@ -55,6 +55,16 @@ local function startMachine(entity)
     emitter:playSoundLoopedImpl(RUNNING_SOUND)
     ChurningMachineCode.emitters[key] = emitter
     ChurningMachineCode.active[key] = entity
+
+    -- DC011 Phase 2 DIAGNOSTIC (temporary - remove once the audio bug is isolated):
+    -- (1) one-shot, non-looped sound from a world-object emitter, to test whether ANY
+    --     Lua-triggered object emitter is audible at all, independent of looping.
+    IsoWorld.instance:getFreeEmitter(square:getX() + 0.5, square:getY() + 0.5, square:getZ()):playSound("ClothingWasherFinished")
+    -- (2) the proven character-emitter pattern (mirrors mymods/PseudoSaltWell's working
+    --     call), to confirm a Lua-triggered emitter of some kind can play audibly here.
+    if playerObj then
+        playerObj:getEmitter():playSound("GetWaterFromTap")
+    end
 end
 
 function ChurningMachineCode.onToggleOption(entity, playerObj)
@@ -64,7 +74,7 @@ function ChurningMachineCode.onToggleOption(entity, playerObj)
     end
     local fluidContainer = entity:getFluidContainer()
     if fluidContainer and fluidContainer:getAmount() > 0 then
-        startMachine(entity)
+        startMachine(entity, playerObj)
     end
 end
 
