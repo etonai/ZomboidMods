@@ -4,6 +4,7 @@ local RUN_MINUTES = 1.0 -- test duration; raised to 15 in Step 10.
 local RUNNING_SOUND = "ClothingWasherRunning"
 
 ChurningMachineCode.active = ChurningMachineCode.active or {}
+ChurningMachineCode.emitters = ChurningMachineCode.emitters or {}
 
 local function machineKey(entity)
     local square = entity:getSquare()
@@ -18,10 +19,13 @@ local function stopMachine(entity)
     local modData = entity:getModData()
     modData.churningMachineRunning = false
     modData.churningMachineStartHour = nil
-    if entity.emitter then
-        entity.emitter:stopOrTriggerSoundByName(RUNNING_SOUND)
+    local key = machineKey(entity)
+    local emitter = ChurningMachineCode.emitters[key]
+    if emitter then
+        emitter:stopOrTriggerSoundByName(RUNNING_SOUND)
     end
-    ChurningMachineCode.active[machineKey(entity)] = nil
+    ChurningMachineCode.emitters[key] = nil
+    ChurningMachineCode.active[key] = nil
 end
 
 local function startMachine(entity)
@@ -29,9 +33,12 @@ local function startMachine(entity)
     modData.churningMachineRunning = true
     modData.churningMachineStartHour = getGameTime():getWorldAgeHours()
     local square = entity:getSquare()
-    entity.emitter = IsoWorld.instance:getFreeEmitter(square:getX() + 0.5, square:getY() + 0.5, square:getZ())
-    entity.emitter:playSoundLoopedImpl(RUNNING_SOUND)
-    ChurningMachineCode.active[machineKey(entity)] = entity
+    local key = machineKey(entity)
+    local emitter = IsoWorld.instance:getFreeEmitter(square:getX() + 0.5, square:getY() + 0.5, square:getZ())
+    IsoWorld.instance:setEmitterOwner(emitter, entity)
+    emitter:playSoundLoopedImpl(RUNNING_SOUND)
+    ChurningMachineCode.emitters[key] = emitter
+    ChurningMachineCode.active[key] = entity
 end
 
 function ChurningMachineCode.onToggleOption(entity, playerObj)
@@ -45,7 +52,10 @@ function ChurningMachineCode.onToggleOption(entity, playerObj)
     end
 end
 
-function ChurningMachineCode.turnOnOffMenu(context, option, entity, playerObj, param)
+function ChurningMachineCode.turnOnOffMenu(context, param)
+    local option = param.option
+    local entity = param.entity
+    local playerObj = param.playerObj
     local fluidContainer = entity:getFluidContainer()
     local hasMilk = fluidContainer ~= nil and fluidContainer:getAmount() > 0
     local running = isRunning(entity)
