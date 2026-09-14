@@ -1,6 +1,6 @@
 ChurningMachineCode = ChurningMachineCode or {}
 
-local RUN_MINUTES = 1.0 -- test duration; raised to 15 in Step 10.
+local RUN_MINUTES = 10.0 -- Step 10: full cycle duration.
 local RUNNING_SOUND = "ClothingWasherRunning"
 
 ChurningMachineCode.active = ChurningMachineCode.active or {}
