@@ -52,19 +52,18 @@ local function startMachine(entity, playerObj)
     local key = machineKey(entity)
     local emitter = IsoWorld.instance:getFreeEmitter(square:getX() + 0.5, square:getY() + 0.5, square:getZ())
     IsoWorld.instance:setEmitterOwner(emitter, entity)
-    emitter:playSoundLoopedImpl(RUNNING_SOUND)
+    local soundInstance = emitter:playSoundLoopedImpl(RUNNING_SOUND)
+    -- DC011 Phase 16: vanilla ClothingWasherLogic.updateSound() always sets this FMOD
+    -- parameter right after starting the loop (ClothingWasherLogic.java:206) - we never
+    -- have. Testing whether the event needs it set to route audio at all.
+    emitter:setParameterValueByName(soundInstance, "ClothingWasherLoaded", 1.0)
     ChurningMachineCode.emitters[key] = emitter
     ChurningMachineCode.active[key] = entity
 
-    -- DC011 Phase 2 DIAGNOSTIC (temporary - remove once the audio bug is isolated):
-    -- (1) one-shot, non-looped sound from a world-object emitter, to test whether ANY
-    --     Lua-triggered object emitter is audible at all, independent of looping.
-    IsoWorld.instance:getFreeEmitter(square:getX() + 0.5, square:getY() + 0.5, square:getZ()):playSound("ClothingWasherFinished")
-    -- (2) the proven character-emitter pattern (mirrors mymods/PseudoSaltWell's working
-    --     call), to confirm a Lua-triggered emitter of some kind can play audibly here.
-    if playerObj then
-        playerObj:getEmitter():playSound("GetWaterFromTap")
-    end
+    -- DC011 Phase 15 DIAGNOSTIC (temporary - remove once the audio bug is isolated):
+    -- objective, logged check instead of relying on human hearing - does the engine
+    -- itself report RUNNING_SOUND as playing on this emitter right after starting it?
+    print("ChurningMachineCode DEBUG: isPlaying(" .. RUNNING_SOUND .. ") = " .. tostring(emitter:isPlaying(RUNNING_SOUND)))
 end
 
 function ChurningMachineCode.onToggleOption(entity, playerObj)
@@ -86,10 +85,15 @@ function ChurningMachineCode.turnOnOffMenu(context, param)
     local hasMilk = fluidContainer ~= nil and fluidContainer:getAmount() > 0
     local running = isRunning(entity)
     local label = running and getText("ContextMenu_Turn_Off") or getText("ContextMenu_Turn_On")
-    -- addGetUpOption's "target" arg (entity, below) is only used for walk-adjacency and is
-    -- NOT forwarded to the callback (only the trailing params are) - capture entity via
-    -- closure instead of relying on it being passed through.
-    local function onSelect(pObj)
+    -- addGetUpOption's "target" arg (entity, below) IS forwarded to the callback as the
+    -- first parameter (traced through ISContextMenuWrapper.addGetUpOption (Java) ->
+    -- ISContextMenu:onGetUpAndThen (Lua) -> ISWaitWhileGettingUp:perform()) - the real
+    -- call is onSelect(entity, playerObj), not onSelect(playerObj). Capture entity via
+    -- closure (still correct/simpler) but the first param must be accepted and ignored,
+    -- not omitted, or the real playerObj silently shifts into the wrong parameter (DC011
+    -- Phase 2 diagnostic surfaced this: playerObj:getEmitter() crashed with "tried to call
+    -- nil" because "playerObj" was actually receiving entity, which has no getEmitter()).
+    local function onSelect(_, pObj)
         ChurningMachineCode.onToggleOption(entity, pObj)
     end
     local subOption = context:addGetUpOption(label, entity, onSelect, playerObj)
