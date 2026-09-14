@@ -15,7 +15,7 @@ local function isRunning(entity)
     return entity:getModData().churningMachineRunning == true
 end
 
-local function stopMachine(entity)
+local function stopMachine(entity, completedCycle)
     local modData = entity:getModData()
     modData.churningMachineRunning = false
     modData.churningMachineStartHour = nil
@@ -26,6 +26,15 @@ local function stopMachine(entity)
     end
     ChurningMachineCode.emitters[key] = nil
     ChurningMachineCode.active[key] = nil
+    if completedCycle then
+        local fluidContainer = entity:getFluidContainer()
+        if fluidContainer then
+            local removable = math.floor(fluidContainer:getAmount() / 5.0 + 0.0001) * 5.0
+            if removable > 0 then
+                fluidContainer:removeFluid(removable, false)
+            end
+        end
+    end
 end
 
 local function startMachine(entity)
@@ -43,7 +52,7 @@ end
 
 function ChurningMachineCode.onToggleOption(entity, playerObj)
     if isRunning(entity) then
-        stopMachine(entity)
+        stopMachine(entity, false)
         return
     end
     local fluidContainer = entity:getFluidContainer()
@@ -86,7 +95,7 @@ local function checkRunningMachines()
         end
     end
     for i = 1, #toStop do
-        stopMachine(toStop[i])
+        stopMachine(toStop[i], true)
     end
 end
 
