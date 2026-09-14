@@ -32,6 +32,13 @@ local function stopMachine(entity, completedCycle)
             local removable = math.floor(fluidContainer:getAmount() / 5.0 + 0.0001) * 5.0
             if removable > 0 then
                 fluidContainer:removeFluid(removable, false)
+                local itemContainer = entity:getItemContainer()
+                if itemContainer then
+                    local butterCount = math.floor(removable / 5.0 + 0.0001)
+                    for i = 1, butterCount do
+                        itemContainer:AddItem("Base.Butter")
+                    end
+                end
             end
         end
     end
