@@ -1,0 +1,54 @@
+module Pseudonymous
+{
+    entity ChurningMachine
+    {
+        component UiConfig
+        {
+            xuiSkin = default,
+            entityStyle = ES_ChurningMachine,
+            uiEnabled = false,
+        }
+        component ContextMenuConfig
+        {
+            contextEntry
+            {
+                menu = ChurningMachine,
+                customSubmenu = ChurningMachineCode.turnOnOffMenu,
+            }
+        }
+        component FluidContainer
+        {
+            ContainerName = ChurningMachine,
+            Capacity = 20.0,
+            InitialPercentMin = 0.0,
+            InitialPercentMax = 0.0,
+            whitelist
+            {
+                fluid = CowMilk,
+            }
+        }
+        component SpriteConfig
+        {
+            isThumpable = false,
+            face S
+            {
+                layer
+                {
+                    row = appliances_laundry_01_0,
+                }
+            }
+        }
+        component CraftRecipe
+        {
+            timedAction = BuildWoodenStructureMedium,
+            time = 50,
+            category = Farming,
+            Tooltip = Tooltip_craft_churningMachineDesc,
+            inputs
+            {
+                item 1 [Base.Plank],
+                item 1 [Base.Nails],
+            }
+        }
+    }
+}

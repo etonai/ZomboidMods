@@ -1,0 +1,22 @@
+DC11 Ideas — Step 11: Additional Testing and Follow-On Planning
+
+We have the basic functionality of the Churning Machine, but now we need to refine it. Steps 3 through 10 got the core loop working end to end: the object can be built, filled with cow's milk, turned on and off, and after a completed cycle it removes milk in 5L increments and produces butter directly into its own item inventory, on a 10-minute cycle. That loop is verified and working.
+
+What's left is everything we knowingly set aside to get there. Several real gaps and open questions piled up along the way, each deliberately deferred to this step rather than chased down at the time:
+
+- The "Turn On" running sound still doesn't play, despite the Lua code matching the vanilla washer/dryer's own sound-emitter pattern.
+- The object still shows an unwanted Wash Menu and the wrong displayed name, and there's an unconfirmed hypothesis that it's secretly being treated as a real vanilla washer/dryer at a low level — which would also explain why its item inventory works today, and whether that keeps working if this gets fixed.
+- "Add Liquid from Item" has never worked on this object, and the cause was never found (three candidate explanations were ruled out).
+- The build recipe is still a placeholder (1 plank + 1 nail), not the final materials. NOTE: We don't need to worry about this. We'll keep this for testing purposes until the end.
+- Sheep's milk mixing and its contribution to butter output hasn't been designed at all.
+- A front loading washing machines capacity can reasonably be 25 liters. So change that
+- We should also do a version of this mod using a top loading washing machine with a much larger capacity, at least 50L
+- We should be able to CONVERT a regular blue washer/dryer into the Churning Machine. We'll just gatekeep this with electronics level 6 and some ingredients. You have the menu to Convert to Churning Machine
+- The Build UI option to build the Churning Machine is actually of the old manual butter churner. NOTE: We don't need to worry about this. We'll keep this for testing until the end.
+- There is an extraneous Churning Machine menu item that I think was designed for the old fullness system
+
+- We should allow for any liquid to be put into the Churner machine, but only 100% milk (cow/sheep) gets converted into butter (perhaps the butter churning code has info on this)
+- Advanced: We should consider what happens if the container has a mixture of milk and another liquid, like water (perhaps the butter churning code has info on this)
+
+- The Churning Machine should require power to run, like the washing machine or dryer.
+

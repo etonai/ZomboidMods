@@ -1,0 +1,11 @@
+module Base
+{
+    xuiSkin default
+    {
+        entity ES_ChurningMachine
+        {
+            DisplayName = Churning Machine,
+            Icon = Build_ButterChurn,
+        }
+    }
+}
