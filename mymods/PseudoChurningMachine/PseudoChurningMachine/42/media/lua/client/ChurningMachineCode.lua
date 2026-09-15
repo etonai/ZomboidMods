@@ -5,10 +5,10 @@ local RUNNING_SOUND = "ClothingWasherRunning"
 
 ChurningMachineCode.active = ChurningMachineCode.active or {}
 ChurningMachineCode.emitters = ChurningMachineCode.emitters or {}
--- DC012 Phase 2 DIAGNOSTIC (temporary - remove once the audio bug is isolated): last time
--- each machine's isPlaying() state was logged, so the repeated check below is throttled
--- instead of printing on every single Events.OnTick call.
-ChurningMachineCode.lastSoundCheckMs = ChurningMachineCode.lastSoundCheckMs or {}
+-- DC014 Phase 1: the numeric handle returned by playSoundLoopedImpl, tracked per machine so
+-- it can be stopped precisely (mirroring IsoGenerator/AlarmClockClothing's own handle-based
+-- tracking) instead of relying only on stopOrTriggerSoundByName.
+ChurningMachineCode.soundInstances = ChurningMachineCode.soundInstances or {}
 
 local function machineKey(entity)
     local square = entity:getSquare()
@@ -26,11 +26,21 @@ local function stopMachine(entity, completedCycle)
     local key = machineKey(entity)
     local emitter = ChurningMachineCode.emitters[key]
     if emitter then
-        emitter:stopOrTriggerSoundByName(RUNNING_SOUND)
+        local soundInstance = ChurningMachineCode.soundInstances[key]
+        if soundInstance then
+            emitter:stopSound(soundInstance)
+        else
+            emitter:stopOrTriggerSoundByName(RUNNING_SOUND)
+        end
+        -- DC014 Phase 1: mirrors IsoGenerator.removeFromWorld() / ItemSoundManager's own
+        -- cleanup - since startMachine took manual ownership of this emitter (removing it
+        -- from IsoWorld's automatically-ticked pool), it must be handed back explicitly, or
+        -- it's neither auto-ticked nor manually ticked by anything ever again.
+        IsoWorld.instance:returnOwnershipOfEmitter(emitter)
     end
     ChurningMachineCode.emitters[key] = nil
+    ChurningMachineCode.soundInstances[key] = nil
     ChurningMachineCode.active[key] = nil
-    ChurningMachineCode.lastSoundCheckMs[key] = nil
     if completedCycle then
         local fluidContainer = entity:getFluidContainer()
         if fluidContainer then
@@ -55,18 +65,22 @@ local function startMachine(entity, playerObj)
     modData.churningMachineStartHour = getGameTime():getWorldAgeHours()
     local square = entity:getSquare()
     local key = machineKey(entity)
+    -- DC014 Phase 1: take manual ownership instead of setEmitterOwner - mirrors
+    -- IsoGenerator/ItemSoundManager's own pattern (a confirmed-working, non-IsoObject
+    -- source, per claude_digitalWatchAudioAnalysis.md's left-behind-alarm-watch finding),
+    -- rather than the washer's pattern DC11/DC12 already tried and found silent. This
+    -- removes the emitter from IsoWorld's automatically-ticked pool - see
+    -- checkRunningMachines below for the manual emitter:tick() this now requires.
     local emitter = IsoWorld.instance:getFreeEmitter(square:getX() + 0.5, square:getY() + 0.5, square:getZ())
-    IsoWorld.instance:setEmitterOwner(emitter, entity)
+    IsoWorld.instance:takeOwnershipOfEmitter(emitter)
     local soundInstance = emitter:playSoundLoopedImpl(RUNNING_SOUND)
     -- DC011 Phase 16: vanilla ClothingWasherLogic.updateSound() always sets this FMOD
     -- parameter right after starting the loop (ClothingWasherLogic.java:206) - we never
     -- have. Testing whether the event needs it set to route audio at all.
     emitter:setParameterValueByName(soundInstance, "ClothingWasherLoaded", 1.0)
     ChurningMachineCode.emitters[key] = emitter
+    ChurningMachineCode.soundInstances[key] = soundInstance
     ChurningMachineCode.active[key] = entity
-    -- DC012 Phase 2 DIAGNOSTIC: reset so checkRunningMachines logs an immediate reading on
-    -- the very next tick, then every few seconds after - see checkRunningMachines below.
-    ChurningMachineCode.lastSoundCheckMs[key] = nil
 end
 
 function ChurningMachineCode.onToggleOption(entity, playerObj)
@@ -108,13 +122,8 @@ function ChurningMachineCode.turnOnOffMenu(context, param)
     end
 end
 
--- DC012 Phase 2 DIAGNOSTIC (temporary - remove once the audio bug is isolated): how often,
--- in real milliseconds, to re-log isPlaying() for each running machine.
-local SOUND_CHECK_INTERVAL_MS = 5000
-
 local function checkRunningMachines()
     local now = getGameTime():getWorldAgeHours()
-    local nowMs = getTimestampMs()
     local toStop = {}
     for key, entity in pairs(ChurningMachineCode.active) do
         local modData = entity:getModData()
@@ -123,16 +132,13 @@ local function checkRunningMachines()
             table.insert(toStop, entity)
         end
 
-        -- DC012 Phase 2 DIAGNOSTIC: unlike DC011 Phase 15 (which only checked isPlaying()
-        -- once, immediately after starting the loop), this re-checks repeatedly for the
-        -- whole life of the cycle so a mid-cycle drop (e.g. the emitter getting silently
-        -- reclaimed) would actually show up in the log instead of going unnoticed.
-        local lastCheck = ChurningMachineCode.lastSoundCheckMs[key]
-        if not lastCheck or nowMs - lastCheck >= SOUND_CHECK_INTERVAL_MS then
-            ChurningMachineCode.lastSoundCheckMs[key] = nowMs
-            local emitter = ChurningMachineCode.emitters[key]
-            local playing = emitter ~= nil and emitter:isPlaying(RUNNING_SOUND)
-            print("ChurningMachineCode DEBUG: [" .. key .. "] isPlaying(" .. RUNNING_SOUND .. ") = " .. tostring(playing))
+        -- DC014 Phase 1: mirrors ItemSoundManager.update()'s own per-frame emitter.tick()
+        -- call - since startMachine took manual ownership of this emitter (removing it from
+        -- IsoWorld's automatically-ticked pool via takeOwnershipOfEmitter), nothing else
+        -- will ever tick it unless we do so explicitly, every tick, ourselves.
+        local emitter = ChurningMachineCode.emitters[key]
+        if emitter then
+            emitter:tick()
         end
     end
     for i = 1, #toStop do

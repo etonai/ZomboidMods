@@ -10,13 +10,13 @@ This is an analysis document, not a DevCycle plan — it doesn't commit to an im
 
 ## 1. "Turn On" running sound still doesn't play
 
-**Status:** Open, root cause not found (carried over from DevCycle 005 Phase 6).
+**Status:** RESOLVED (DevCycle 014, 2026-09-14).
 
-DevCycle 005 matched the Lua code exactly to the vanilla `ClothingWasherLogic.updateSound()` pattern — `IsoWorld.instance:getFreeEmitter(x, y, z)`, `IsoWorld.instance:setEmitterOwner(emitter, entity)`, `emitter:playSoundLoopedImpl("ClothingWasherRunning")` — and it's still silent. `setEmitterOwner` only registers `(emitter -> object)` in a lookup map; nothing in its body gates playback, so adding it was a reasonable, evidence-backed try that didn't turn out to be the actual cause.
+DevCycle 005 matched the Lua code exactly to the vanilla `ClothingWasherLogic.updateSound()` pattern — `IsoWorld.instance:getFreeEmitter(x, y, z)`, `IsoWorld.instance:setEmitterOwner(emitter, entity)`, `emitter:playSoundLoopedImpl("ClothingWasherRunning")` — and it stayed silent through DevCycle 011 (17 phases), DevCycle 012's research, and DevCycle 013's abandoned attempt to route around the problem entirely by converting a real washer/dryer (see #8's updated status below — that path was tried and abandoned, and turned out not to be needed).
 
-**What wasn't yet tried:** actual in-game audio debugging (checking whether the sound category is muted in this test session's settings, whether the FMOD event `Object/ClothingWasher/Running` requires a parameter to be set before it produces audible output, or whether emitters only play when "close enough" to the listener by some distance check not visible in the decompiled Java). None of this is answerable from source reading alone — FMOD sound-bank data is compiled binary, not present in `media42_20_4/`.
+**Actual root cause and fix, found in DevCycle 014 by comparing four other vanilla sound-emitting objects (generator, stove/microwave, digital watch — see `claudeDocs/claude_generatorAudioAnalysis.md`, `claude_microwaveAudioAnalysis.md`, `claude_digitalWatchAudioAnalysis.md`) instead of continuing to vary code anchored to the washer's own pattern:** `IsoWorld.instance:setEmitterOwner(emitter, entity)` leaves the emitter in `IsoWorld`'s automatically-ticked pool — which works for a real `IsoObject` owner, but was not sufficient for our `GameEntity`-backed scripted entity. A left-behind digital watch's alarm (confirmed, everyday vanilla behavior) uses a different mechanism instead: `IsoWorld.instance:takeOwnershipOfEmitter(emitter)` (removing it from the automatic pool) plus an explicit, manually-called `emitter:tick()` every frame (mirroring `ItemSoundManager.update()`, the manager that drives that watch's own sound). Applying that exact recipe to the Churning Machine — replacing `setEmitterOwner` with `takeOwnershipOfEmitter`, and adding a manual `emitter:tick()` call inside the existing `Events.OnTick`-driven `checkRunningMachines` — made the running sound audible. DevCycle 014 also added handle-based sound stopping and proper `returnOwnershipOfEmitter` cleanup on stop, matching the generator's/watch's own patterns.
 
-**Cross-reference — see #2 and #8 below.** If #8 (converting a *real* vanilla washer/dryer into the Churning Machine) is pursued, the running sound would very plausibly just work, because it would be the real object's own hardcoded audio system rather than mod Lua trying to reproduce it. That would make #1 moot rather than fixed. Worth deciding #8's direction before spending more time chasing #1 in isolation.
+**No longer cross-referenced to #8** — #1 was fixed independently, on the scripted `GameEntity` entity, without needing to convert to a real washer/dryer object at all.
 
 ## 2. Wash Menu, wrong displayed name, and the reclassification hypothesis
 
@@ -24,11 +24,13 @@ DevCycle 005 matched the Lua code exactly to the vanilla `ClothingWasherLogic.up
 
 The leading, code-backed theory (`zombie42_20_4/iso/CellLoader.java`, `DoTileObjectCreation()`) is that the vanilla `appliances_laundry_01_0` tile our `SpriteConfig` reuses is baked with an `ISO_TYPE`/`CONTAINER` property value that makes the game reclassify the placed object as a real `IsoClothingWasher`/`IsoCombinationWasherDryer` — which would explain the Wash Menu, the wrong name, *and* the free 20-encumbrance item inventory DevCycle 007 successfully used, as one shared cause rather than three coincidences. Still unconfirmed because the tile's actual baked property data isn't present in any decompiled source available to this project.
 
-**Cross-reference — this may not need "fixing" at all if #8 is adopted.** The plan on record (`PseudoChurningMachinePlan.md`) treats this as a bug to eventually fix with a mod-owned tile/texture pack replacing the borrowed vanilla graphic. But idea #8 explicitly proposes converting a *real* washer/dryer into a Churning Machine — which means embracing this reclassification as the actual design, not fighting it. If #8 is adopted as the long-term direction, #2 stops being "the wrong displayed name and an unwanted menu on a placeholder object" and becomes "correctly identifying a real washer/dryer before conversion, and correctly gating/relabeling its menu after conversion." **This is the single most consequential open decision in this list** — it changes what "fixing" #1, #2, and #3 even means. Recommend resolving the direction of #8 before investing further in #2's originally-planned fix (a new mod-owned tile).
+**Cross-reference — update (2026-09-14): #8 (the idea that would have made this "not a bug to fix") was attempted and abandoned in DevCycle 013.** This reopens #2 as a real bug on the current scripted entity, per the plan on record (`PseudoChurningMachinePlan.md`): eventually fix with a mod-owned tile/texture pack replacing the borrowed vanilla graphic, rather than embracing the reclassification as the design. The original framing below (that resolving #8's direction should come first) is now moot, since #8's direction has been resolved — it's abandoned.
 
 ## 3. "Add Liquid from Item" still missing
 
 **Status:** Open, root cause not found; three candidate causes already ruled out (DevCycle 004 Phase 5 Part B): input lock, container-full, and wrong fluid type in the test item. Workaround in use: "Transfer Liquid."
+
+**Update (DevCycle 013, 2026-09-14):** re-encountered on a *real* converted washer/dryer object during DC13's now-abandoned real-object experiment — same symptom (no "Add Liquid from Item," but "Transfer Liquid" works), confirming this is a genuine, long-standing gap rather than something specific to the scripted entity's own fluid-container setup. Since #8 was abandoned, this remains open exactly as before, on the current (scripted-entity) Churning Machine — no longer cross-referenced as "possibly moot if #8 is adopted."
 
 Traced the actual gating logic one level deeper than DevCycle 004 did, in `ISWorldObjectContextMenuLogic.addFluidFromItem()` (`zombie42_20_4/iso/ISWorldObjectContextMenuLogic.java:4287-4307`). An inventory item is offered in the "Add Liquid from Item" submenu only if **all three** of these are true for it:
 ```java
@@ -64,7 +66,13 @@ Good news found in this analysis: `ChurningMachineCode.lua`'s functions (`turnOn
 
 ## 8. Convert a real washer/dryer into a Churning Machine (Electrician-gated)
 
-**Status:** Open, biggest idea in this list — see the cross-references under #1 and #2 above.
+**Status:** ATTEMPTED AND ABANDONED (DevCycle 013, 2026-09-14) — see `doc/planning/completed/DevCycle013.md`.
+
+The flag-based approach described below was fully implemented and worked correctly at the conversion/menu level (Electrician-perk gate, `ModData` flag, vanilla Wash-menu suppression via `Events.OnFillWorldObjectContextMenu`, all confirmed in-game). It was abandoned anyway because a real converted washer/dryer's fluid container turned out to be unreliable across different object instances — one converted Blue Combination Washer/Dryer had a working fluid submenu ("Transfer Liquid" usable), but a second, separately-converted one had **no fluid-related submenu at all**, apparently because it was still in vanilla's piped/infinite-water mode (`IsoObject.usesExternalWaterSource`/`isUnmovedPipedWaterSource()`) and had never been given a real local `FluidContainer` component. Since converting combo units reliably was a hard requirement, and there was no confirmed fix for this before running out of appetite to keep debugging a second unresolved layer, the whole approach was abandoned in favor of reverting to the scripted-entity version.
+
+**#1 (running sound) was subsequently fixed independently, on the scripted entity, in DevCycle 014** — without needing #8 at all. This removes the single biggest reason #8 was attractive in the first place. #8 remains a theoretically-viable idea (its menu-level mechanism worked), but is not recommended to revisit unless the fluid-container reliability problem above gets a real answer first — and the original motivation for it (fixing #1) no longer applies.
+
+*Original analysis, kept for reference:*
 
 Technically feasible with an existing, generic vanilla mechanism: `Events.OnFillWorldObjectContextMenu` (confirmed real and already used by many vanilla systems, e.g. `media42_20_4/lua/client/Vehicles/ISUI/ISVehicleMenu.lua:1741`, `media42_20_4/lua/client/ISUI/ISBBQMenu.lua`) lets Lua add custom menu options onto *any* world object's right-click menu, including a real vanilla `IsoClothingWasher`/`IsoCombinationWasherDryer` — no `ContextMenuConfig` component is needed, since that mechanism is for scripted entities and a real washer/dryer isn't one. A handler could check `instanceof(object, "IsoClothingWasher")` (or the combo variant), check the player's skill via `playerObj:getPerkLevel(Perks.Electricity)` (the skill's real internal name is **`Electricity`** — "Electrician" is the profession/trait display name, confirmed via `media42_20_4/lua/shared/Translate/EN/UI.json:916` and the moveable tool-definition at `media42_20_4/lua/shared/Moveables/ISMoveableDefinitions.lua:313`, which references `Perks.Electricity` directly), and if both pass, add a "Convert to Churning Machine" option requiring whatever ingredients get decided.
 
@@ -130,14 +138,14 @@ if (!this.getContainer().isPowered()) {
 
 | # | Idea | Status | Key dependency / cross-reference |
 |---|---|---|---|
-| 1 | Turn On sound still silent | Open, root cause unknown | Possibly moot if #8 is adopted |
-| 2 | Wash Menu / wrong name / reclassification hypothesis | Open, unconfirmed | Reframed entirely if #8 is adopted — resolve #8's direction first |
-| 3 | "Add Liquid from Item" missing | Open, new candidate found (`canPlayerEmpty()`) | Possibly moot if #8 is adopted |
+| 1 | Turn On sound still silent | **RESOLVED (DC014)** | Fixed independently of #8 — see #1 |
+| 2 | Wash Menu / wrong name / reclassification hypothesis | Open, unconfirmed | Reopened as a real bug — #8 (which would have mooted it) is abandoned |
+| 3 | "Add Liquid from Item" missing | Open, new candidate found (`canPlayerEmpty()`) | Re-confirmed present on a real washer too (DC013) — not #8-dependent |
 | 4 | Final build recipe | Deferred by Ed | Keep placeholder until the end |
 | 5 | Sheep's milk mixing | Open, no design | Same mechanism as #11/#12 |
 | 6 | Front-loader capacity 20L->25L | Trivial | None |
 | 7 | Top-loading variant, 50L+ | Open, code already reusable | Needs a tile/graphic, found in-game not in source |
-| 8 | Convert real washer/dryer via Electrician gate | Open, biggest open decision | Drives #1, #2, #3's actual meaning |
+| 8 | Convert real washer/dryer via Electrician gate | **ATTEMPTED AND ABANDONED (DC013)** | Menu mechanism worked; fluid-container reliability didn't. #1 fixed without it. |
 | 9 | Build UI shows old Butter Churner | Deferred by Ed | Keep for testing until the end |
 | 10 | Extraneous menu item | Open, not found in source | Needs exact in-game detail from Ed |
 | 11 | Any liquid in, only milk converts | Open, mechanism found (`getSpecificFluidAmount`) | Same mechanism as #5/#12 |
