@@ -24,13 +24,13 @@ DevCycle 005 matched the Lua code exactly to the vanilla `ClothingWasherLogic.up
 
 The leading, code-backed theory (`zombie42_20_4/iso/CellLoader.java`, `DoTileObjectCreation()`) is that the vanilla `appliances_laundry_01_0` tile our `SpriteConfig` reuses is baked with an `ISO_TYPE`/`CONTAINER` property value that makes the game reclassify the placed object as a real `IsoClothingWasher`/`IsoCombinationWasherDryer` — which would explain the Wash Menu, the wrong name, *and* the free 20-encumbrance item inventory DevCycle 007 successfully used, as one shared cause rather than three coincidences. Still unconfirmed because the tile's actual baked property data isn't present in any decompiled source available to this project.
 
-**Cross-reference — update (2026-09-14): #8 (the idea that would have made this "not a bug to fix") was attempted and abandoned in DevCycle 013.** This reopens #2 as a real bug on the current scripted entity, per the plan on record (`PseudoChurningMachinePlan.md`): eventually fix with a mod-owned tile/texture pack replacing the borrowed vanilla graphic, rather than embracing the reclassification as the design. The original framing below (that resolving #8's direction should come first) is now moot, since #8's direction has been resolved — it's abandoned.
+**Cross-reference — update (2026-09-14): #8 remains undecided** (DevCycle 013 used its mechanism to try fixing #1's audio, not to evaluate #8 as a feature — see #8's updated status). Since #1 is now fixed independently (DevCycle 014) and no longer depends on #8 either way, there's no remaining urgency to decide #8's direction before working on #2 — #2 can be treated as a real bug to eventually fix per the plan on record (`PseudoChurningMachinePlan.md`: a mod-owned tile/texture pack replacing the borrowed vanilla graphic), independent of whether #8 is ever picked up as a feature later.
 
 ## 3. "Add Liquid from Item" still missing
 
 **Status:** Open, root cause not found; three candidate causes already ruled out (DevCycle 004 Phase 5 Part B): input lock, container-full, and wrong fluid type in the test item. Workaround in use: "Transfer Liquid."
 
-**Update (DevCycle 013, 2026-09-14):** re-encountered on a *real* converted washer/dryer object during DC13's now-abandoned real-object experiment — same symptom (no "Add Liquid from Item," but "Transfer Liquid" works), confirming this is a genuine, long-standing gap rather than something specific to the scripted entity's own fluid-container setup. Since #8 was abandoned, this remains open exactly as before, on the current (scripted-entity) Churning Machine — no longer cross-referenced as "possibly moot if #8 is adopted."
+**Update (DevCycle 013, 2026-09-14):** re-encountered on a *real* converted washer/dryer object during DC13's audio-fix attempt (which used #8's conversion mechanism as a means to try fixing #1, not as a pursuit of #8 itself — see #8's updated status) — same symptom (no "Add Liquid from Item," but "Transfer Liquid" works), confirming this is a genuine, long-standing gap rather than something specific to the scripted entity's own fluid-container setup. This remains open exactly as before, on the current (scripted-entity) Churning Machine.
 
 Traced the actual gating logic one level deeper than DevCycle 004 did, in `ISWorldObjectContextMenuLogic.addFluidFromItem()` (`zombie42_20_4/iso/ISWorldObjectContextMenuLogic.java:4287-4307`). An inventory item is offered in the "Add Liquid from Item" submenu only if **all three** of these are true for it:
 ```java
@@ -66,11 +66,11 @@ Good news found in this analysis: `ChurningMachineCode.lua`'s functions (`turnOn
 
 ## 8. Convert a real washer/dryer into a Churning Machine (Electrician-gated)
 
-**Status:** ATTEMPTED AND ABANDONED (DevCycle 013, 2026-09-14) — see `doc/planning/completed/DevCycle013.md`.
+**Status:** Open — the idea itself was never evaluated on its own merits. What actually happened: DevCycle 013 (2026-09-14, see `doc/planning/completed/DevCycle013.md`) borrowed this idea's mechanism as a *means to fix #1's audio problem*, not as an attempt at this feature for its own sake — DC13's own stated goal was audio, not "add a washer/dryer conversion feature." That attempt was abandoned, and #1 was subsequently fixed a different way (DevCycle 014, entirely on the scripted entity, no conversion involved) — so #8 was never actually pursued or rejected as a feature idea in its own right.
 
-The flag-based approach described below was fully implemented and worked correctly at the conversion/menu level (Electrician-perk gate, `ModData` flag, vanilla Wash-menu suppression via `Events.OnFillWorldObjectContextMenu`, all confirmed in-game). It was abandoned anyway because a real converted washer/dryer's fluid container turned out to be unreliable across different object instances — one converted Blue Combination Washer/Dryer had a working fluid submenu ("Transfer Liquid" usable), but a second, separately-converted one had **no fluid-related submenu at all**, apparently because it was still in vanilla's piped/infinite-water mode (`IsoObject.usesExternalWaterSource`/`isUnmovedPipedWaterSource()`) and had never been given a real local `FluidContainer` component. Since converting combo units reliably was a hard requirement, and there was no confirmed fix for this before running out of appetite to keep debugging a second unresolved layer, the whole approach was abandoned in favor of reverting to the scripted-entity version.
+**What DC13 did confirm, worth keeping attached to this idea for whoever picks it up as an actual feature:** the flag-based conversion mechanism itself works correctly end-to-end (Electrician-perk gate, `ModData` flag, vanilla Wash-menu suppression via `Events.OnFillWorldObjectContextMenu`, all confirmed in-game). But a real converted washer/dryer's fluid container turned out to be unreliable across different object instances — one converted Blue Combination Washer/Dryer had a working fluid submenu ("Transfer Liquid" usable), but a second, separately-converted one had **no fluid-related submenu at all**, apparently because it was still in vanilla's piped/infinite-water mode (`IsoObject.usesExternalWaterSource`/`isUnmovedPipedWaterSource()`) and had never been given a real local `FluidContainer` component. **Any future attempt at #8 as an actual feature needs to solve this first**, since converting combo units reliably would be a hard requirement of the feature itself, not just of DC13's audio-fix framing.
 
-**#1 (running sound) was subsequently fixed independently, on the scripted entity, in DevCycle 014** — without needing #8 at all. This removes the single biggest reason #8 was attractive in the first place. #8 remains a theoretically-viable idea (its menu-level mechanism worked), but is not recommended to revisit unless the fluid-container reliability problem above gets a real answer first — and the original motivation for it (fixing #1) no longer applies.
+**#1 no longer motivates picking this up** — the running sound is fixed independently now (DevCycle 014). If #8 is ever revisited, it would be purely on its own merits as a feature (a different, more "authentic" way to obtain a Churning Machine), not to solve any other still-open item in this list.
 
 *Original analysis, kept for reference:*
 
@@ -139,13 +139,13 @@ if (!this.getContainer().isPowered()) {
 | # | Idea | Status | Key dependency / cross-reference |
 |---|---|---|---|
 | 1 | Turn On sound still silent | **RESOLVED (DC014)** | Fixed independently of #8 — see #1 |
-| 2 | Wash Menu / wrong name / reclassification hypothesis | Open, unconfirmed | Reopened as a real bug — #8 (which would have mooted it) is abandoned |
-| 3 | "Add Liquid from Item" missing | Open, new candidate found (`canPlayerEmpty()`) | Re-confirmed present on a real washer too (DC013) — not #8-dependent |
+| 2 | Wash Menu / wrong name / reclassification hypothesis | Open, unconfirmed | #8 still undecided as a feature; no urgency to resolve it before fixing #2 |
+| 3 | "Add Liquid from Item" missing | Open, new candidate found (`canPlayerEmpty()`) | Re-confirmed present on a real washer too (DC013) — not tied to #8's fate |
 | 4 | Final build recipe | Deferred by Ed | Keep placeholder until the end |
 | 5 | Sheep's milk mixing | Open, no design | Same mechanism as #11/#12 |
 | 6 | Front-loader capacity 20L->25L | Trivial | None |
 | 7 | Top-loading variant, 50L+ | Open, code already reusable | Needs a tile/graphic, found in-game not in source |
-| 8 | Convert real washer/dryer via Electrician gate | **ATTEMPTED AND ABANDONED (DC013)** | Menu mechanism worked; fluid-container reliability didn't. #1 fixed without it. |
+| 8 | Convert real washer/dryer via Electrician gate | Open — never evaluated as a feature in its own right | DC13 used its mechanism to try fixing #1, not to pursue #8 itself; menu mechanism confirmed working, fluid-container reliability didn't. #1 fixed a different way (DC014). |
 | 9 | Build UI shows old Butter Churner | Deferred by Ed | Keep for testing until the end |
 | 10 | Extraneous menu item | Open, not found in source | Needs exact in-game detail from Ed |
 | 11 | Any liquid in, only milk converts | Open, mechanism found (`getSpecificFluidAmount`) | Same mechanism as #5/#12 |

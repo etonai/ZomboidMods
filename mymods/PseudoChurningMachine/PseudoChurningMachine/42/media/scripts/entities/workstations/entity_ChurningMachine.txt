@@ -34,7 +34,7 @@ module Pseudonymous
             {
                 layer
                 {
-                    row = appliances_laundry_01_0,
+                    row = appliances_laundry_01_7,
                 }
             }
         }
