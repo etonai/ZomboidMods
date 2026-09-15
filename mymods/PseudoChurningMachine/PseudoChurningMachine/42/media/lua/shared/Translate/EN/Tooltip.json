@@ -1,4 +1,5 @@
 {
   "Tooltip_craft_churningMachineDesc": "A placeholder Churning Machine. No functionality yet.",
-  "Tooltip_ChurningMachine_NoMilk": "Needs milk before it can be turned on."
+  "Tooltip_ChurningMachine_NoMilk": "Needs milk before it can be turned on.",
+  "Tooltip_ChurningMachine_RequiresConversion": "Requires a screwdriver and level 6 Electrical to convert."
 }

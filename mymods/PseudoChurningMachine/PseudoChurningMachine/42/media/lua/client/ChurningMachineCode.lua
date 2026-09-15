@@ -1,3 +1,5 @@
+require "TimedActions/ISConvertWasherToChurningMachine"
+
 ChurningMachineCode = ChurningMachineCode or {}
 
 local RUN_MINUTES = 10.0 -- Step 10: full cycle duration.
@@ -121,6 +123,50 @@ function ChurningMachineCode.turnOnOffMenu(context, param)
         subOption.toolTip.description = getText("Tooltip_ChurningMachine_NoMilk")
     end
 end
+
+-- DC016 Phase 2: replacement-based conversion (idea #8, approach 2 - see
+-- doc/ideas/PseudoChurningMachineDC11Plus.md). Requirement per Ed: a screwdriver (checked, not
+-- consumed - a tool, not a material) and Electricity level 6.
+local REQUIRED_ELECTRICITY_LEVEL = 6
+
+local function predicateNotBroken(item)
+    return not item:isBroken()
+end
+
+local function canConvertWasher(playerObj)
+    local inventory = playerObj:getInventory()
+    return inventory:containsTagEvalRecurse(ItemTag.SCREWDRIVER, predicateNotBroken)
+        and playerObj:getPerkLevel(Perks.Electricity) >= REQUIRED_ELECTRICITY_LEVEL
+end
+
+local function onSelectConvertWasher(object, playerObj)
+    if not canConvertWasher(playerObj) then
+        return
+    end
+    ISTimedActionQueue.add(ISConvertWasherToChurningMachine:new(playerObj, object))
+end
+
+local function onFillWorldObjectContextMenu(playerNum, context, worldobjects, test)
+    local playerObj = getSpecificPlayer(playerNum)
+    for _, object in ipairs(worldobjects) do
+        -- Plain White Washing Machine only - explicitly not IsoCombinationWasherDryer or
+        -- IsoClothingDryer, per DC016's scope decision.
+        if instanceof(object, "IsoClothingWasher") then
+            if test then
+                return ISWorldObjectContextMenu.setTest()
+            end
+            local option = context:addGetUpOption(getText("ContextMenu_ChurningMachine_Convert"), object, onSelectConvertWasher, playerObj)
+            if not canConvertWasher(playerObj) then
+                option.notAvailable = true
+                option.toolTip = ISWorldObjectContextMenu.addToolTip()
+                option.toolTip:setVisible(false)
+                option.toolTip.description = getText("Tooltip_ChurningMachine_RequiresConversion")
+            end
+        end
+    end
+end
+
+Events.OnFillWorldObjectContextMenu.Add(onFillWorldObjectContextMenu)
 
 local function checkRunningMachines()
     local now = getGameTime():getWorldAgeHours()

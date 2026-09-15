@@ -19,7 +19,7 @@ module Pseudonymous
         component FluidContainer
         {
             ContainerName = ChurningMachine,
-            Capacity = 20.0,
+            Capacity = 50.0,
             InitialPercentMin = 0.0,
             InitialPercentMax = 0.0,
             whitelist
@@ -31,6 +31,27 @@ module Pseudonymous
         {
             isThumpable = false,
             face S
+            {
+                layer
+                {
+                    row = appliances_laundry_01_4,
+                }
+            }
+            face N
+            {
+                layer
+                {
+                    row = appliances_laundry_01_5,
+                }
+            }
+            face E
+            {
+                layer
+                {
+                    row = appliances_laundry_01_6,
+                }
+            }
+            face W
             {
                 layer
                 {
