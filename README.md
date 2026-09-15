@@ -22,6 +22,7 @@ claudeDocs/      Technical analysis documents authored by Claude
 cursorDocs/      Technical analysis documents authored by Cursor
 mymods/          Mod projects under development
 modPlans/        Planning documents for mod development
+utilities/       Windows batch scripts for local testing and Workshop deployment
 ```
 
 The following directories must be present **locally** but are excluded from version control (see `.gitignore`):
@@ -61,6 +62,15 @@ python deploy_mod.py <ModName>
 ```
 
 Paths for the development and local mods directories are configured in `config.txt`.
+
+### `utilities/` scripts
+
+`utilities/` holds two Windows batch scripts used during DevCycle testing and Workshop deployment. Both scripts locate a mod under `mymods/<ModName>`, auto-detect its actual mod folder (handling mods that nest their real contents in a differently-named subfolder), and `robocopy /MIR` it to a destination — excluding `doc/` and `.git/`, which aren't part of the shipped mod.
+
+- **`CopyModToZomboid.bat <ModName> [TargetModsDir]`** — copies a mod straight into a local Project Zomboid `mods` directory for in-game testing. Destination defaults to the `ZOMBOID_MODS_DIR` environment variable, then `%USERPROFILE%\Zomboid\mods`. Run this before any in-game verification step in a DevCycle.
+- **`DeployModToWorkshop.bat <ModName> [WorkshopDir]`** — copies a mod into a Workshop staging folder (`WorkshopDir\<TargetName>\Contents\mods\<TargetName>`), matching the layout Project Zomboid's Workshop upload tooling expects. Destination defaults to the `ZOMBOID_WORKSHOP_DIR` environment variable, then `%USERPROFILE%\Zomboid\Workshop`.
+
+Both are important for testing and deployment — `CopyModToZomboid.bat` is the fast local-test loop, `DeployModToWorkshop.bat` prepares a mod for Workshop upload. Neither depends on `deploy_mod.py`/`config.txt` — they're a separate, self-contained tool pair for Windows.
 
 ## Documentation Standards
 

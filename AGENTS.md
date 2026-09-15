@@ -73,6 +73,13 @@ The project focuses on understanding and documenting various game mechanics thro
 
 Development follows the processes defined in `DevCycles/DevelopmentProcess.md`. Work is organized into DevCycles (the project's equivalent of sprints). Refer to that document for workflow, status values, naming conventions, and verification authority rules.
 
+## Testing and Deployment Utilities
+
+`utilities/` contains two Windows batch scripts, both important for testing and deployment. Each locates a mod under `mymods/<ModName>`, auto-detects its real mod folder (some mods nest their actual contents in a differently-named subfolder), and mirrors it via `robocopy /MIR` (excluding `doc/` and `.git/`) to a destination:
+
+- **`CopyModToZomboid.bat <ModName> [TargetModsDir]`** — copies a mod into a local Project Zomboid `mods` directory for in-game testing. Defaults to `%ZOMBOID_MODS_DIR%`, then `%USERPROFILE%\Zomboid\mods`. Run this before any in-game verification step.
+- **`DeployModToWorkshop.bat <ModName> [WorkshopDir]`** — copies a mod into a Workshop staging folder (`WorkshopDir\<TargetName>\Contents\mods\<TargetName>`) for Workshop upload. Defaults to `%ZOMBOID_WORKSHOP_DIR%`, then `%USERPROFILE%\Zomboid\Workshop`.
+
 ## Commands for Common Tasks
 - **Lint/Typecheck**: No specific commands identified - ask user if needed
 - **Search Pattern**: Use Grep tool for code searching across files

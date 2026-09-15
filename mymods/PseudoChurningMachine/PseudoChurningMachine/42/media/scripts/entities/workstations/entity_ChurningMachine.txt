@@ -22,10 +22,6 @@ module Pseudonymous
             Capacity = 50.0,
             InitialPercentMin = 0.0,
             InitialPercentMax = 0.0,
-            whitelist
-            {
-                fluid = CowMilk,
-            }
         }
         component SpriteConfig
         {

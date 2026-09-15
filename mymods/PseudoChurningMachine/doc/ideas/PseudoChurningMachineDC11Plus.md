@@ -1,8 +1,9 @@
 # PseudoChurningMachine — DC11+ Idea Analysis
 
 **Created:** 2026-09-13
+**Closed:** 2026-09-15 (per Ed) — no longer used as a reference. Every item below is resolved (implemented, abandoned, accepted, or closed) — see each item's own status and the Summary Table. Any future work will be tracked in a new ideas document, not added here.
 **Source:** `mymods/PseudoChurningMachine/doc/ideas/DC11Ideas.txt`
-**Purpose:** A numbered, analyzed breakdown of every idea in `DC11Ideas.txt`, for future DevCycles to implement out of order, referenced by number (`#1`, `#2`, etc.). Numbers are stable once assigned — don't renumber this list as items are completed or dropped; mark them done/dropped in place instead, the same convention `PseudoChurningMachinePlan.md` uses for its Incremental Steps.
+**Purpose (historical):** A numbered, analyzed breakdown of every idea in `DC11Ideas.txt`, for future DevCycles to implement out of order, referenced by number (`#1`, `#2`, etc.). Numbers are stable once assigned — don't renumber this list as items are completed or dropped; mark them done/dropped in place instead, the same convention `PseudoChurningMachinePlan.md` uses for its Incremental Steps.
 
 This is an analysis document, not a DevCycle plan — it doesn't commit to an implementation order or bundle items into cycles. Each numbered item below should get its own DevCycle (or be folded into one, if a future planning pass decides two items are cheaper to do together) when work on it actually begins, per `DevelopmentProcess.md`.
 
@@ -20,7 +21,7 @@ DevCycle 005 matched the Lua code exactly to the vanilla `ClothingWasherLogic.up
 
 ## 2. Wash Menu, wrong displayed name, and the reclassification hypothesis
 
-**Status:** Open, hypothesis unconfirmed (carried over from DevCycle 004 Phase 5 Part A).
+**Status:** ACCEPTED, won't fix (per Ed, 2026-09-15). Ed has confirmed this only shows up when the Churning Machine is plumbed (connected to a piped water source), and accepts that as-is — not being pursued further.
 
 The leading, code-backed theory (`zombie42_20_4/iso/CellLoader.java`, `DoTileObjectCreation()`) is that a vanilla `appliances_laundry_01_*` tile our `SpriteConfig` reuses is baked with an `ISO_TYPE`/`CONTAINER` property value that makes the game reclassify the placed object as a real `IsoClothingWasher`/`IsoCombinationWasherDryer` — which would explain the Wash Menu, the wrong name, *and* the free 20-encumbrance item inventory DevCycle 007 successfully used, as one shared cause rather than three coincidences. Still unconfirmed because the tile's actual baked property data isn't present in any decompiled source available to this project. **Note (2026-09-14): the specific tile changed since this was written** — DevCycle 015 moved our own entity's sprite from `appliances_laundry_01_0` (Blue Combo Washer/Dryer) to `appliances_laundry_01_4..7` (White Washing Machine, one row per facing, per DevCycle 016 Phase 6) — the reclassification hypothesis, if true, would now apply to whichever of those four tiles is in use, not `_0` specifically.
 
@@ -28,7 +29,7 @@ The leading, code-backed theory (`zombie42_20_4/iso/CellLoader.java`, `DoTileObj
 
 ## 3. "Add Liquid from Item" still missing
 
-**Status:** Open, root cause not found; three candidate causes already ruled out (DevCycle 004 Phase 5 Part B): input lock, container-full, and wrong fluid type in the test item. Workaround in use: "Transfer Liquid."
+**Status:** CLOSED, not a bug (per Ed, 2026-09-15). "Add Liquid from Item" is present when appropriate (i.e. when the gating conditions traced below are actually met) — this was user error when originally filed, not a real gap.
 
 **Update (DevCycle 013, 2026-09-14):** re-encountered on a *real* converted washer/dryer object during DC13's audio-fix attempt (which used #8's conversion mechanism as a means to try fixing #1, not as a pursuit of #8 itself) — same symptom (no "Add Liquid from Item," but "Transfer Liquid" works), confirming this is a genuine, long-standing gap rather than something specific to the scripted entity's own fluid-container setup. This remains open exactly as before, on the current (scripted-entity) Churning Machine — including on machines obtained via DevCycle 016's conversion feature, since those are the same scripted entity, not the real washer/dryer object DC13 was investigating.
 
@@ -46,19 +47,19 @@ item.canStoreWater() && pourFluidInto.canTransferFluidFrom(item.getFluidContaine
 
 ## 5. Sheep's milk mixing and its contribution to butter output
 
-**Status:** Open, no design yet.
+**Status:** IMPLEMENTED (DevCycle 017 Phase 2, verified 2026-09-15) — combined with #11/#12 under a new purity-gate design (see those items' updated status).
 
 Directly related to #11 and #12 below — see those for the mechanism (whitelist changes, `getSpecificFluidAmount`, and the vanilla Butter Churn's own `mode:mixture` precedent). The `churn_butter` recipe (`media42_20_4/scripts/generated/entities/animals/craftRecipes/recipes_butter_churn.txt`) already treats `CowMilk` and `SheepMilk` as interchangeable inputs for butter (`-fluid 5.0 [CowMilk;SheepMilk] mode:mixture`) — the vanilla Butter Churn doesn't distinguish them at all for output purposes. The simplest design consistent with that precedent: widen the Churning Machine's `FluidContainer` whitelist from `CowMilk` only to `CowMilk;SheepMilk`, and change the cycle-end logic to remove/convert *combined* cow+sheep milk in 5L increments rather than treating them separately. This doesn't need a new mechanic — it needs the whitelist widened and the removal math changed from "amount of CowMilk" to "amount of CowMilk + SheepMilk combined," which `FluidContainer.getSpecificFluidAmount(Fluid)` (see #11) makes straightforward.
 
 ## 6. Front-loading capacity: 20L -> 25L
 
-**Status:** Trivial, low-risk, ready to implement whenever picked up.
+**Status:** ABANDONED (per Ed, 2026-09-15). Superseded by DevCycle 016's jump straight to 50L capacity — the 25L increment is no longer relevant.
 
 A single-value change: `entity_ChurningMachine.txt`'s `component FluidContainer { Capacity = 20.0, ... }` becomes `Capacity = 25.0`. Every downstream mechanic (5L-increment removal, butter-per-5L generation) is already written in terms of `fluidContainer:getAmount()` and doesn't hardcode `20.0` anywhere in `ChurningMachineCode.lua` — confirmed by re-reading the file in full. 25L / 5L = exactly 5 butter sticks on a full cycle, no remainder-math changes needed. No known risk beyond the ordinary re-test of the existing DevCycle 006/007 test matrix at the new capacity.
 
 ## 7. A top-loading variant, 50L+ capacity
 
-**Status:** Open, needs its own entity + asset, but the *logic* code is already reusable as-is.
+**Status:** ALREADY IMPLEMENTED (per Ed, 2026-09-15). DevCycle 016 met the capacity goal directly on the existing entity (50L) — a separate top-loading entity/tile with distinct art is not planned work.
 
 Good news found in this analysis: `ChurningMachineCode.lua`'s functions (`turnOnOffMenu`, `onToggleOption`, `startMachine`, `stopMachine`, `checkRunningMachines`) all take `entity` as a parameter and key their per-machine state (`ChurningMachineCode.active`, `ChurningMachineCode.emitters`) off `machineKey(entity)` (the entity's own square coordinates) — nothing in the code assumes there's only one Churning Machine entity type or hardcodes a single entity name. A second entity (e.g. `ChurningMachineTopLoader`) with its own `entity_ChurningMachineTopLoader.txt` can point its `ContextMenuConfig.customSubmenu` at the exact same `ChurningMachineCode.turnOnOffMenu`, with no Lua code changes required — only a new entity script (own `Capacity = 50.0`+, own `ContainerName`, own recipe) and a new `SpriteConfig.row` pointing at a top-loading washer tile.
 
@@ -90,15 +91,15 @@ This decision should happen before deep work on #1/#2/#3, since it changes wheth
 
 ## 10. An extraneous Churning Machine menu item, possibly from the old fullness system
 
-**Status:** Open — could not be located or confirmed by static code reading; needs an in-game description/screenshot from Ed.
+**Status:** RESOLVED (DevCycle 017 Phase 3, verified 2026-09-15) — a real, confirmed bug, not the old fullness system and not a misreading of normal menu structure.
 
-Re-read `entity_ChurningMachine.txt` in full: it declares exactly one `ContextMenuConfig.contextEntry` (`menu = ChurningMachine, customSubmenu = ChurningMachineCode.turnOnOffMenu`). Grepped every file the mod ships (Lua and translation JSON) for `fullness`, `GetButter`, and `Debug` (case-insensitive) — **zero matches anywhere in the current mod source.** The fullness/percentage mechanic was fully removed from the plan in DevCycle 004 Phase 4, before any of it was actually implemented in code (it was replaced with the inventory-based design before Steps 7-9 were built), so there shouldn't be leftover fullness-related menu code to find — and none was found.
+Ed reported the extra item is labeled "Churning Machine" and appears between "Add Fluid" and "Turn On." Root cause, confirmed by reading the Java engine's own `customSubmenu` dispatch code (`ISWorldObjectContextMenuLogic.java:5278-5304`): for a `ContextMenuConfig.contextEntry` with a `customSubmenu`, the engine creates the top-level entry via a bare `context.addOption(textRef, null, null)` — an **inert** entry with no click target or submenu — and hands it to the Lua callback (`param.option`) expecting the callback to wire it into a real submenu, exactly as vanilla's own `ContextMenuCode.AddDispenserBottle` (`media42_20_4/lua/client/ContextMenuCode.lua:10-29`) does via `ISContextMenu:getNew(context)` + `context:addSubMenu(option, subMenu)`. This mod's `ChurningMachineCode.turnOnOffMenu` captured `param.option` but never used it, instead adding "Turn On"/"Turn Off" directly onto `context` — producing two sibling entries (the inert "Churning Machine" placeholder, and the working "Turn On") instead of one submenu containing the other.
 
-This most likely means either: (a) the extra menu item Ed is seeing is actually the vanilla Wash Menu (#2) being misattributed to "the old fullness system" rather than a second, genuinely leftover item of ours, or (b) it's something real that isn't visible from static source reading (e.g. generated at runtime some other way not yet traced). **Recommend getting an exact in-game menu screenshot or the precise item text before investigating further** — there's nothing more to find by re-reading source without knowing specifically what extra label is showing up.
+**Fix:** `turnOnOffMenu` now builds a proper submenu and nests "Turn On"/"Turn Off" inside "Churning Machine," matching the vanilla pattern exactly. One UX tradeoff: reaching "Turn On"/"Turn Off" now takes one extra hover step through the "Churning Machine" submenu — consistent with how every other `customSubmenu`-based vanilla entity behaves, not a new cost introduced here.
 
 ## 11. Allow any liquid in; only 100% milk converts to butter
 
-**Status:** Open, no design yet, but the vanilla Butter Churn's own recipe gives a directly-applicable precedent.
+**Status:** IMPLEMENTED (DevCycle 017 Phases 2 & 4, verified 2026-09-15). **Design superseded by Ed's direction (2026-09-15):** rather than the partial-extraction approach below (`getSpecificFluidAmount`), #11 and #12 were combined into one item — a strict all-or-nothing purity gate. The `FluidContainer` whitelist was removed entirely (any liquid can be poured in, matching this idea's own title), and a new `isPureMilk` check (cow and/or sheep milk, combined) gates output: the container produces butter, and consumes anything, only if it's 100% milk at cycle completion — any other liquid present (including water) means nothing happens and the container is left untouched. Phase 4 additionally ensured "Turn On" itself is never blocked by contents — only power gates starting the machine; purity only ever affects output. The analysis below is kept for reference (it's still useful background on the relevant APIs, and `getSpecificFluidAmount`/`getMilkAmount` are exactly what the implemented `isPureMilk` check uses) but the partial-extraction design itself was not what got built.
 
 Two separate changes are implied: (a) removing or widening the `FluidContainer` whitelist (currently `CowMilk` only) so any liquid can be poured in, and (b) changing the cycle-end conversion math so it only ever consumes/converts the milk portion, not the container's total `getAmount()`.
 
@@ -108,13 +109,13 @@ This exactly mirrors the vanilla Butter Churn's own approach: `churn_butter`'s r
 
 ## 12. Advanced: what happens with a milk/water mixture
 
-**Status:** Open, but largely answered by #11's research above — recorded separately since Ed flagged it as a distinct, harder question.
+**Status:** IMPLEMENTED (DevCycle 017 Phase 2, verified 2026-09-15) — combined with #11 under the new purity-gate design: a milk/water mixture (or milk mixed with any other non-milk liquid) simply produces **no butter** on cycle completion, and the container is left untouched, rather than the partial-extraction behavior originally analyzed below (kept for reference). `removeFluid`'s proportional-across-fluid-types behavior (this item's one previously-unverified detail) was confirmed by reading `FluidContainer.removeFluid`'s Java source directly during DC017 Phase 2 — moot for correctness here since the purity gate means removal only ever runs on an already-100%-milk container, but the confirmation closes out this item's last open question.
 
 Given `getSpecificFluidAmount(Fluid)` returns the amount of one fluid type regardless of what else is mixed in, a container holding (say) 8L milk + 4L water at cycle end would report `getSpecificFluidAmount(CowMilk) = 8.0`, and the existing 5L-increment logic would correctly remove/convert 5L of *that* (leaving 3L milk + 4L water untouched), the same way DevCycle 006's current whole-container math already handles a non-multiple-of-5 remainder — just scoped to the milk amount instead of the total. No new mixture-specific mechanic appears to be needed beyond what #11 already requires; the "advanced" difficulty Ed anticipated seems to mostly have been in *not knowing* whether per-fluid-type querying was possible at all, which this analysis now confirms it is. The one part not yet verified: whether `removeFluid(amount)` (used since DevCycle 006) removes fluid proportionally across all types in the container or specifically from one type — if it's the former, converting only the milk portion would need a different, more targeted removal call than the one DevCycle 006 currently uses, and that method should be identified before implementing #11/#12.
 
 ## 13. Require power to run, like the real washer/dryer
 
-**Status:** Open, no design yet, but a clean, low-risk implementation path was found — likely the easiest item in this whole list to implement correctly.
+**Status:** IMPLEMENTED (DevCycle 017 Phase 1, verified 2026-09-15). Both open design questions below were resolved by Ed: losing power mid-cycle is treated as an interrupted cycle (like manual "Turn Off" — no butter, no milk consumed), and a nearby generator counts (came free with the reused `isObjectPowered`/`includeGenerators=true` check, no extra code needed).
 
 Traced the real washer/dryer's own power-gating mechanism in full, not just its existence. `ClothingWasherLogic.update()` (`zombie42_20_4/iso/objects/ClothingWasherLogic.java:58-62`) force-deactivates itself every tick if unpowered:
 ```java
@@ -141,15 +142,15 @@ if (!this.getContainer().isPowered()) {
 | # | Idea | Status | Key dependency / cross-reference |
 |---|---|---|---|
 | 1 | Turn On sound still silent | **RESOLVED (DC014)** | Fixed independently of #8 — see #1 |
-| 2 | Wash Menu / wrong name / reclassification hypothesis | Open, unconfirmed | Tile changed since DC015/DC016 (now `_4..7`, not `_0`) — hypothesis, if true, applies to those instead |
-| 3 | "Add Liquid from Item" missing | Open, new candidate found (`canPlayerEmpty()`) | Re-confirmed present on a real washer too (DC013) — not tied to #8's fate |
+| 2 | Wash Menu / wrong name / reclassification hypothesis | **ACCEPTED, won't fix (per Ed, 2026-09-15)** | Only occurs when plumbed; accepted as-is |
+| 3 | "Add Liquid from Item" missing | **CLOSED, not a bug (per Ed, 2026-09-15)** | Present when appropriate — user error when filed |
 | 4 | Final build recipe | Deferred by Ed | Keep placeholder until the end |
-| 5 | Sheep's milk mixing | Open, no design | Same mechanism as #11/#12 |
-| 6 | Front-loader capacity 20L->25L | **Superseded (DC016)** — went straight to 50L instead | See #7/#8 |
-| 7 | Top-loading variant, 50L+ | Capacity goal met directly (DC016, 50L on the existing entity) — a separate top-loading entity/tile is still open if wanted | No new art needed for the capacity itself |
+| 5 | Sheep's milk mixing | **IMPLEMENTED (DC017)** | Combined with #11/#12 under new purity-gate design |
+| 6 | Front-loader capacity 20L->25L | **ABANDONED (per Ed, 2026-09-15)** | Superseded by DC016's 50L |
+| 7 | Top-loading variant, 50L+ | **ALREADY IMPLEMENTED (per Ed, 2026-09-15)** | Capacity goal met via DC016; separate top-loader entity/art not planned |
 | 8 | Convert real washer/dryer via Electrician gate | **IMPLEMENTED (DC016)** — replacement-based | DC13's flag-based attempt (abandoned) informed the choice of replacement-based instead |
 | 9 | Build UI shows old Butter Churner | Deferred by Ed | Keep for testing until the end |
-| 10 | Extraneous menu item | Open, not found in source | Needs exact in-game detail from Ed |
-| 11 | Any liquid in, only milk converts | Open, mechanism found (`getSpecificFluidAmount`) | Same mechanism as #5/#12 |
-| 12 | Milk/water mixture handling | Open, mostly answered by #11 | Verify `removeFluid`'s per-type behavior before implementing |
-| 13 | Require power to run | Open, clean implementation path found | Reuses #7/#8's borrowed container (`getContainer():isPowered()`); one open design question (mid-cycle power loss = "Turn Off" or completion?) |
+| 10 | Extraneous menu item | **RESOLVED (DC017)** — real bug, un-wired submenu, fixed | Root cause confirmed via Java engine source + vanilla `AddDispenserBottle` precedent |
+| 11 | Any liquid in, only milk converts | **IMPLEMENTED (DC017)** — all-or-nothing purity gate, whitelist removed entirely | Combined with #12 under new design |
+| 12 | Milk/water mixture handling | **IMPLEMENTED (DC017)** — any non-milk liquid present = no butter | Combined with #11 under new design |
+| 13 | Require power to run | **IMPLEMENTED (DC017)** | Reuses #7/#8's borrowed container (`getContainer():isPowered()`); mid-cycle power loss = interrupted cycle, generator counts |
