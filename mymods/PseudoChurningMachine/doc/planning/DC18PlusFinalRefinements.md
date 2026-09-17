@@ -9,7 +9,7 @@ This is an analysis document, not a DevCycle plan — it doesn't commit to an im
 
 ## 1. Exact requirements to convert a real washing machine into a Churning Machine
 
-**Status:** Open, no design yet — needs a decision before its own DevCycle.
+**Status:** Done — resolved by DevCycle 018 (Verified, 2026-09-17).
 
 **The question, per Ed (2026-09-15):** what should it actually cost, in full, to convert a real washing machine into a Churning Machine — skill level(s), tools the player keeps (checked but not consumed), and consumables the player does not keep (materials actually spent)? Ed's framing: a washing machine already structurally matches most of what a butter churner needs (a sealed drum capable of agitation), so whatever consumables are required should be minimal — and this should be weighed against how simplified vanilla's own Butter Churn already is.
 
@@ -121,7 +121,7 @@ This is the placeholder recipe (1 plank + 1 nail) that `PseudoChurningMachineDC1
 
 | # | Idea | Status | Key dependency / cross-reference |
 |---|---|---|---|
-| 1 | Exact washer→Churning Machine conversion requirements | Open, no design yet | Baseline is DC016's screwdriver + Electricity 6, zero consumables; vanilla Butter Churn's own build recipe is the "minimal but not free" precedent |
+| 1 | Exact washer→Churning Machine conversion requirements | Done (DC018, Verified 2026-09-17) | Final recipe: Electricity 3, kept screwdriver, 1 consumed `Base.ElectronicsScrap`; below level 3 the option is hidden entirely, not just greyed out |
 | 2 | Remove build-from-scratch once testing is complete | Open, blocked on Ed's "testing complete" call | Removes `entity_ChurningMachine.txt`'s `CraftRecipe`; relates to DC11Plus #4/#9's original "keep for testing" deferrals |
 | 3 | Convert Blue Combo Washer/Dryer, 25L capacity | Open, no design yet | Follow-on to DC016's plain-washer-only conversion scope; likely shares #1's conversion-cost decision |
 | 4 | Make a poster for the mod | Open, no design yet | Replaces placeholder `poster.png` inherited from `PseudoTemplate` |

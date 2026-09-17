@@ -17,6 +17,10 @@ local CHURNING_MACHINE_SPRITES = {
 }
 local DEFAULT_CHURNING_MACHINE_SPRITE = "appliances_laundry_01_7"
 
+-- DC018 Phase 1: consumed on conversion, per Ed (2026-09-17) - the screwdriver (checked via
+-- ChurningMachineCode.canConvertWasher) remains a kept tool requirement, not consumed here.
+local CONVERSION_ITEM_TYPE = "Base.ElectronicsScrap"
+
 function ISConvertWasherToChurningMachine:isValid()
     return self.object and self.object:getObjectIndex() ~= -1
 end
@@ -87,6 +91,9 @@ function ISConvertWasherToChurningMachine:complete()
     square:RecalcAllWithNeighbours(true)
     thumpable:setExplored(true)
     thumpable:transmitCompleteItemToClients()
+
+    -- DC018 Phase 1: consume 1 Scrap Electronics on successful conversion.
+    self.character:getInventory():RemoveOneOf(CONVERSION_ITEM_TYPE)
 
     return true
 end

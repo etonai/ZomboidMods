@@ -1,5 +1,5 @@
 {
   "Tooltip_craft_churningMachineDesc": "A placeholder Churning Machine. No functionality yet.",
   "Tooltip_ChurningMachine_NoPower": "Requires electricity to run.",
-  "Tooltip_ChurningMachine_RequiresConversion": "Requires a screwdriver and level 6 Electrical to convert."
+  "Tooltip_ChurningMachine_RequiresConversion": "Requires a screwdriver and 1 Scrap Electronics to convert."
 }

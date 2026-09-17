@@ -187,22 +187,33 @@ function ChurningMachineCode.turnOnOffMenu(context, param)
 end
 
 -- DC016 Phase 2: replacement-based conversion (idea #8, approach 2 - see
--- doc/ideas/PseudoChurningMachineDC11Plus.md). Requirement per Ed: a screwdriver (checked, not
--- consumed - a tool, not a material) and Electricity level 6.
-local REQUIRED_ELECTRICITY_LEVEL = 6
+-- doc/ideas/PseudoChurningMachineDC11Plus.md).
+-- DC018 Phase 1: recipe changed per Ed (2026-09-17) - Electricity level dropped from 6 to 3,
+-- and a consumed Base.ElectronicsScrap added alongside the existing kept-screwdriver
+-- requirement. The skill-level check now also gates whether the conversion option appears in
+-- the menu at all (see Menu Visibility Change Note, DevCycle018.md) - below level 3 the option
+-- is omitted entirely, rather than shown greyed out like the tool/item checks below.
+local REQUIRED_ELECTRICITY_LEVEL = 3
+local CONVERSION_ITEM_TYPE = "Base.ElectronicsScrap"
 
 local function predicateNotBroken(item)
     return not item:isBroken()
 end
 
+local function hasConversionSkill(playerObj)
+    return playerObj:getPerkLevel(Perks.Electricity) >= REQUIRED_ELECTRICITY_LEVEL
+end
+
+-- Tool/item requirements only - the skill check is handled separately (hasConversionSkill)
+-- since it gates menu visibility, not just availability.
 local function canConvertWasher(playerObj)
     local inventory = playerObj:getInventory()
     return inventory:containsTagEvalRecurse(ItemTag.SCREWDRIVER, predicateNotBroken)
-        and playerObj:getPerkLevel(Perks.Electricity) >= REQUIRED_ELECTRICITY_LEVEL
+        and inventory:containsTypeRecurse(CONVERSION_ITEM_TYPE)
 end
 
 local function onSelectConvertWasher(object, playerObj)
-    if not canConvertWasher(playerObj) then
+    if not hasConversionSkill(playerObj) or not canConvertWasher(playerObj) then
         return
     end
     ISTimedActionQueue.add(ISConvertWasherToChurningMachine:new(playerObj, object))
@@ -217,12 +228,16 @@ local function onFillWorldObjectContextMenu(playerNum, context, worldobjects, te
             if test then
                 return ISWorldObjectContextMenu.setTest()
             end
-            local option = context:addGetUpOption(getText("ContextMenu_ChurningMachine_Convert"), object, onSelectConvertWasher, playerObj)
-            if not canConvertWasher(playerObj) then
-                option.notAvailable = true
-                option.toolTip = ISWorldObjectContextMenu.addToolTip()
-                option.toolTip:setVisible(false)
-                option.toolTip.description = getText("Tooltip_ChurningMachine_RequiresConversion")
+            -- DC018 Phase 1: below the skill threshold, the option isn't added at all - per
+            -- Ed (2026-09-17), only the tool/item requirements should show as greyed out.
+            if hasConversionSkill(playerObj) then
+                local option = context:addGetUpOption(getText("ContextMenu_ChurningMachine_Convert"), object, onSelectConvertWasher, playerObj)
+                if not canConvertWasher(playerObj) then
+                    option.notAvailable = true
+                    option.toolTip = ISWorldObjectContextMenu.addToolTip()
+                    option.toolTip:setVisible(false)
+                    option.toolTip.description = getText("Tooltip_ChurningMachine_RequiresConversion")
+                end
             end
         end
     end
