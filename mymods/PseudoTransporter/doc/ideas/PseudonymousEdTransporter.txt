@@ -1,0 +1,13 @@
+The general idea for this is to create a limited site to site transporter in Project Zomboid.
+
+There are two objects:
+Transporter Control - Looks like HamRadio2  WorldObjectSprite = appliances_com_01_8,
+Transporter Signal Booster (looks like a Road Cone):
+      "street_decoration_01_26": {
+          "sprite": "street_decoration_01_26",
+          "id": 173026,
+
+Each object has a "Transport" menu item. When selected, it will teleport the user to the other object's location.
+
+
+It has a similar mechanic as the claude_RVLifeLessons.md document describes how teleportation is handled.

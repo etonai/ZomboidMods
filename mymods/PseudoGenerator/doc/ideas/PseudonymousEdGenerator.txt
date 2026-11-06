@@ -1,0 +1,4 @@
+The general idea for this is to create a "Naquidah Generator" in Project Zomboid.
+For now, it will look like the Blue Geneator (Generator_Blue).
+It has a similar mechanic as the claude_RVLifeLessons.md document describes, but it is visible.
+It is like the standard generator, except the mod resets the generator to full fuel and condition every 10 minutes (and activates it)
