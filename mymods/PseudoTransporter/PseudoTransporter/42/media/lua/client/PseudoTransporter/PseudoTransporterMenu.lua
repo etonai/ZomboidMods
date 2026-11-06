@@ -23,8 +23,7 @@ local function pickArrival(dest)
     return dest.x + 0.5, dest.y + 0.5, dest.z
 end
 
-local function doTransport(playerObj, role)
-    local otherRole = PT.otherRole(role)
+local function doTransport(playerObj, otherRole)
     local dest = PT.getRegistry()[otherRole]
     if not dest then PT.dbg("no " .. otherRole .. " registered; nothing happens") return end
 
@@ -42,19 +41,45 @@ local function doTransport(playerObj, role)
     playerObj:setLastX(x); playerObj:setLastY(y); playerObj:setLastZ(z)
 end
 
+local function boosterNumber(role)
+    return role:sub(-1)
+end
+
+local function addControlMenu(context, playerObj, obj)
+    local option = context:addOption(getText("UI_PseudoTransporter_Transport"))
+    if not controlHasPower(obj) then
+        option.notAvailable = true
+        local tip = ISWorldObjectContextMenu.addToolTip()
+        tip.description = getText("UI_PseudoTransporter_NeedsPower")
+        option.toolTip = tip
+        return
+    end
+    local sub = ISContextMenu:getNew(context)
+    context:addSubMenu(option, sub)
+    local registry = PT.getRegistry()
+    for _, role in ipairs(PT.BOOSTER_ROLES) do
+        local label = getText("UI_PseudoTransporter_BoosterName", boosterNumber(role))
+        local subOption = sub:addOption(label, playerObj, doTransport, role)
+        if not registry[role] then
+            subOption.notAvailable = true
+            local tip = ISWorldObjectContextMenu.addToolTip()
+            tip.description = getText("UI_PseudoTransporter_BoosterNotPlaced")
+            subOption.toolTip = tip
+        end
+    end
+end
+
 local function onFillWorldObjectContextMenu(playerNum, context, worldobjects, test)
     if test then return end
     local playerObj = getSpecificPlayer(playerNum)
     for _, obj in ipairs(worldobjects) do
         local role = PT.getObjectRole(obj)
-        if role then
-            local option = context:addOption(getText("UI_PseudoTransporter_Transport"), playerObj, doTransport, role)
-            if role == PT.ROLE_CONTROL and not controlHasPower(obj) then
-                option.notAvailable = true
-                local tip = ISWorldObjectContextMenu.addToolTip()
-                tip.description = getText("UI_PseudoTransporter_NeedsPower")
-                option.toolTip = tip
-            end
+        if role == PT.ROLE_CONTROL then
+            addControlMenu(context, playerObj, obj)
+            return
+        elseif PT.isBoosterRole(role) then
+            -- Boosters only go to the Control; no power needed.
+            context:addOption(getText("UI_PseudoTransporter_Transport"), playerObj, doTransport, PT.ROLE_CONTROL)
             return
         end
     end

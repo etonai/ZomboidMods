@@ -1,4 +1,6 @@
 {
   "UI_PseudoTransporter_Transport": "Transport",
-  "UI_PseudoTransporter_NeedsPower": "The Transporter Control must be switched on and powered."
+  "UI_PseudoTransporter_NeedsPower": "The Transporter Control must be switched on and powered.",
+  "UI_PseudoTransporter_BoosterName": "Signal Booster #%1",
+  "UI_PseudoTransporter_BoosterNotPlaced": "This Signal Booster is not placed."
 }

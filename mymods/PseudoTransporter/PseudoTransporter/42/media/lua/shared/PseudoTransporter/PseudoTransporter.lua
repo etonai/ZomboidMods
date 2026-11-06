@@ -6,11 +6,22 @@ local PT = PseudoTransporter
 
 PT.MARKER = "PseudoTransporterRole"      -- modData key on world objects and carried items
 PT.ROLE_CONTROL = "control"
-PT.ROLE_BOOSTER = "booster"
+PT.BOOSTER_ROLES = { "booster1", "booster2", "booster3" }
 PT.ITEM_ROLES = {
     ["PseudoTransporter.TransporterControl"] = "control",
-    ["PseudoTransporter.TransporterSignalBooster"] = "booster",
+    ["PseudoTransporter.TransporterSignalBooster"] = "booster1",
+    ["PseudoTransporter.TransporterSignalBooster2"] = "booster2",
+    ["PseudoTransporter.TransporterSignalBooster3"] = "booster3",
 }
+-- DevCycle 001 used the single role "booster"; it is now Signal Booster #1.
+PT.LEGACY_ROLES = { booster = "booster1" }
+
+function PT.isBoosterRole(role)
+    for _, r in ipairs(PT.BOOSTER_ROLES) do
+        if r == role then return true end
+    end
+    return false
+end
 PT.REGISTRY = "PseudoTransporter"
 
 PT.DEBUG = true
@@ -21,7 +32,12 @@ PT.dbg = dbg
 
 -- Global ModData: { control = {x,y,z}, booster = {x,y,z} }. Persists with the save.
 function PT.getRegistry()
-    return ModData.getOrCreate(PT.REGISTRY)
+    local reg = ModData.getOrCreate(PT.REGISTRY)
+    if reg.booster ~= nil then          -- migrate a DevCycle 001 save
+        reg.booster1 = reg.booster1 or reg.booster
+        reg.booster = nil
+    end
+    return reg
 end
 
 function PT.register(role, square)
@@ -30,21 +46,25 @@ function PT.register(role, square)
     dbg("registered " .. role .. " at " .. square:getX() .. "," .. square:getY() .. "," .. square:getZ())
 end
 
-function PT.unregister(role)
+-- When a square is given, the entry is cleared only if it still points at that square
+-- (an older duplicate of a role must not clear the newer one's entry).
+function PT.unregister(role, square)
     if not role then return end
-    PT.getRegistry()[role] = nil
+    local reg = PT.getRegistry()
+    local e = reg[role]
+    if e and square and (e.x ~= square:getX() or e.y ~= square:getY() or e.z ~= square:getZ()) then
+        dbg("not unregistering " .. role .. ": entry is elsewhere")
+        return
+    end
+    reg[role] = nil
     dbg("unregistered " .. role)
-end
-
-function PT.otherRole(role)
-    if role == PT.ROLE_CONTROL then return PT.ROLE_BOOSTER end
-    if role == PT.ROLE_BOOSTER then return PT.ROLE_CONTROL end
 end
 
 -- Role of a placed world object (nil for vanilla cones and radios).
 function PT.getObjectRole(obj)
     if obj and obj.hasModData and obj:hasModData() then
-        return obj:getModData()[PT.MARKER]
+        local role = obj:getModData()[PT.MARKER]
+        return PT.LEGACY_ROLES[role] or role
     end
 end
 
@@ -100,13 +120,13 @@ end
 local origPickUp = ISMoveableSpriteProps.pickUpMoveableInternal
 if origPickUp then
     function ISMoveableSpriteProps:pickUpMoveableInternal(...)
-        local _, _, object = findArgs(...)
+        local square, _, object = findArgs(...)
         local role = PT.getObjectRole(object)
         pendingRole = role
         local ok, result = pcall(origPickUp, self, ...)
         pendingRole = nil
         if not ok then error(result, 0) end
-        if role then PT.unregister(role) end
+        if role then PT.unregister(role, square) end
         return result
     end
 else
@@ -123,6 +143,7 @@ if origPlace then
         end
         local result = origPlace(self, ...)
         local role = item and item:hasModData() and item:getModData()[PT.MARKER]
+        role = PT.LEGACY_ROLES[role] or role
         if role and square then PT.register(role, square) end
         return result
     end
