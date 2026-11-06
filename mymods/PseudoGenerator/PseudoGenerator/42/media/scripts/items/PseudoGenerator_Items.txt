@@ -1,0 +1,27 @@
+module PseudoGenerator
+{
+  imports
+  {
+    Base
+  }
+
+  /* Naquadah Generator: a copy of Base.Generator_Blue that uses a different Blue
+     sprite frame (appliances_misc_01_13) so IsoGenerator.getGeneratorItemType() can
+     tell it apart from the vanilla Blue Generator (appliances_misc_01_12). */
+  item NaquadahGenerator
+  {
+    DisplayCategory = Electronics,
+    ItemType = base:normal,
+    Weight = 30.0,
+    Icon = Generator3,
+    ConditionMax = 100,
+    MetalValue = 500.0,
+    RequiresEquippedBothHands = true,
+    Tooltip = Tooltip_Generator,
+    Tags = base:heavyitem;base:generator;base:hasmetal;base:ignorezombiedensity;base:showcondition,
+    WorldObjectSprite = appliances_misc_01_13,
+    ConditionLowerChanceOneIn = 24,
+    SoundRadius = 23,
+    SoundVolume = 1,
+  }
+}

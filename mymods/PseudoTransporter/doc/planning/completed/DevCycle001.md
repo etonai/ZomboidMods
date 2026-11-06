@@ -1,6 +1,6 @@
 # DevCycle 001: Minimal Working Transporter
 
-**Status:** Planning
+**Status:** Verified (by Ed, 2026-11-06)
 **Start Date:** 2026-11-05
 **Target Completion:** TBD
 **Focus:** Deliver a single-player, debug-spawned pair of linked objects (Transporter Control and Transporter Signal Booster) that teleport the player to each other.
@@ -47,7 +47,7 @@ In a single-player game, a tester spawns a Transporter Control and a Transporter
 
 ### Phase 1: Research the unknowns
 
-**Status:** Planning
+**Status:** Verified
 
 - [ ] Find out how a placed `HamRadio2` (a radio device object) and a placed `Mov_RoadCone` (a moveable) carry item data through placement and pick-up (design doc §9 items 3–4).
 - [ ] Find out whether a new item can reuse `appliances_com_01_8` and `street_decoration_01_26` as its `WorldObjectSprite` without breaking the vanilla items that use them (§9 item 5).
@@ -57,23 +57,30 @@ In a single-player game, a tester spawns a Transporter Control and a Transporter
 - [ ] Record each finding in the Technical Notes below.
 
 **Technical Notes:**
-*To be filled in during the phase.* Reference points: item scripts `media42_20_4/scripts/generated/items/radio.txt` (`HamRadio2`) and `moveable.txt` (`Mov_RoadCone`); `lua/shared/Moveables/ISMoveableSpriteProps.lua`; context-menu hooks such as `ISFeedingTroughMenu`.
+**Findings (v42.20.4, code-read only, not yet confirmed in game):**
+- Placing a moveable copies the item's modData onto the placed object (`ISMoveableSpriteProps.lua:2273-2282`). Radios and cones both go through `placeMoveableInternal`.
+- Pick-up does **not** return our item: `pickUpMoveableInternal` calls `instanceItem`, which builds `Moveables.<sprite>` (a vanilla item), and only copies `movableData`, container names and condition (`:206-234`, `:1274-1313`). So the item type is lost on pick-up.
+- Consequence: identity is a **modData marker** (`PseudoTransporterRole`) on the placed object, set from the item type at placement and re-applied to the picked-up item by a wrapper around `instanceItem` during pick-up. This is Option A for acquisition (new items) plus Option B for identity.
+- Sprite reuse: `WorldObjectSprite` on a new item does not alter vanilla items' own sprite mapping (only generators have a sprite->item map, `IsoGenerator.java:139`). Not confirmed in game.
+- Power: `DeviceData.getIsTurnedOn()`; the engine turns a device off when it is battery-powered with no charge, or unpowered on a square without power (`DeviceData.java:476-498, 517-538`). "Powered" = switched on.
+- Unloaded chunk: `getGridSquare` returns nil, so the registry coordinates are the source of truth. Stale entries are only cleared when the destination square is loaded and the marked object is gone.
+- Known risk: `findInInventory` picks an item by sprite, so carrying a vanilla cone and a Booster could place the wrong one (the Booster item is then not marked).
+*Reference points:* item scripts `media42_20_4/scripts/generated/items/radio.txt` (`HamRadio2`) and `moveable.txt` (`Mov_RoadCone`); `lua/shared/Moveables/ISMoveableSpriteProps.lua`; context-menu hooks such as `ISFeedingTroughMenu`.
 
 ### Phase 2: Items and debug spawn
 
-**Status:** Planning
+**Status:** Verified
 
 - [ ] Add item scripts for `TransporterControl` and `TransporterSignalBooster` that reuse the Ham Radio 2 and Road Cone sprites (per Phase 1 findings).
 - [ ] Give both items display names and minimal tooltips.
 - [ ] Confirm both can be spawned with the debug item list and placed in the world.
 - [ ] Update `mod.info` (description, and poster if a placeholder is not acceptable) as needed.
 
-**Technical Notes:**
-*To be filled in during the phase.*
+**Technical Notes:** Items in `media/scripts/items/PseudoTransporter_Items.txt` (module `PseudoTransporter`). Control is a copy of `HamRadio2`; Booster a copy of `Mov_RoadCone`. Names/UI text in `Translate/EN`. Not yet confirmed that they appear in the debug item list.
 
 ### Phase 3: Pair registry
 
-**Status:** Planning
+**Status:** Verified
 
 - [ ] Create a registry stored in global ModData that holds the Control's and the Booster's location (x, y, z).
 - [ ] Update the registry when either object is placed.
@@ -81,12 +88,11 @@ In a single-player game, a tester spawns a Transporter Control and a Transporter
 - [ ] Clear a stale entry when its object no longer exists.
 - [ ] Confirm the registry survives save and load.
 
-**Technical Notes:**
-*To be filled in during the phase.* The registry coordinates are the source of truth for the other end's location (design doc §9 item 2).
+**Technical Notes:** `shared/PseudoTransporter/PseudoTransporter.lua`: global ModData `PseudoTransporter` = `{control={x,y,z}, booster={x,y,z}}`, updated by wrappers on `placeMoveableInternal` / `pickUpMoveableInternal`. Debug `print`s are on (`PT.DEBUG`). The registry coordinates are the source of truth for the other end's location (design doc §9 item 2).
 
 ### Phase 4: "Transport" menu option and teleport
 
-**Status:** Planning
+**Status:** Verified
 
 - [ ] Hook `Events.OnFillWorldObjectContextMenu` and add "Transport" only on the two transporter objects.
 - [ ] Add a teleport action that moves the player next to the other object, using the `setX/Y/Z` plus `setLastX/Y/Z` pattern from `claude_RVLifeLessons.md` §3.3.
@@ -94,23 +100,21 @@ In a single-player game, a tester spawns a Transporter Control and a Transporter
 - [ ] If the other end is missing, do nothing.
 - [ ] Add the minimum text needed (menu label) in English.
 
-**Technical Notes:**
-*To be filled in during the phase.* The design document's open risk is teleporting to a chunk that is not loaded (§9 item 1). Record what actually happens in testing.
+**Technical Notes:** `client/PseudoTransporter/PseudoTransporterMenu.lua`. Immediate teleport (no timed action); arrival = destination square if free, else the first free neighbour, else raw coordinates. Per Ed, missing/unregistered other end does nothing. The design document's open risk is teleporting to a chunk that is not loaded (§9 item 1). Record what actually happens in testing.
 
 ### Phase 5: Power requirement on the Control
 
-**Status:** Planning
+**Status:** Verified
 
-- [ ] Make "Transport" on the Control require power, based on the Phase 1 findings.
+- [x] Make "Transport" on the Control require power, based on the Phase 1 findings.
 - [ ] Make "Transport" on the Booster work without power.
 - [ ] Decide what the player sees when the Control is unpowered (see Open Question 1).
 
-**Technical Notes:**
-*To be filled in during the phase.*
+**Technical Notes:** Unpowered Control shows "Transport" greyed out with a tooltip (my recommendation for Open Question 1, pending Ed's confirmation). Booster never checks power.
 
 ### Phase 6: In-game testing
 
-**Status:** Planning
+**Status:** Verified
 
 - [ ] Place a pair, then use "Transport" from each end. Confirm arrival next to the other object, both ways.
 - [ ] Confirm that inventory items go with the player.
@@ -154,4 +158,10 @@ In a single-player game, a tester spawns a Transporter Control and a Transporter
 
 ## Completion Summary
 
-*To be filled in at the end of the cycle.*
+Ed tested the mod in game on 2026-11-06 and reported that it works; he asked for the cycle to be marked Verified. Per-item Phase 6 results (long-distance/unloaded-area behavior, save/reload, unpowered Control) were not recorded, so they are not claimed here.
+
+Notes for later cycles:
+- The first test run crashed in the `placeMoveableInternal` hook because the installed game's Lua differs from the 42.20.4 copy in the repo (argument order). The hooks now find the square, item and object by type. The installed build's `ISMoveableSpriteProps.lua` is not in the repo.
+- Identity is a modData marker (`PseudoTransporterRole`) on the placed object, not the item type, because pick-up rebuilds a vanilla item.
+- Debug `print`s (`PT.DEBUG = true` in `PseudoTransporter.lua`) are still on.
+- Open Questions 1-4 were handled with the recommendations (greyed-out Transport with a tooltip when the Control is unpowered; radio functions kept).

@@ -1,4 +1,4 @@
 name=PseudonymousEd's Transporter
 poster=poster.png
 id=PseudonymousEdTransporter
-description=PseudonymousEd's Limited Transporter
+description=PseudonymousEd's Limited Transporter. Debug-spawn a Transporter Control and a Transporter Signal Booster, place them, and use "Transport" to jump between them.

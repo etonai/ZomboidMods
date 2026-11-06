@@ -147,17 +147,17 @@ B
 Naquadah
 3. **How should players obtain it in the first version?** Debug/admin spawn only, a craft recipe (and if so, from what ingredients?), or world loot?
 Debug spawn
-5. **Should it be allowed to run indoors?** A running vanilla generator indoors makes the building toxic. Do you want to keep that, or should the Naquadah Generator avoid it (which would mean special handling or restricting it to outdoor placement)?
+4. **Should it be allowed to run indoors?** A running vanilla generator indoors makes the building toxic. Do you want to keep that, or should the Naquadah Generator avoid it (which would mean special handling or restricting it to outdoor placement)?
 No
-6. **Should the refill also plug the generator in (`setConnected(true)`), or only refuel, repair, and activate it?** Your idea says "activates it", so I assumed the player still plugs it in themselves.
+5. **Should the refill also plug the generator in (`setConnected(true)`), or only refuel, repair, and activate it?** Your idea says "activates it", so I assumed the player still plugs it in themselves.
 Only refuel repair and activate
-7. **If a player turns it off by hand, should the next 10-minute tick turn it back on?** The idea says the mod activates it every 10 minutes. Should a manual shutdown be respected or overridden?
+6. **If a player turns it off by hand, should the next 10-minute tick turn it back on?** The idea says the mod activates it every 10 minutes. Should a manual shutdown be respected or overridden?
 Manual shutdown is respected
-8. **Should the mod also refill when a generator's area loads, not only every 10 minutes?** This closes the long-absence drain gap in §3.4, but goes beyond the idea as written.
+7. **Should the mod also refill when a generator's area loads, not only every 10 minutes?** This closes the long-absence drain gap in §3.4, but goes beyond the idea as written.
 Yes, refill when the area loads
-9. **Should the generator be balanced in any way?** For example, a higher craft cost, lower power output, or noise, or do you want it to be a plain unlimited generator?
+8. **Should the generator be balanced in any way?** For example, a higher craft cost, lower power output, or noise, or do you want it to be a plain unlimited generator?
 No
-10. **Does the mod need to support multiplayer from the start,** or is singleplayer enough for the first DevCycle?
+9. **Does the mod need to support multiplayer from the start,** or is singleplayer enough for the first DevCycle?
 No multiplayer
 
 ---
