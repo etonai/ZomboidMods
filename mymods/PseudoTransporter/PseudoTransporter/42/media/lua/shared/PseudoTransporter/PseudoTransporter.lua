@@ -1,17 +1,20 @@
 -- PseudoTransporter: shared definitions, pair registry, and placement/pick-up hooks.
--- DevCycle 001: single player, one pair (one Control, one Signal Booster).
+-- Single player: one Control and six Signal Boosters (DevCycles 001, 002, 004).
 
 PseudoTransporter = PseudoTransporter or {}
 local PT = PseudoTransporter
 
 PT.MARKER = "PseudoTransporterRole"      -- modData key on world objects and carried items
 PT.ROLE_CONTROL = "control"
-PT.BOOSTER_ROLES = { "booster1", "booster2", "booster3" }
+PT.BOOSTER_ROLES = { "booster1", "booster2", "booster3", "booster4", "booster5", "booster6" }
 PT.ITEM_ROLES = {
     ["PseudoTransporter.TransporterControl"] = "control",
     ["PseudoTransporter.TransporterSignalBooster"] = "booster1",
     ["PseudoTransporter.TransporterSignalBooster2"] = "booster2",
     ["PseudoTransporter.TransporterSignalBooster3"] = "booster3",
+    ["PseudoTransporter.TransporterSignalBooster4"] = "booster4",
+    ["PseudoTransporter.TransporterSignalBooster5"] = "booster5",
+    ["PseudoTransporter.TransporterSignalBooster6"] = "booster6",
 }
 -- DevCycle 001 used the single role "booster"; it is now Signal Booster #1.
 PT.LEGACY_ROLES = { booster = "booster1" }
@@ -30,7 +33,7 @@ local function dbg(msg)
 end
 PT.dbg = dbg
 
--- Global ModData: { control = {x,y,z}, booster = {x,y,z} }. Persists with the save.
+-- Global ModData: { control = {x,y,z}, booster1..booster6 = {x,y,z} }. Persists with the save.
 function PT.getRegistry()
     local reg = ModData.getOrCreate(PT.REGISTRY)
     if reg.booster ~= nil then          -- migrate a DevCycle 001 save

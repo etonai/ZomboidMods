@@ -62,6 +62,36 @@ module PseudoTransporter
     WorldObjectSprite = street_decoration_01_26,
   }
 
+  /* Signal Booster #4: same look as #1. */
+  item TransporterSignalBooster4
+  {
+    DisplayCategory = Furniture,
+    ItemType = base:moveable,
+    Icon = default,
+    Weight = 0.5,
+    WorldObjectSprite = street_decoration_01_26,
+  }
+
+  /* Signal Booster #5: same look as #1. */
+  item TransporterSignalBooster5
+  {
+    DisplayCategory = Furniture,
+    ItemType = base:moveable,
+    Icon = default,
+    Weight = 0.5,
+    WorldObjectSprite = street_decoration_01_26,
+  }
+
+  /* Signal Booster #6: same look as #1. */
+  item TransporterSignalBooster6
+  {
+    DisplayCategory = Furniture,
+    ItemType = base:moveable,
+    Icon = default,
+    Weight = 0.5,
+    WorldObjectSprite = street_decoration_01_26,
+  }
+
   /* Transporter Badge: a Toy Badge look-alike. Inventory menu "Transport" goes to the Control. */
   item TransporterBadge
   {
