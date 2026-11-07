@@ -2,5 +2,6 @@
   "PseudoTransporter.TransporterControl": "Transporter Control",
   "PseudoTransporter.TransporterSignalBooster": "Signal Booster #1",
   "PseudoTransporter.TransporterSignalBooster2": "Signal Booster #2",
-  "PseudoTransporter.TransporterSignalBooster3": "Signal Booster #3"
+  "PseudoTransporter.TransporterSignalBooster3": "Signal Booster #3",
+  "PseudoTransporter.TransporterBadge": "Transporter Badge"
 }

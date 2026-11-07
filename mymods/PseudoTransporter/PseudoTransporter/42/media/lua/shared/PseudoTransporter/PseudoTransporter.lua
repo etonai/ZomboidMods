@@ -150,3 +150,40 @@ if origPlace then
 else
     dbg("WARNING: ISMoveableSpriteProps.placeMoveableInternal not found")
 end
+
+---------------------------------------------------------------------------
+-- Teleport (shared by the world menus and the Transporter Badge).
+---------------------------------------------------------------------------
+
+-- Picks a free square at or next to the destination. Falls back to the raw coordinates
+-- when the destination chunk is not loaded.
+local function pickArrival(dest)
+    local cell = getCell()
+    local offsets = { {0,0}, {0,1}, {1,0}, {0,-1}, {-1,0}, {1,1}, {-1,-1}, {1,-1}, {-1,1} }
+    for _, o in ipairs(offsets) do
+        local sq = cell:getGridSquare(dest.x + o[1], dest.y + o[2], dest.z)
+        if sq and sq:isFree(false) then
+            return sq:getX() + 0.5, sq:getY() + 0.5, sq:getZ()
+        end
+    end
+    return dest.x + 0.5, dest.y + 0.5, dest.z
+end
+
+-- Moves the player next to the registered destination role. Does nothing if that end is
+-- not registered; clears a stale entry when its square is loaded but the object is gone.
+function PT.transportTo(playerObj, destRole)
+    local dest = PT.getRegistry()[destRole]
+    if not dest then dbg("no " .. destRole .. " registered; nothing happens") return end
+
+    local sq = getCell():getGridSquare(dest.x, dest.y, dest.z)
+    if sq and not PT.findOnSquare(sq, destRole) then
+        dbg("stale " .. destRole .. " entry; clearing")
+        PT.unregister(destRole)
+        return
+    end
+
+    local x, y, z = pickArrival(dest)
+    dbg("teleport to " .. x .. "," .. y .. "," .. z)
+    playerObj:setX(x); playerObj:setY(y); playerObj:setZ(z)
+    playerObj:setLastX(x); playerObj:setLastY(y); playerObj:setLastZ(z)
+end

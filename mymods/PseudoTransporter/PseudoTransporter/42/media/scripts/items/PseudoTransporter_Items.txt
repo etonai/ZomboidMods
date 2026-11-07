@@ -61,4 +61,15 @@ module PseudoTransporter
     Weight = 0.5,
     WorldObjectSprite = street_decoration_01_26,
   }
+
+  /* Transporter Badge: a Toy Badge look-alike. Inventory menu "Transport" goes to the Control. */
+  item TransporterBadge
+  {
+    DisplayCategory = Memento,
+    ItemType = base:normal,
+    Weight = 0.2,
+    IconsForTexture = SheriffBadge_Toy,
+    WorldStaticModelsByIndex = ToyBadge,
+    Tags = base:hasmetal;base:fitswallet,
+  }
 }

@@ -9,36 +9,8 @@ local function controlHasPower(obj)
     return dd ~= nil and dd:getIsTurnedOn()
 end
 
--- Picks a free square at or next to the destination. Falls back to the raw coordinates
--- when the destination chunk is not loaded.
-local function pickArrival(dest)
-    local cell = getCell()
-    local offsets = { {0,0}, {0,1}, {1,0}, {0,-1}, {-1,0}, {1,1}, {-1,-1}, {1,-1}, {-1,1} }
-    for _, o in ipairs(offsets) do
-        local sq = cell:getGridSquare(dest.x + o[1], dest.y + o[2], dest.z)
-        if sq and sq:isFree(false) then
-            return sq:getX() + 0.5, sq:getY() + 0.5, sq:getZ()
-        end
-    end
-    return dest.x + 0.5, dest.y + 0.5, dest.z
-end
-
-local function doTransport(playerObj, otherRole)
-    local dest = PT.getRegistry()[otherRole]
-    if not dest then PT.dbg("no " .. otherRole .. " registered; nothing happens") return end
-
-    -- If the destination square is loaded but the object is gone, clear the stale entry.
-    local sq = getCell():getGridSquare(dest.x, dest.y, dest.z)
-    if sq and not PT.findOnSquare(sq, otherRole) then
-        PT.dbg("stale " .. otherRole .. " entry; clearing")
-        PT.unregister(otherRole)
-        return
-    end
-
-    local x, y, z = pickArrival(dest)
-    PT.dbg("teleport to " .. x .. "," .. y .. "," .. z)
-    playerObj:setX(x); playerObj:setY(y); playerObj:setZ(z)
-    playerObj:setLastX(x); playerObj:setLastY(y); playerObj:setLastZ(z)
+local function doTransport(playerObj, destRole)
+    PT.transportTo(playerObj, destRole)
 end
 
 local function boosterNumber(role)
