@@ -616,6 +616,30 @@ module PseudoMagic
     Tooltip = Tooltip_item_TireIron,
   }
 
+  /* MagicLightBall: tennis-ball-shaped light that cannot be extinguished or refueled.
+     Modelled on PseudoButterCandle's lit candle, but with a stronger (1.5) and wider (15) light. UseDelta 0.005 = 200 uses = 20 game minutes at the
+     candle's rate of 10 uses per game minute (candle: 4800 uses over 8 hours). The DC 5 Phase 1
+     test value was 0.05 (2 minutes). No ReplaceOnDeplete, so it is deleted when empty.
+     UseWhileEquipped is off so holding it does not add the engine's extra per-10-minute drain. */
+  item MagicLightBall
+  {
+    DisplayCategory = LightSource,
+    ItemType = base:drainable,
+    Weight = 0.3,
+    Icon = TennisBall,
+    ActivatedItem = false,
+    LightDistance = 15,
+    LightStrength = 1.5,
+    TorchCone = false,
+    UseDelta = 0.005,
+    UseWhileEquipped = false,
+    UseWhileUnequipped = true,
+    cantBeConsolided = true,
+    StaticModel = TennisBall,
+    WorldStaticModel = TennisBall,
+    Tags = pseudomagic:magiclightball,
+  }
+
   /* MagicScrewdriver: vanilla Screwdriver at half weight. */
   item MagicScrewdriver
   {

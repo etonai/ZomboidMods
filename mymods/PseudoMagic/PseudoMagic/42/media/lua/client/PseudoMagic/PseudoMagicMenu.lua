@@ -16,6 +16,8 @@ local MAGIC_ITEMS = {
     { name = "Jack",         fullType = "PseudoMagic.MagicJack" },
     { name = "TireIron",     fullType = "PseudoMagic.MagicTireIron" },
     { name = "Screwdriver",  fullType = "PseudoMagic.MagicScrewdriver" },
+    -- Light ball is equipped in the secondary hand when summoned.
+    { name = "LightBall",    fullType = "PseudoMagic.MagicLightBall", equipSecondary = true },
 }
 
 local DISMISS_TEXT = {}
@@ -40,11 +42,15 @@ local function dismissItem(playerObj, item)
     sendRemoveItemFromContainer(container, item)
 end
 
-local function summonItem(playerObj, fullType)
+local function summonItem(playerObj, entry)
     local inv = playerObj:getInventory()
-    local item = inv:AddItem(fullType)
+    local item = inv:AddItem(entry.fullType)
     if item then
         sendAddItemToContainer(inv, item)
+        if entry.equipSecondary then
+            -- primary = false, twoHands = false: equip in the secondary hand
+            ISTimedActionQueue.add(ISEquipWeaponAction:new(playerObj, item, 50, false, false))
+        end
     end
 end
 
@@ -82,7 +88,7 @@ local function onFillInventoryObjectContextMenu(playerNum, context, items)
         local sub = ISContextMenu:getNew(context)
         context:addSubMenu(option, sub)
         for _, m in ipairs(MAGIC_ITEMS) do
-            sub:addOption(getText("UI_PseudoMagic_Summon" .. m.name), playerObj, summonItem, m.fullType)
+            sub:addOption(getText("UI_PseudoMagic_Summon" .. m.name), playerObj, summonItem, m)
         end
     end
 end

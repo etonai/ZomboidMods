@@ -1,0 +1,1 @@
+ItemTag.register("pseudomagic:magiclightball")

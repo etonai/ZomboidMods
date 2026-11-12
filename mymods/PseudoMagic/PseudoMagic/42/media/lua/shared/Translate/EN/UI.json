@@ -12,6 +12,7 @@
   "UI_PseudoMagic_SummonJack": "Jack",
   "UI_PseudoMagic_SummonTireIron": "Tire Iron",
   "UI_PseudoMagic_SummonScrewdriver": "Screwdriver",
+  "UI_PseudoMagic_SummonLightBall": "Magic Light Ball",
   "UI_PseudoMagic_DismissMagicKnife": "Dismiss Magic Knife",
   "UI_PseudoMagic_DismissMagicHammer": "Dismiss Magic Hammer",
   "UI_PseudoMagic_DismissMagicShovel": "Dismiss Magic Shovel",
@@ -23,5 +24,6 @@
   "UI_PseudoMagic_DismissMagicSledgehammer": "Dismiss Magic Sledgehammer",
   "UI_PseudoMagic_DismissMagicJack": "Dismiss Magic Jack",
   "UI_PseudoMagic_DismissMagicTireIron": "Dismiss Magic Tire Iron",
-  "UI_PseudoMagic_DismissMagicScrewdriver": "Dismiss Magic Screwdriver"
+  "UI_PseudoMagic_DismissMagicScrewdriver": "Dismiss Magic Screwdriver",
+  "UI_PseudoMagic_DismissMagicLightBall": "Dismiss Magic Light Ball"
 }
