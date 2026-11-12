@@ -15,6 +15,7 @@ local MAGIC_ITEMS = {
     { name = "Sledgehammer", fullType = "PseudoMagic.MagicSledgehammer" },
     { name = "Jack",         fullType = "PseudoMagic.MagicJack" },
     { name = "TireIron",     fullType = "PseudoMagic.MagicTireIron" },
+    { name = "Screwdriver",  fullType = "PseudoMagic.MagicScrewdriver" },
 }
 
 local DISMISS_TEXT = {}

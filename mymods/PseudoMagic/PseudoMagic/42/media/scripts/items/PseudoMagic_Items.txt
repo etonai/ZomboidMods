@@ -197,7 +197,8 @@ module PseudoMagic
     ClothingItemExtraOption = LeftMiddleFinger;LeftRingFinger;RightRingFinger,
     Cosmetic = true,
     WorldStaticModel = Ring_Gold_Ground,
-    Tags = base:hasmetal;base:tinygoldscrap,
+    Tags = base:hasmetal;base:tinygoldscrap;base:startfire,
+    KeepOnDeplete = true,
   }
 
   item RingOfTheMageLeftMiddleFinger
@@ -213,7 +214,8 @@ module PseudoMagic
     ClothingItemExtraOption = RightMiddleFinger;LeftRingFinger;RightRingFinger,
     Cosmetic = true,
     WorldStaticModel = Ring_Gold_Ground,
-    Tags = base:hasmetal;base:tinygoldscrap,
+    Tags = base:hasmetal;base:tinygoldscrap;base:startfire,
+    KeepOnDeplete = true,
   }
 
   item RingOfTheMageRightRingFinger
@@ -229,7 +231,8 @@ module PseudoMagic
     ClothingItemExtraOption = LeftMiddleFinger;RightMiddleFinger;LeftRingFinger,
     Cosmetic = true,
     WorldStaticModel = Ring_Gold_Ground,
-    Tags = base:hasmetal;base:tinygoldscrap,
+    Tags = base:hasmetal;base:tinygoldscrap;base:startfire,
+    KeepOnDeplete = true,
   }
 
   item RingOfTheMageLeftRingFinger
@@ -245,7 +248,8 @@ module PseudoMagic
     ClothingItemExtraOption = LeftMiddleFinger;RightMiddleFinger;RightRingFinger,
     Cosmetic = true,
     WorldStaticModel = Ring_Gold_Ground,
-    Tags = base:hasmetal;base:tinygoldscrap,
+    Tags = base:hasmetal;base:tinygoldscrap;base:startfire,
+    KeepOnDeplete = true,
   }
 
   /* MagicShovel: vanilla Shovel at half weight. */
@@ -610,5 +614,54 @@ module PseudoMagic
     AttachmentType = BigWeapon,
     Tags = base:lugwrench;base:removebarricade;base:prybar;base:smeltablesteelmediumplus;base:hasmetal,
     Tooltip = Tooltip_item_TireIron,
+  }
+
+  /* MagicScrewdriver: vanilla Screwdriver at half weight. */
+  item MagicScrewdriver
+  {
+    DisplayCategory = ToolWeapon,
+    ItemType = base:weapon,
+    Weight = 0.25,
+    IconsForTexture = Screwdriver_Blue;Screwdriver,
+    AimingMod = 0.8,
+    AttachmentType = Screwdriver,
+    BreakSound = ScrewdriverBreak,
+    Categories = base:improvised;base:smallblade,
+    CloseKillMove = Jaw_Stab,
+    ConditionLowerChanceOneIn = 6,
+    ConditionMax = 10,
+    CritDmgMultiplier = 10.0,
+    CriticalChance = 10.0,
+    DoorDamage = 1,
+    DoorHitSound = ScrewdriverHit,
+    DropSound = ScrewdriverDrop,
+    HitFloorSound = ScrewdriverHit,
+    HitSound = ScrewdriverHit,
+    IdleAnim = Idle_Weapon2,
+    ImpactSound = ScrewdriverHit,
+    IsAimedHandWeapon = true,
+    KnockBackOnNoDeath = false,
+    KnockdownMod = 0.0,
+    MaxDamage = 0.7,
+    MaxHitcount = 1,
+    MaxRange = 0.85,
+    MetalValue = 5.0,
+    MinAngle = 0.65,
+    MinDamage = 0.3,
+    MinRange = 0.61,
+    MinimumSwingtime = 2.0,
+    PushBackMod = 0.01,
+    RunAnim = Run_Weapon2,
+    SplatBloodOnNoDeath = false,
+    SplatNumber = 1,
+    SubCategory = Stab,
+    SwingAmountBeforeImpact = 0.02,
+    SwingAnim = Stab,
+    SwingSound = ScrewdriverSwing,
+    Swingtime = 2.0,
+    TreeDamage = 0,
+    WeaponLength = 0.19,
+    WeaponSpritesByIndex = Screwdriver;Screwdriver_Red,
+    Tags = base:screwdriver;base:hasmetal,
   }
 }
