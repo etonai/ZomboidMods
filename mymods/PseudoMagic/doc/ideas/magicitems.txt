@@ -1,0 +1,25 @@
+1. Satchel of Holding
+
+Based on the Bag_HideSatchel item in the game.
+
+Except the capacity is 50 and the weight reduction is 95
+
+
+2. Pouch of Holding
+
+Based on item Bag_FannyPackFront_Hide in the vanilla game
+
+Except the capacity is 20 and the weight reduction is 95
+
+
+3. Magic Knife
+
+Based on the item LargeKnife
+Except
+        ConditionLowerChanceOneIn = 99,
+        ConditionMax = 99,
+        CritDmgMultiplier = 3.0,
+        CriticalChance = 50.0,
+        MaxDamage = 3,
+
+Also, the Magic Knife has a menu item attached "Dismiss". If selected, the Magic Knife is deleted from inventory.

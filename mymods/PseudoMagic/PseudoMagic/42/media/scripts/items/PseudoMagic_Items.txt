@@ -1,0 +1,250 @@
+module PseudoMagic
+{
+  imports
+  {
+    Base
+  }
+
+  /* Satchel of Holding: Bag_HideSatchel with Capacity 50 and WeightReduction 95.
+     Reuses the vanilla clothing item (model) and icon. */
+  item SatchelOfHolding
+  {
+    DisplayCategory = Bag,
+    ItemType = base:container,
+    Weight = 1.0,
+    Icon = Satchel_StitchedHide,
+    BloodLocation = Bag,
+    CanBeEquipped = base:satchel,
+    CanHaveHoles = false,
+    Capacity = 50,
+    CloseSound = CloseLeatherBag,
+    ClothingItem = Bag_HideSatchel,
+    EquipSound = EquipLeatherBag,
+    OpenSound = OpenLeatherBag,
+    PutInSound = StoreItemLeatherBag,
+    ReplaceInPrimaryHand = Bag_HideSatchel_RHand holdingbagright,
+    ReplaceInSecondHand = Bag_HideSatchel_LHand holdingbagleft,
+    RunSpeedModifier = 0.99,
+    WeightReduction = 95,
+    WorldStaticModel = Satchel_Fishing_Ground,
+    Tags = base:ignorezombiedensity,
+  }
+
+  /* Pouch of Holding: Bag_FannyPackFront_Hide with Capacity 20 and WeightReduction 95.
+     The back-wear variant is a separate item, as in vanilla, with the same stats. */
+  item PouchOfHolding
+  {
+    DisplayCategory = Bag,
+    ItemType = base:container,
+    Weight = 0.2,
+    Icon = FannypackCrafted,
+    BodyLocation = base:fannypackfront,
+    CanBeEquipped = base:fannypackfront,
+    CanHaveHoles = false,
+    Capacity = 20,
+    CloseSound = CloseHideFannyPack,
+    ClothingItem = Bag_FannyPackFront_Hide,
+    ClothingItemExtra = PseudoMagic.PouchOfHoldingBack,
+    ClothingItemExtraOption = FannyPack_WearBack,
+    EquipSound = EquipFannyPack,
+    OpenSound = OpenHideFannyPack,
+    PutInSound = StoreItemHideFannyPack,
+    RunSpeedModifier = 0.98,
+    WeightReduction = 95,
+    ClothingExtraSubmenu = FannyPack_WearFront,
+    WorldStaticModel = FannyPack_Ground,
+  }
+
+  item PouchOfHoldingBack
+  {
+    DisplayCategory = Bag,
+    ItemType = base:container,
+    Weight = 0.2,
+    Icon = FannypackCrafted,
+    BodyLocation = base:fannypackback,
+    CanBeEquipped = base:fannypackback,
+    CanHaveHoles = false,
+    Capacity = 20,
+    CloseSound = CloseHideFannyPack,
+    ClothingItem = Bag_FannyPackBack_Hide,
+    ClothingItemExtra = PseudoMagic.PouchOfHolding,
+    ClothingItemExtraOption = FannyPack_WearFront,
+    EquipSound = EquipFannyPack,
+    OpenSound = OpenHideFannyPack,
+    PutInSound = StoreItemHideFannyPack,
+    RunSpeedModifier = 0.98,
+    WeightReduction = 95,
+    ClothingExtraSubmenu = FannyPack_WearBack,
+    WorldStaticModel = FannyPack_Ground,
+  }
+
+  /* Magic Knife: LargeKnife with boosted durability, crit and max damage.
+     MinDamage stays at the vanilla 0.6. */
+  item MagicKnife
+  {
+    DisplayCategory = ToolWeapon,
+    ItemType = base:weapon,
+    Weight = 1.0,
+    Icon = KnifeLarge_Crude,
+    AimingMod = 0.8,
+    AttachmentType = Knife,
+    BreakSound = LargeKnifeBreak,
+    Categories = base:smallblade,
+    CloseKillMove = Jaw_Stab,
+    ConditionLowerChanceOneIn = 99,
+    ConditionMax = 99,
+    CritDmgMultiplier = 3.0,
+    CriticalChance = 50.0,
+    DamageCategory = Slash,
+    DamageMakeHole = true,
+    DoorDamage = 1,
+    DoorHitSound = LargeKnifeHit,
+    DropSound = LargeKnifeDrop,
+    HitFloorSound = LargeKnifeHit,
+    HitSound = LargeKnifeHit,
+    IdleAnim = Idle_Weapon2,
+    ImpactSound = LargeKnifeHit,
+    IsAimedHandWeapon = true,
+    KnockBackOnNoDeath = false,
+    KnockdownMod = 0.0,
+    MaxDamage = 3,
+    MaxHitcount = 1,
+    MaxRange = 0.9,
+    MetalValue = 30.0,
+    MinAngle = 0.65,
+    MinDamage = 0.6,
+    MinRange = 0.61,
+    MinimumSwingtime = 2.0,
+    PushBackMod = 0.01,
+    RunAnim = Run_Weapon2,
+    SplatBloodOnNoDeath = true,
+    SplatNumber = 4,
+    SubCategory = Stab,
+    SwingAmountBeforeImpact = 0.02,
+    SwingAnim = Stab,
+    SwingSound = LargeKnifeSwing,
+    Swingtime = 2.0,
+    TreeDamage = 0,
+    WeaponLength = 0.25,
+    WeaponSprite = CrudeHuntingKnifeForged,
+    Tags = base:cutplant;base:sharpknife;base:butcheranimal;base:hasmetal;base:sharpenable;base:killanimal,
+    Sharpness = 1.0,
+    OnBreak = OnBreak.LargeKnife,
+  }
+
+  /* Magic Hammer: Hammer with the same boosts as the Magic Knife. MinDamage stays at the
+     vanilla 0.5; HeadCondition is raised to 99 to match ConditionMax. */
+  item MagicHammer
+  {
+    DisplayCategory = ToolWeapon,
+    ItemType = base:weapon,
+    Weight = 1.5,
+    IconsForTexture = Hammer;Hammer_Forged,
+    AttachmentType = Hammer,
+    BaseSpeed = 1.0,
+    BreakSound = HammerBreak,
+    CanBarricade = true,
+    Categories = base:smallblunt,
+    ConditionLowerChanceOneIn = 99,
+    ConditionMax = 99,
+    CritDmgMultiplier = 3.0,
+    CriticalChance = 50.0,
+    DoorDamage = 9,
+    DoorHitSound = HammerHit,
+    DropSound = HammerDrop,
+    HitFloorSound = HammerHit,
+    HitSound = HammerHit,
+    IdleAnim = Idle_Weapon2,
+    KnockBackOnNoDeath = true,
+    KnockdownMod = 0.0,
+    MaxDamage = 3,
+    MaxHitcount = 1,
+    MaxRange = 1.1,
+    MetalValue = 25.0,
+    MinAngle = 0.67,
+    MinDamage = 0.5,
+    MinRange = 0.61,
+    MinimumSwingtime = 3.0,
+    PushBackMod = 0.5,
+    RunAnim = Run_Weapon2,
+    SplatBloodOnNoDeath = true,
+    SplatNumber = 1,
+    SubCategory = Swinging,
+    SwingAmountBeforeImpact = 0.02,
+    SwingAnim = Bat,
+    SwingSound = HammerSwing,
+    Swingtime = 3.0,
+    TreeDamage = 0,
+    WeaponLength = 0.23,
+    WeaponSpritesByIndex = Hammer;HammerForged,
+    Tags = base:hammer;base:removebarricade;base:hastoolhead;base:killanimal;base:repairwithglue;base:repairwithtape;base:hasmetal,
+    HeadCondition = 99,
+    OnBreak = OnBreak.Clawhammer,
+    HeadConditionLowerChanceMultiplier = 2.0,
+  }
+
+  /* Ring of Summoning: the four vanilla gold ring finger variants, renamed. */
+  item RingOfSummoningRightMiddleFinger
+  {
+    DisplayCategory = Accessory,
+    ItemType = base:clothing,
+    Weight = 0.1,
+    Icon = Ring_Gold,
+    BodyLocation = base:right_middlefinger,
+    ClothingExtraSubmenu = RightMiddleFinger,
+    ClothingItem = Ring_Right_MiddleFinger_Gold,
+    ClothingItemExtra = PseudoMagic.RingOfSummoningLeftMiddleFinger;PseudoMagic.RingOfSummoningLeftRingFinger;PseudoMagic.RingOfSummoningRightRingFinger,
+    ClothingItemExtraOption = LeftMiddleFinger;LeftRingFinger;RightRingFinger,
+    Cosmetic = true,
+    WorldStaticModel = Ring_Gold_Ground,
+    Tags = base:hasmetal;base:tinygoldscrap,
+  }
+
+  item RingOfSummoningLeftMiddleFinger
+  {
+    DisplayCategory = Accessory,
+    ItemType = base:clothing,
+    Weight = 0.1,
+    Icon = Ring_Gold,
+    BodyLocation = base:left_middlefinger,
+    ClothingExtraSubmenu = LeftMiddleFinger,
+    ClothingItem = Ring_Left_MiddleFinger_Gold,
+    ClothingItemExtra = PseudoMagic.RingOfSummoningRightMiddleFinger;PseudoMagic.RingOfSummoningLeftRingFinger;PseudoMagic.RingOfSummoningRightRingFinger,
+    ClothingItemExtraOption = RightMiddleFinger;LeftRingFinger;RightRingFinger,
+    Cosmetic = true,
+    WorldStaticModel = Ring_Gold_Ground,
+    Tags = base:hasmetal;base:tinygoldscrap,
+  }
+
+  item RingOfSummoningRightRingFinger
+  {
+    DisplayCategory = Accessory,
+    ItemType = base:clothing,
+    Weight = 0.1,
+    Icon = Ring_Gold,
+    BodyLocation = base:right_ringfinger,
+    ClothingExtraSubmenu = RightRingFinger,
+    ClothingItem = Ring_Right_RingFinger_Gold,
+    ClothingItemExtra = PseudoMagic.RingOfSummoningLeftMiddleFinger;PseudoMagic.RingOfSummoningRightMiddleFinger;PseudoMagic.RingOfSummoningLeftRingFinger,
+    ClothingItemExtraOption = LeftMiddleFinger;RightMiddleFinger;LeftRingFinger,
+    Cosmetic = true,
+    WorldStaticModel = Ring_Gold_Ground,
+    Tags = base:hasmetal;base:tinygoldscrap,
+  }
+
+  item RingOfSummoningLeftRingFinger
+  {
+    DisplayCategory = Accessory,
+    ItemType = base:clothing,
+    Weight = 0.1,
+    Icon = Ring_Gold,
+    BodyLocation = base:left_ringfinger,
+    ClothingExtraSubmenu = LeftRingFinger,
+    ClothingItem = Ring_Left_RingFinger_Gold,
+    ClothingItemExtra = PseudoMagic.RingOfSummoningLeftMiddleFinger;PseudoMagic.RingOfSummoningRightMiddleFinger;PseudoMagic.RingOfSummoningRightRingFinger,
+    ClothingItemExtraOption = LeftMiddleFinger;RightMiddleFinger;RightRingFinger,
+    Cosmetic = true,
+    WorldStaticModel = Ring_Gold_Ground,
+    Tags = base:hasmetal;base:tinygoldscrap,
+  }
+}
