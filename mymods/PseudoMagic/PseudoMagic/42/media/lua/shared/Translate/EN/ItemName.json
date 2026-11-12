@@ -4,8 +4,17 @@
   "PseudoMagic.PouchOfHoldingBack": "Pouch of Holding",
   "PseudoMagic.MagicKnife": "Magic Knife",
   "PseudoMagic.MagicHammer": "Magic Hammer",
-  "PseudoMagic.RingOfSummoningRightMiddleFinger": "Ring of Summoning",
-  "PseudoMagic.RingOfSummoningLeftMiddleFinger": "Ring of Summoning",
-  "PseudoMagic.RingOfSummoningRightRingFinger": "Ring of Summoning",
-  "PseudoMagic.RingOfSummoningLeftRingFinger": "Ring of Summoning"
+  "PseudoMagic.MagicShovel": "Magic Shovel",
+  "PseudoMagic.MagicSaw": "Magic Saw",
+  "PseudoMagic.MagicCrowbar": "Magic Crowbar",
+  "PseudoMagic.MagicPickaxe": "Magic Pickaxe",
+  "PseudoMagic.MagicWrench": "Magic Wrench",
+  "PseudoMagic.MagicPipeWrench": "Magic Pipe Wrench",
+  "PseudoMagic.MagicSledgehammer": "Magic Sledgehammer",
+  "PseudoMagic.MagicJack": "Magic Jack",
+  "PseudoMagic.MagicTireIron": "Magic Tire Iron",
+  "PseudoMagic.RingOfTheMageRightMiddleFinger": "Ring of the Mage",
+  "PseudoMagic.RingOfTheMageLeftMiddleFinger": "Ring of the Mage",
+  "PseudoMagic.RingOfTheMageRightRingFinger": "Ring of the Mage",
+  "PseudoMagic.RingOfTheMageLeftRingFinger": "Ring of the Mage"
 }

@@ -1,6 +1,25 @@
 {
+  "UI_PseudoMagic_Summon": "Summon",
+  "UI_PseudoMagic_SummonHammer": "Hammer",
+  "UI_PseudoMagic_SummonKnife": "Knife",
+  "UI_PseudoMagic_SummonShovel": "Shovel",
+  "UI_PseudoMagic_SummonSaw": "Saw",
+  "UI_PseudoMagic_SummonCrowbar": "Crowbar",
+  "UI_PseudoMagic_SummonPickaxe": "Pickaxe",
+  "UI_PseudoMagic_SummonWrench": "Wrench",
+  "UI_PseudoMagic_SummonPipeWrench": "Pipe Wrench",
+  "UI_PseudoMagic_SummonSledgehammer": "Sledgehammer",
+  "UI_PseudoMagic_SummonJack": "Jack",
+  "UI_PseudoMagic_SummonTireIron": "Tire Iron",
   "UI_PseudoMagic_DismissMagicKnife": "Dismiss Magic Knife",
   "UI_PseudoMagic_DismissMagicHammer": "Dismiss Magic Hammer",
-  "UI_PseudoMagic_SummonHammer": "Summon Hammer",
-  "UI_PseudoMagic_SummonKnife": "Summon Knife"
+  "UI_PseudoMagic_DismissMagicShovel": "Dismiss Magic Shovel",
+  "UI_PseudoMagic_DismissMagicSaw": "Dismiss Magic Saw",
+  "UI_PseudoMagic_DismissMagicCrowbar": "Dismiss Magic Crowbar",
+  "UI_PseudoMagic_DismissMagicPickaxe": "Dismiss Magic Pickaxe",
+  "UI_PseudoMagic_DismissMagicWrench": "Dismiss Magic Wrench",
+  "UI_PseudoMagic_DismissMagicPipeWrench": "Dismiss Magic Pipe Wrench",
+  "UI_PseudoMagic_DismissMagicSledgehammer": "Dismiss Magic Sledgehammer",
+  "UI_PseudoMagic_DismissMagicJack": "Dismiss Magic Jack",
+  "UI_PseudoMagic_DismissMagicTireIron": "Dismiss Magic Tire Iron"
 }
