@@ -1,4 +1,5 @@
 -- PseudoMagic: inventory context-menu options.
+require "PseudoMagic/PseudoMagicTeleport"
 --   Magic tools/weapons: "Dismiss Magic <X>" deletes the item.
 --   Ring of the Mage: "Summon" submenu adds a magic tool/weapon to the inventory.
 
@@ -76,6 +77,42 @@ local function scan(items)
     return dismissable, hasRing
 end
 
+-- "Bind Location" and "Teleport" submenus (DevCycle 8). Bound slots show their coordinates; unbound Teleport
+-- entries are greyed out with a tooltip.
+local function coordsText(e)
+    return " (" .. e.x .. ", " .. e.y .. ", " .. getText("UI_PseudoMagic_Floor") .. " " .. e.z .. ")"
+end
+
+local function addTeleportMenus(context, playerObj)
+    local PMT = PseudoMagicTeleport
+
+    local bindOption = context:addOption(getText("UI_PseudoMagic_BindLocation"))
+    local bindSub = ISContextMenu:getNew(context)
+    context:addSubMenu(bindOption, bindSub)
+    for n = 1, PMT.SLOTS do
+        local label = getText("UI_PseudoMagic_BindLocation" .. n)
+        local e = PMT.getSlot(playerObj, n)
+        if e then label = label .. coordsText(e) end
+        bindSub:addOption(label, playerObj, PMT.bind, n)
+    end
+
+    local tpOption = context:addOption(getText("UI_PseudoMagic_Teleport"))
+    local tpSub = ISContextMenu:getNew(context)
+    context:addSubMenu(tpOption, tpSub)
+    for n = 1, PMT.SLOTS do
+        local label = getText("UI_PseudoMagic_TeleportToLocation" .. n)
+        local e = PMT.getSlot(playerObj, n)
+        if e then label = label .. coordsText(e) end
+        local opt = tpSub:addOption(label, playerObj, PMT.teleport, n)
+        if not e then
+            opt.notAvailable = true
+            local tip = ISWorldObjectContextMenu.addToolTip()
+            tip.description = getText("UI_PseudoMagic_LocationNotBound")
+            opt.toolTip = tip
+        end
+    end
+end
+
 local function onFillInventoryObjectContextMenu(playerNum, context, items)
     local playerObj = getSpecificPlayer(playerNum)
     local dismissable, hasRing = scan(items)
@@ -92,6 +129,7 @@ local function onFillInventoryObjectContextMenu(playerNum, context, items)
         for _, m in ipairs(MAGIC_ITEMS) do
             sub:addOption(getText("UI_PseudoMagic_Summon" .. m.name), playerObj, summonItem, m)
         end
+        addTeleportMenus(context, playerObj)
     end
 end
 

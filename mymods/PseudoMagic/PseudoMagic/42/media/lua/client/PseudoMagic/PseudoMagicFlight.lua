@@ -177,6 +177,19 @@ local function release(player)
     held[player] = nil
 end
 
+-- Small API for other PseudoMagic scripts (the teleport menu): is the player flying, the floor beneath a point, and
+-- a way to release the held height (a teleport must not be pulled back to the old height).
+PseudoMagicFlight = PseudoMagicFlight or {}
+PseudoMagicFlight.groundAt = groundAt
+function PseudoMagicFlight.isFlying(player)
+    return held[player] ~= nil
+end
+function PseudoMagicFlight.release(player)
+    held[player] = nil
+    pendingResume[player] = nil
+    pcall(function() player:setVariable("PseudoMagicFlying", false) end)
+end
+
 -- Main update -------------------------------------------------------------------------------------------------
 
 local function update(player)
