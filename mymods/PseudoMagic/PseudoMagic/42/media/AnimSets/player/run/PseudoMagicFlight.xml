@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- PseudoMagic flight, a Ring of the Mage power (DC 6, Phases 6 and 7): while the player is flying (variable PseudoMagicFlying, set by
+     lua/client/PseudoMagic/PseudoMagicFlight.lua) this run node plays the vanilla standing idle clip instead of
+     the walk, run, sprint or fall animation. Same structure as the KintoUn mod's AnimSet nodes. -->
+<animNode>
+	<m_Name>PseudoMagicFlight_run</m_Name>
+	<m_AnimName>Bob_Idle</m_AnimName>
+	<m_Priority>20</m_Priority>
+	<m_ConditionPriority>50</m_ConditionPriority>
+	<m_Looped>true</m_Looped>
+	<m_BlendTime>0.25</m_BlendTime>
+	<m_SpeedScale>0.48</m_SpeedScale>
+	<m_Conditions x_name="pseudomagicflight-run">
+		<m_Name>PseudoMagicFlying</m_Name>
+		<m_Type>BOOL</m_Type>
+		<m_Value>true</m_Value>
+	</m_Conditions>
+</animNode>

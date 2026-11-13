@@ -1,0 +1,6 @@
+{
+  "IGUI_PseudoMagicFlight_UpKey": "Ring of the Mage: fly up (hold)",
+  "IGUI_PseudoMagicFlight_UpKey_tooltip": "While wearing a Ring of the Mage, hold to rise.",
+  "IGUI_PseudoMagicFlight_DownKey": "Ring of the Mage: fly down (hold)",
+  "IGUI_PseudoMagicFlight_DownKey_tooltip": "Hold to descend; you land on the first solid floor. Release both keys to hover."
+}
