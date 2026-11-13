@@ -16,6 +16,8 @@ local MAGIC_ITEMS = {
     { name = "Jack",         fullType = "PseudoMagic.MagicJack" },
     { name = "TireIron",     fullType = "PseudoMagic.MagicTireIron" },
     { name = "Screwdriver",  fullType = "PseudoMagic.MagicScrewdriver" },
+    { name = "WoodAxe",      fullType = "PseudoMagic.MagicWoodAxe" },
+    { name = "ShortSword",   fullType = "PseudoMagic.MagicShortSword" },
     -- Light ball is equipped in the secondary hand when summoned.
     { name = "LightBall",    fullType = "PseudoMagic.MagicLightBall", equipSecondary = true },
 }
