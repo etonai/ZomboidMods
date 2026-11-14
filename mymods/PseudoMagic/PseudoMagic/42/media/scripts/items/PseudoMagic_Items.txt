@@ -834,4 +834,65 @@ module PseudoMagic
     WorldStaticModel = Dress_Long_Ground,
     Tags = base:ripclothingcotton;base:noragdoll,
   }
+  /* Everful Waterskin: Bag_LeatherWaterBag (normal 1 L capacity); PseudoMagicEverfulWaterskin.lua tops it up with water (DevCycle 11).
+     ContainerName must have a Fluid_Container_<name> translation (Fluids.json): the fluid container supplies the item name in the inventory. */
+  item EverfulWaterskin
+  {
+    DisplayCategory = WaterContainer,
+    ItemType = base:clothing,
+    Weight = 0.3,
+    ClothingItem = Bag_LeatherWaterBag,
+    BodyLocation = base:satchel,
+    Icon = Wineskin,
+    StaticModel = CanteenCowboy_Ground,
+    WorldStaticModel = LeatherWaterBag_Ground,
+    EatType = Bourbon,
+    CanHaveHoles = false,
+    WaterResistance = 1.0,
+    ReplaceInPrimaryHand = Bag_LeatherWaterBag_RHand holdingbagright,
+    ReplaceInSecondHand = Bag_LeatherWaterBag_LHand holdingbagleft,
+    component FluidContainer
+    {
+      ContainerName = EverfulWaterskin,
+      Capacity = 1.0,
+      InitialPercentMin = 1.0,
+      InitialPercentMax = 1.0,
+      Fluids
+      {
+        fluid = Water:1.0,
+      }
+    }
+  }
+  /* Everful Bucket: Base.Bucket (10 L) that starts full; PseudoMagicEverfulRefill.lua tops it up with water (DevCycle 11).
+     ContainerName needs a Fluid_Container_<name> translation (Fluids.json) or the item shows as "Bucket". */
+  item EverfulBucket
+  {
+    DisplayCategory = WaterContainer,
+    Weight = 1.0,
+    ItemType = base:normal,
+    EatType = Bucket,
+    PourType = Bucket,
+    Icon = MetalBucket,
+    IconFluidMask = Bucket_Mask,
+    StaticModel = Bucket_Ground_Fluid,
+    WorldStaticModel = Bucket_Ground,
+    FillFromDispenserSound = GetWaterFromDispenserMetalBig,
+    FillFromLakeSound = GetWaterFromLake,
+    FillFromTapSound = GetWaterFromTapMetalBig,
+    FillFromToiletSound = GetWaterFromToilet,
+    Tags = base:bucket;base:cookable;base:hasmetal;base:metalbucket,
+    component FluidContainer
+    {
+      ContainerName = EverfulBucket,
+      RainFactor = 0.5,
+      Capacity = 10.0,
+      TransferRate = 5.0,
+      InitialPercentMin = 1.0,
+      InitialPercentMax = 1.0,
+      Fluids
+      {
+        fluid = Water:1.0,
+      }
+    }
+  }
 }

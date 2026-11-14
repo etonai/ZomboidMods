@@ -1,0 +1,22 @@
+* Ideas for new things in PseudoMagic mod DC11+
+
+** Magic Waterskin
+Based on: Bag_LeatherWaterBag
+
+Large capacity waterskin. Test with 10 Liters.
+
+** Everful Waterskin
+Based on: Bag_LeatherWaterBag
+
+Waterskin that refills itself.
+(Probably every 10 minutes or so it sets the capacity of the waterskin to fill of water)
+
+** Crate of Freshness
+Based on: Fancy Metal Crate (crafted_05_44)
+
+Keep everything fresh
+Probably every 10 minutes it resets the freshness of a perishable items to max
+It resets the internal value of Age (days) to 0.
+
+This may be similar to my PseudoGenerator mod and how it checks every so often to keep the condition and fuel at max.
+

@@ -60,5 +60,9 @@
   "UI_PseudoMagic_TransitCowIsle": "Cow Isle",
   "UI_PseudoMagic_TransitHenIsle": "Hen Isle",
   "UI_PseudoMagic_TransitGigamart": "Gigamart",
-  "UI_PseudoMagic_TransitMarket": "Market"
+  "UI_PseudoMagic_TransitMarket": "Market",
+  "UI_PseudoMagic_EnchantFreshness": "Enchant: Crate of Freshness",
+  "UI_PseudoMagic_RemoveFreshness": "Remove Crate of Freshness enchantment",
+  "UI_PseudoMagic_FreshnessEnchanted": "The crate is now a Crate of Freshness.",
+  "UI_PseudoMagic_FreshnessRemoved": "The crate is an ordinary crate again."
 }
