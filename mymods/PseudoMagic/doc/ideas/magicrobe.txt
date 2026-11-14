@@ -1,0 +1,78 @@
+item BlackRobe
+    {
+        DisplayCategory = Clothing,
+        ItemType = base:clothing,
+        Icon = Robe_Judge,
+        BloodLocation = Trousers;Shirt,
+        BodyLocation = base:bathrobe,
+        ClothingItem = BlackRobe,
+        FabricType = Cotton,
+        Insulation = 0.3,
+        RunSpeedModifier = 0.9,
+        WindResistance = 0.2,
+        WorldStaticModel = Dress_Long_Ground,
+        Tags = base:ripclothingcotton;base:noragdoll,
+    }
+
+
+item Jacket_Black
+    {
+        DisplayCategory = Clothing,
+        ItemType = base:clothing,
+        Weight = 2.0,
+        Icon = JacketLeatherBlack,
+        BiteDefense = 20,
+        BloodLocation = Jacket,
+        BodyLocation = base:jacket,
+        ClothingItem = Jacket_Black,
+        CombatSpeedModifier = 0.97,
+        FabricType = Leather,
+        Insulation = 0.4,
+        NeckProtectionModifier = 0.5,
+        RunSpeedModifier = 0.95,
+        ScratchDefense = 40,
+        WaterResistance = 0.4,
+        WindResistance = 0.6,
+        WorldStaticModel = Jacket_Ground,
+        Tags = base:ripclothingleather,
+        Researchablerecipes = SewHideCoat;SewHideJacket;SewHideHoodie,
+    }
+
+
+item MagicRobe
+    {
+        DisplayCategory = Clothing,
+        ItemType = base:clothing,
+        Icon = Robe_Judge,
+        BiteDefense = 100,
+        BloodLocation = Trousers;Shirt,
+        BodyLocation = base:bathrobe,
+        ClothingItem = BlackRobe,
+        FabricType = Cotton,
+        Insulation = 0.3,
+        RunSpeedModifier = 0.95,
+        ScratchDefense = 100,
+        WaterResistance = 0.9,
+        WindResistance = 0.9,
+        WorldStaticModel = Dress_Long_Ground,
+        Tags = base:ripclothingcotton;base:noragdoll,
+    }
+
+item MagicWarmRobe
+    {
+        DisplayCategory = Clothing,
+        ItemType = base:clothing,
+        Icon = Robe_Judge,
+        BiteDefense = 100,
+        BloodLocation = Trousers;Shirt,
+        BodyLocation = base:bathrobe,
+        ClothingItem = BlackRobe,
+        FabricType = Cotton,
+        Insulation = 0.9,
+        RunSpeedModifier = 0.95,
+        ScratchDefense = 100,
+        WaterResistance = 0.9,
+        WindResistance = 0.9,
+        WorldStaticModel = Dress_Long_Ground,
+        Tags = base:ripclothingcotton;base:noragdoll,
+    }

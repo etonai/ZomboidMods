@@ -2,7 +2,7 @@
 
 Based on the Bag_HideSatchel item in the game.
 
-Except the capacity is 50 and the weight reduction is 95
+Except the capacity is 100 and the weight reduction is 97
 
 
 2. Pouch of Holding

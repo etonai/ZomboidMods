@@ -5,7 +5,7 @@ module PseudoMagic
     Base
   }
 
-  /* Satchel of Holding: Bag_HideSatchel with Capacity 50 and WeightReduction 95.
+  /* Satchel of Holding: Bag_HideSatchel with Capacity 100 and WeightReduction 97.
      Reuses the vanilla clothing item (model) and icon. */
   item SatchelOfHolding
   {
@@ -16,7 +16,7 @@ module PseudoMagic
     BloodLocation = Bag,
     CanBeEquipped = base:satchel,
     CanHaveHoles = false,
-    Capacity = 50,
+    Capacity = 100,
     CloseSound = CloseLeatherBag,
     ClothingItem = Bag_HideSatchel,
     EquipSound = EquipLeatherBag,
@@ -25,7 +25,7 @@ module PseudoMagic
     ReplaceInPrimaryHand = Bag_HideSatchel_RHand holdingbagright,
     ReplaceInSecondHand = Bag_HideSatchel_LHand holdingbagleft,
     RunSpeedModifier = 0.99,
-    WeightReduction = 95,
+    WeightReduction = 97,
     WorldStaticModel = Satchel_Fishing_Ground,
     Tags = base:ignorezombiedensity,
   }
@@ -792,5 +792,46 @@ module PseudoMagic
     WeaponSprite = ShortSword,
     Sharpness = 1.0,
     OnBreak = OnBreak.ShortSword,
+  }
+
+  /* MagicRobe: vanilla BlackRobe (model, icon) with 100 bite and scratch defense,
+     0.9 water and wind resistance, and a lighter run speed penalty (0.95). */
+  item MagicRobe
+  {
+    DisplayCategory = Clothing,
+    ItemType = base:clothing,
+    Icon = Robe_Judge,
+    BiteDefense = 100,
+    BloodLocation = Trousers;Shirt,
+    BodyLocation = base:bathrobe,
+    ClothingItem = BlackRobe,
+    FabricType = Cotton,
+    Insulation = 0.3,
+    RunSpeedModifier = 0.95,
+    ScratchDefense = 100,
+    WaterResistance = 0.9,
+    WindResistance = 0.9,
+    WorldStaticModel = Dress_Long_Ground,
+    Tags = base:ripclothingcotton;base:noragdoll,
+  }
+
+  /* MagicWarmRobe: the MagicRobe with Insulation 0.9. */
+  item MagicWarmRobe
+  {
+    DisplayCategory = Clothing,
+    ItemType = base:clothing,
+    Icon = Robe_Judge,
+    BiteDefense = 100,
+    BloodLocation = Trousers;Shirt,
+    BodyLocation = base:bathrobe,
+    ClothingItem = BlackRobe,
+    FabricType = Cotton,
+    Insulation = 0.9,
+    RunSpeedModifier = 0.95,
+    ScratchDefense = 100,
+    WaterResistance = 0.9,
+    WindResistance = 0.9,
+    WorldStaticModel = Dress_Long_Ground,
+    Tags = base:ripclothingcotton;base:noragdoll,
   }
 }

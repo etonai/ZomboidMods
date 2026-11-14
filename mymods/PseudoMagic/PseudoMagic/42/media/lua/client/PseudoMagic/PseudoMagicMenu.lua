@@ -21,11 +21,16 @@ local MAGIC_ITEMS = {
     { name = "ShortSword",   fullType = "PseudoMagic.MagicShortSword" },
     -- Light ball is equipped in the secondary hand when summoned.
     { name = "LightBall",    fullType = "PseudoMagic.MagicLightBall", equipSecondary = true },
+    -- Robes can be summoned but not dismissed.
+    { name = "Robe",         fullType = "PseudoMagic.MagicRobe",     noDismiss = true },
+    { name = "WarmRobe",     fullType = "PseudoMagic.MagicWarmRobe", noDismiss = true },
 }
 
 local DISMISS_TEXT = {}
 for _, m in ipairs(MAGIC_ITEMS) do
-    DISMISS_TEXT[m.fullType] = "UI_PseudoMagic_DismissMagic" .. m.name
+    if not m.noDismiss then
+        DISMISS_TEXT[m.fullType] = "UI_PseudoMagic_DismissMagic" .. m.name
+    end
 end
 
 local RING_TYPES = {
@@ -118,7 +123,7 @@ local function onFillInventoryObjectContextMenu(playerNum, context, items)
     local dismissable, hasRing = scan(items)
     for _, m in ipairs(MAGIC_ITEMS) do
         local item = dismissable[m.fullType]
-        if item then
+        if item and DISMISS_TEXT[m.fullType] then
             context:addOption(getText(DISMISS_TEXT[m.fullType]), playerObj, dismissItem, item)
         end
     end
