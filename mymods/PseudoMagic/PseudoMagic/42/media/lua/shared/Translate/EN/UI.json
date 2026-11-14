@@ -51,5 +51,14 @@
   "UI_PseudoMagic_BindLocation6": "Bind Location 6",
   "UI_PseudoMagic_TeleportToLocation6": "Teleport to Location 6",
   "UI_PseudoMagic_BindLocation7": "Bind Location 7",
-  "UI_PseudoMagic_TeleportToLocation7": "Teleport to Location 7"
+  "UI_PseudoMagic_TeleportToLocation7": "Teleport to Location 7",
+  "UI_PseudoMagic_Transit": "Transit",
+  "UI_PseudoMagic_TransitTo": "Transit: %1",
+  "UI_PseudoMagic_TransitLSU": "LSU",
+  "UI_PseudoMagic_TransitFarm": "Farm",
+  "UI_PseudoMagic_TransitRabbitIsle": "Rabbit Isle",
+  "UI_PseudoMagic_TransitCowIsle": "Cow Isle",
+  "UI_PseudoMagic_TransitHenIsle": "Hen Isle",
+  "UI_PseudoMagic_TransitGigamart": "Gigamart",
+  "UI_PseudoMagic_TransitMarket": "Market"
 }

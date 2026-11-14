@@ -118,6 +118,17 @@ local function addTeleportMenus(context, playerObj)
     end
 end
 
+-- "Transit" submenu (DevCycle 10): fixed named destinations.
+local function addTransitMenu(context, playerObj)
+    local PMT = PseudoMagicTeleport
+    local option = context:addOption(getText("UI_PseudoMagic_Transit"))
+    local sub = ISContextMenu:getNew(context)
+    context:addSubMenu(option, sub)
+    for _, entry in ipairs(PMT.TRANSIT) do
+        sub:addOption(getText("UI_PseudoMagic_Transit" .. entry.key), playerObj, PMT.transit, entry)
+    end
+end
+
 local function onFillInventoryObjectContextMenu(playerNum, context, items)
     local playerObj = getSpecificPlayer(playerNum)
     local dismissable, hasRing = scan(items)
@@ -135,6 +146,7 @@ local function onFillInventoryObjectContextMenu(playerNum, context, items)
             sub:addOption(getText("UI_PseudoMagic_Summon" .. m.name), playerObj, summonItem, m)
         end
         addTeleportMenus(context, playerObj)
+        addTransitMenu(context, playerObj)
     end
 end
 

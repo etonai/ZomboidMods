@@ -57,10 +57,19 @@ local function pickArrival(dest)
     return dest.x + 0.5, dest.y + 0.5, dest.z
 end
 
-function PMT.teleport(player, n)
-    local dest = PMT.getSlot(player, n)
-    if not dest then return end
+-- Fixed Transit destinations (DevCycle 10). Key suffix matches UI_PseudoMagic_Transit<key>.
+PMT.TRANSIT = {
+    { key = "LSU",        x = 12426, y = 2247,  z = 5 },
+    { key = "Farm",       x = 11699, y = 6299,  z = 0 },
+    { key = "RabbitIsle", x = 8600,  y = 15086, z = 0 },
+    { key = "CowIsle",    x = 2032,  y = 8620,  z = 0 },
+    { key = "HenIsle",    x = 10133, y = 8303,  z = 0 },
+    { key = "Gigamart",   x = 8000,  y = 11256, z = 2 },
+    { key = "Market",     x = 9067,  y = 12188, z = 1 },
+}
 
+-- Moves the player to dest ({ x, y, z }) and shows message as halo text.
+function PMT.teleportTo(player, dest, message)
     if player:getVehicle() then pcall(function() player:ensureNotInVehicle() end) end
     -- Flight holds the height every tick; release it so the player is not pulled back to the old height.
     if PseudoMagicFlight and PseudoMagicFlight.release then PseudoMagicFlight.release(player) end
@@ -68,5 +77,15 @@ function PMT.teleport(player, n)
     local x, y, z = pickArrival(dest)
     player:setX(x); player:setY(y); player:setZ(z)
     player:setLastX(x); player:setLastY(y); player:setLastZ(z)
-    HaloTextHelper.addGoodText(player, getText("UI_PseudoMagic_Teleported", n))
+    HaloTextHelper.addGoodText(player, message)
+end
+
+function PMT.teleport(player, n)
+    local dest = PMT.getSlot(player, n)
+    if not dest then return end
+    PMT.teleportTo(player, dest, getText("UI_PseudoMagic_Teleported", n))
+end
+
+function PMT.transit(player, entry)
+    PMT.teleportTo(player, entry, getText("UI_PseudoMagic_TransitTo", getText("UI_PseudoMagic_Transit" .. entry.key)))
 end
