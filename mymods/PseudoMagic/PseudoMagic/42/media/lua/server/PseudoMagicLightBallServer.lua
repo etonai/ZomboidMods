@@ -63,8 +63,8 @@ local function everyOneMinute()
             if not item or not Utils.isLightBall(item) then
                 modData[id] = nil
                 removeLight(id)
-            else
-                local uses = item:getCurrentUsesFloat() - (item:getUseDelta() * Utils.usesPerMinute)
+            elseif not Utils.isForever(item) then
+                local uses =item:getCurrentUsesFloat() - (item:getUseDelta() * Utils.usesPerMinute)
                 item:setCurrentUsesFloat(uses)
 
                 if isServer() then

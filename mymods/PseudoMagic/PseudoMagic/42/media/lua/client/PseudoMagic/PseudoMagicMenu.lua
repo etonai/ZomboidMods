@@ -21,6 +21,7 @@ local MAGIC_ITEMS = {
     { name = "ShortSword",   fullType = "PseudoMagic.MagicShortSword" },
     -- Light ball is equipped in the secondary hand when summoned.
     { name = "LightBall",    fullType = "PseudoMagic.MagicLightBall", equipSecondary = true },
+    { name = "ForeverLightBall", fullType = "PseudoMagic.ForeverLightBall", equipSecondary = true },
     -- Robes can be summoned but not dismissed.
     { name = "Robe",         fullType = "PseudoMagic.MagicRobe",     noDismiss = true },
     { name = "WarmRobe",     fullType = "PseudoMagic.MagicWarmRobe", noDismiss = true },

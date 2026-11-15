@@ -46,8 +46,18 @@ end
 
 -- Helpers ----------------------------------------------------------------------------------
 
+Utils.foreverFullType = "PseudoMagic.ForeverLightBall"
+
+-- True for both the Magic Light Ball and the Forever Light Ball (both give a ground light).
 function Utils.isLightBall(item)
-    return item ~= nil and item.getFullType ~= nil and item:getFullType() == Utils.fullType
+    if item == nil or item.getFullType == nil then return false end
+    local ft = item:getFullType()
+    return ft == Utils.fullType or ft == Utils.foreverFullType
+end
+
+-- The Forever Light Ball never burns down.
+function Utils.isForever(item)
+    return item ~= nil and item.getFullType ~= nil and item:getFullType() == Utils.foreverFullType
 end
 
 function Utils.isEmpty(obj)

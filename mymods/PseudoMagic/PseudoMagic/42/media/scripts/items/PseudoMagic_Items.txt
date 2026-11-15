@@ -640,6 +640,29 @@ module PseudoMagic
     Tags = pseudomagic:magiclightball,
   }
 
+  /* ForeverLightBall (DevCycle 13): the Magic Light Ball that never burns out.
+     Same light, model and icon as MagicLightBall. It stays drainable (so the engine lights it when carried, as for
+     MagicLightBall) but has no UseDelta and no drain while carried; the server skips the ground drain for it
+     (PseudoMagicLightBallServer.lua). Summoned and dismissed via the Ring of the Mage / inventory menu. */
+  item ForeverLightBall
+  {
+    DisplayCategory = LightSource,
+    ItemType = base:drainable,
+    Weight = 0.3,
+    Icon = MagicLightBall,
+    ActivatedItem = false,
+    LightDistance = 15,
+    LightStrength = 1.5,
+    TorchCone = false,
+    UseDelta = 0,
+    UseWhileEquipped = false,
+    UseWhileUnequipped = false,
+    cantBeConsolided = true,
+    StaticModel = MagicLightBall,
+    WorldStaticModel = MagicLightBall,
+    Tags = pseudomagic:foreverlightball,
+  }
+
   /* MagicScrewdriver: vanilla Screwdriver at half weight. */
   item MagicScrewdriver
   {
