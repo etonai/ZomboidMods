@@ -626,7 +626,7 @@ module PseudoMagic
     DisplayCategory = LightSource,
     ItemType = base:drainable,
     Weight = 0.3,
-    Icon = TennisBall,
+    Icon = MagicLightBall,
     ActivatedItem = false,
     LightDistance = 15,
     LightStrength = 1.5,
@@ -635,8 +635,8 @@ module PseudoMagic
     UseWhileEquipped = false,
     UseWhileUnequipped = true,
     cantBeConsolided = true,
-    StaticModel = TennisBall,
-    WorldStaticModel = TennisBall,
+    StaticModel = MagicLightBall,
+    WorldStaticModel = MagicLightBall,
     Tags = pseudomagic:magiclightball,
   }
 

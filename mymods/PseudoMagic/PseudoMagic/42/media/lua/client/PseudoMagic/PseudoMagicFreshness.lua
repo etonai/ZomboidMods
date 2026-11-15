@@ -1,5 +1,6 @@
 -- PseudoMagic: Crate of Freshness (DevCycle 11).
--- A regular Metal Crate (Metal_Crate_Lvl1, four facing sprites) can be enchanted from its right-click menu by a
+-- A regular Metal Crate (Metal_Crate_Lvl1, four facing sprites) or a wooden crate
+-- (Wood_Crate_Lvl1 and Wood_Crate_Lvl2) can be enchanted from its right-click menu by a
 -- survivor carrying a Ring of the Mage. An enchanted crate keeps every Food item inside it
 -- (including food in bags in the crate) at age 0: every ten in-game minutes, and when the
 -- crate's area loads. Single player only.
@@ -15,7 +16,10 @@ if isClient() then return end
 
 -- Metal_Crate_Lvl1 (entity_welding_crate_lvl1.txt): one sprite per facing. The Fancy Metal Crate
 -- (crafted_05_44) is deliberately not included.
+-- Wood_Crate_Lvl1 / Wood_Crate_Lvl2 (entity_carpentry_crate_lvl1/2.txt): one sprite each.
 local CRATE_SPRITES = {
+    ["carpentry_01_19"] = true, -- Wood_Crate_Lvl1
+    ["carpentry_01_16"] = true, -- Wood_Crate_Lvl2
     ["constructedobjects_01_44"] = true,
     ["constructedobjects_01_45"] = true,
     ["constructedobjects_01_46"] = true,

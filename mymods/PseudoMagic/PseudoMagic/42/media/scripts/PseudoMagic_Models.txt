@@ -1,0 +1,10 @@
+module Base
+{
+  /* Magic Light Ball: the vanilla tennis ball mesh with the mod's own texture (DevCycle 12). */
+  model MagicLightBall
+  {
+    mesh = WorldItems/TennisBall,
+    texture = WorldItems/LightBall,
+    scale = 0.4,
+  }
+}
