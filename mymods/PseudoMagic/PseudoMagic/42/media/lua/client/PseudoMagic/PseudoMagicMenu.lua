@@ -11,8 +11,8 @@ local MAGIC_ITEMS = {
     { name = "Saw",          fullType = "PseudoMagic.MagicSaw" },
     { name = "Crowbar",      fullType = "PseudoMagic.MagicCrowbar" },
     { name = "Pickaxe",      fullType = "PseudoMagic.MagicPickaxe" },
-    { name = "Wrench",       fullType = "PseudoMagic.MagicWrench" },
-    { name = "PipeWrench",   fullType = "PseudoMagic.MagicPipeWrench" },
+    { name = "Wrench",       fullType = "Base.Wrench",     noDismiss = true },
+    { name = "PipeWrench",   fullType = "Base.PipeWrench", noDismiss = true },
     { name = "Sledgehammer", fullType = "PseudoMagic.MagicSledgehammer" },
     { name = "Jack",         fullType = "PseudoMagic.MagicJack" },
     { name = "TireIron",     fullType = "PseudoMagic.MagicTireIron" },
@@ -22,7 +22,7 @@ local MAGIC_ITEMS = {
     -- Light ball is equipped in the secondary hand when summoned.
     { name = "LightBall",    fullType = "PseudoMagic.MagicLightBall", equipSecondary = true },
     { name = "ForeverLightBall", fullType = "PseudoMagic.ForeverLightBall", equipSecondary = true },
-    -- Robes can be summoned but not dismissed.
+    -- Robes can be summoned but not dismissed. (The wrenches, above, are the regular vanilla items, so they are not dismissable either.)
     { name = "Robe",         fullType = "PseudoMagic.MagicRobe",     noDismiss = true },
     { name = "WarmRobe",     fullType = "PseudoMagic.MagicWarmRobe", noDismiss = true },
 }

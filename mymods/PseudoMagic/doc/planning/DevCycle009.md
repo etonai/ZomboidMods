@@ -10,7 +10,7 @@
 ## Goal
 
 1. Raise the Satchel of Holding's `Capacity` from 50 to 100 and its `WeightReduction` from 95 to 97.
-2. Add two new wearable items, `MagicRobe` and `MagicWarmRobe`, using the definitions Ed wrote in `doc/ideas/magicrobe.txt`.
+2. Add two new wearable items, `MagicRobe` and `MagicWarmRobe`, using the definitions the user wrote in `doc/ideas/magicrobe.txt`.
 
 ## Desired Outcome
 

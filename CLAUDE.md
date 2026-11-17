@@ -22,7 +22,7 @@ The project focuses on understanding and documenting various game mechanics thro
 
 When analyzing Lua behavior, match the `media*/` directory to the Java source directory of the same build (`media/` ↔ `zombie42_19/`, `media42_20_4/` ↔ `zombie42_20_4/`) — the two builds' Lua/Java can differ, so don't mix files across them unless explicitly comparing versions.
 
-**Default to the latest build in all research.** Unless Ed names a specific version, points at a specific directory, or the task is explicitly a version comparison, research and analyze against the newest available build (currently `zombie42_20_4/` + `media42_20_4/`) — not whichever directory happens to return search hits first. Before starting any code-based analysis, confirm which build's directories are actually being read.
+**Default to the latest build in all research.** Unless the user names a specific version, points at a specific directory, or the task is explicitly a version comparison, research and analyze against the newest available build (currently `zombie42_20_4/` + `media42_20_4/`) — not whichever directory happens to return search hits first. Before starting any code-based analysis, confirm which build's directories are actually being read.
 
 ## Analysis Focus Areas
 - **Farming Systems**: Plant growth, disease, fertilizer, water management
@@ -31,7 +31,7 @@ When analyzing Lua behavior, match the `media*/` directory to the Java source di
 
 ## Key Principles
 1. **Code-Based Analysis**: All documentation must be based on actual game code, not speculation
-2. **Version Specificity**: Default analysis target is the latest available build (currently v42.20.4); only analyze an older build (v42.19, v42.11.0) when Ed asks for that version specifically or the task is a version comparison
+2. **Version Specificity**: Default analysis target is the latest available build (currently v42.20.4); only analyze an older build (v42.19, v42.11.0) when the user asks for that version specifically or the task is a version comparison
 3. **Accuracy Over Completeness**: Better to document verified mechanics than guess at incomplete systems
 4. **Practical Application**: Technical details should serve actual gameplay decisions
 
@@ -60,7 +60,7 @@ When analyzing Lua behavior, match the `media*/` directory to the Java source di
 - **Reading Restriction**: Do not read documents in cursorDocs unless specifically asked to review a document in that directory
 
 ## Reference Conventions
-- **"Your document"**: When Ed refers to "your document", this means documents in the `claudeDocs/` directory
+- **"Your document"**: When the user refers to "your document", this means documents in the `claudeDocs/` directory
 - **Document ownership**: claudeDocs contains Claude-authored analyses, cursorDocs contains Cursor-authored analyses
 
 ## Testing and Verification

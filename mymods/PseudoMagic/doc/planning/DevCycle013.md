@@ -5,7 +5,7 @@
 **Target Completion:** TBD
 **Focus:** Add the Forever Light Ball: a Magic Light Ball that never burns out, can be summoned with the Ring of the Mage, and can be dismissed.
 
-**Source documents:** none (request from Ed in conversation). Related: `doc/planning/DevCycle005.md` (Magic Light Ball behaviour and summon/dismiss entries), `doc/planning/DevCycle012.md` (Magic Light Ball texture and icon).
+**Source documents:** none (user request in conversation). Related: `doc/planning/DevCycle005.md` (Magic Light Ball behaviour and summon/dismiss entries), `doc/planning/DevCycle012.md` (Magic Light Ball texture and icon).
 **Engine checks against:** v42.20.4 (`media42_20_4/`, `zombie42_20_4/`)
 
 ---
@@ -108,7 +108,7 @@ Test results: record here. Final status of each phase is set by the user.
    **Recommendation:** try A first, because the carried light is known to work for a drainable ball (`MagicLightBall`). Whether the engine still lights a drainable item with zero `UseDelta`, and whether a non-drainable item lights at all when carried, is not verified; test this in Phase 1 before building the rest. (If the carried light needs `UseDelta`, use a very small value together with the server-side skip.)
 
 2. **What does it look like?** It could reuse the Magic Light Ball's model and icon, or have its own texture and icon.
-   **Recommendation:** reuse the existing model and icon for the first pass so the two can be told apart only by name, and let Ed supply `ForeverLightBall` texture/icon PNGs if wanted. (Without a different look the two balls are hard to tell apart in the inventory.) Ed to decide.
+   **Recommendation:** reuse the existing model and icon for the first pass so the two can be told apart only by name, and let the user supply `ForeverLightBall` texture/icon PNGs if wanted. (Without a different look the two balls are hard to tell apart in the inventory.) The user decides.
 
 3. **Dismiss behaviour on the ground:** "dismissed like many other summonable objects" is read as the inventory context-menu "Dismiss ..." option, which only works on items in the player's containers. A ball lying on the ground cannot be dismissed that way (it must be picked up first). Is that acceptable?
    **Recommendation:** yes, matching the other summoned items.

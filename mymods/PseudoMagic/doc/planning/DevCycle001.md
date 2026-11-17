@@ -100,7 +100,7 @@ Record results here. Final status of this phase is set by the user.
    Recommendation: Out of scope for this cycle; spawn via debug only. Add a recipe or loot distribution in a later DevCycle.
 
 2. **What should `MinDamage` be for the Magic Knife?**
-   `magicitems.txt` only specifies `MaxDamage = 3`. Vanilla `LargeKnife` has a `MinDamage` below its 1.1 max. Recommendation: Keep the vanilla `MinDamage` unless it exceeds 3, otherwise pick a value slightly under 3. Confirm with Ed.
+   `magicitems.txt` only specifies `MaxDamage = 3`. Vanilla `LargeKnife` has a `MinDamage` below its 1.1 max. Recommendation: Keep the vanilla `MinDamage` unless it exceeds 3, otherwise pick a value slightly under 3. Confirm with the user.
 
 3. **Is the 95 weight reduction safe at high capacity?**
    Recommendation: Implement as specified; note that the Satchel (50) and Pouch (20) are intentionally powerful.

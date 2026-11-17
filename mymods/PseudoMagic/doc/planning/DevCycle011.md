@@ -1,6 +1,6 @@
 # DevCycle 011: Magic Waterskin, Everful Waterskin and Crate of Freshness
 
-**Status:** Verified (Ed, 2026-11-14, with the known issue below)
+**Status:** Verified (the user, 2026-11-14, with the known issue below)
 **Start Date:** 2026-11-14
 **Target Completion:** TBD
 **Focus:** Add self-refilling Everful items (a waterskin and, from Phase 10, a bucket) and a Crate of Freshness that keeps its perishable contents fresh. (The large-capacity Magic Waterskin in the original plan was dropped in Phase 5.)
@@ -62,7 +62,7 @@ What I found so far, read from the v42.20.4 files. None of it has been run in ga
 
 ### Phase 1: Research the unknowns
 
-**Status:** Verified (cycle approved by Ed, 2026-11-14)
+**Status:** Verified (cycle approved by the user, 2026-11-14)
 
 - [x] **Waterskin capacity:** confirm a copy of `Bag_LeatherWaterBag` with `Capacity = 10.0` works (fill, drink, empty, tooltip and fluid bar display, weight if the engine adds the fluid weight).
 - [x] **Waterskin refill:** confirm the best Lua call for topping up water (`addFluid` versus `adjustAmount`), what happens if the container holds a different fluid, and whether the refill must be done on the item the player holds, in a bag, or on the ground.
@@ -87,7 +87,7 @@ What I found so far, read from the v42.20.4 files. None of it has been run in ga
 
 ### Phase 2: Magic Waterskin (superseded: removed in Phase 5)
 
-**Status:** Verified (cycle approved by Ed, 2026-11-14)
+**Status:** Verified (cycle approved by the user, 2026-11-14)
 
 - [x] Add the `MagicWaterskin` item script to `PseudoMagic_Items.txt`, based on `Bag_LeatherWaterBag`, with the larger capacity.
 - [x] Add its display name to `ItemName.json`.
@@ -99,7 +99,7 @@ Start with 10 L as in the ideas file; the number is a one-line change.
 
 ### Phase 3: Everful Waterskin
 
-**Status:** Verified (cycle approved by Ed, 2026-11-14)
+**Status:** Verified (cycle approved by the user, 2026-11-14)
 
 - [x] Add the `EverfulWaterskin` item script (same base as Phase 2).
 - [x] Add its display name to `ItemName.json`.
@@ -112,7 +112,7 @@ Reuse the inventory-scan approach in `PseudoMagicRingRefill.lua` unless Phase 1 
 
 ### Phase 4: Crate of Freshness (enchantment)
 
-**Status:** Verified (cycle approved by Ed, 2026-11-14)
+**Status:** Verified (cycle approved by the user, 2026-11-14)
 
 - [x] Add the "Enchant: Crate of Freshness" / "Remove Crate of Freshness enchantment" options to the world context menu of a Fancy Metal Crate (`crafted_05_44`), shown only to a survivor carrying a Ring of the Mage.
 - [x] Add the menu and message text to `UI.json`.
@@ -127,9 +127,9 @@ Files: `PseudoMagic/42/media/lua/client/PseudoMagic/PseudoMagicFreshness.lua` (m
 
 ### Phase 5: Remove the Magic Waterskin
 
-**Status:** Verified (cycle approved by Ed, 2026-11-14)
+**Status:** Verified (cycle approved by the user, 2026-11-14)
 
-**Change of plan (Ed):** the Magic Waterskin (the 10 L one) is removed from the mod entirely. Only the Everful Waterskin remains. This replaces the earlier idea of splitting the two skins by capacity, and supersedes Phase 2.
+**Change of plan (the user):** the Magic Waterskin (the 10 L one) is removed from the mod entirely. Only the Everful Waterskin remains. This replaces the earlier idea of splitting the two skins by capacity, and supersedes Phase 2.
 
 - [x] Remove the `MagicWaterskin` item script from `PseudoMagic_Items.txt`.
 - [x] Remove its entry from `ItemName.json`.
@@ -143,9 +143,9 @@ A Magic Waterskin already in an existing save will no longer have an item script
 
 ### Phase 6: Show the Everful Waterskin's name in the inventory
 
-**Status:** Verified (cycle approved by Ed, 2026-11-14)
+**Status:** Verified (cycle approved by the user, 2026-11-14)
 
-**Problem (Ed):** the Everful Waterskin's name must show in the inventory.
+**Problem (the user):** the Everful Waterskin's name must show in the inventory.
 
 **Finding:** `InventoryItem.getName` returns `FluidContainer.getUiName()` for any item with a fluid container (`InventoryItem.java:2463`), and that name is built from the translation `Fluid_Container_<ContainerName>` (`FluidContainer.getTranslatedContainerName`). The Everful Waterskin had copied `ContainerName = LeatherWaterBag`, so it displayed the vanilla "Leather Water Bag" name and ignored its `ItemName.json` entry.
 
@@ -159,7 +159,7 @@ If the name still does not show, check that `Fluids.json` is loaded (file name a
 
 ### Phase 7: Crate of Freshness uses the regular Metal Crate
 
-**Status:** Verified (cycle approved by Ed, 2026-11-14)
+**Status:** Verified (cycle approved by the user, 2026-11-14)
 
 **Problem:** Phase 4 enchants the **Fancy Metal Crate** (`Metal_Crate_Lvl2`, sprite `crafted_05_44`, welding level 7). The wanted base is the **regular Metal Crate**.
 
@@ -185,13 +185,13 @@ Implemented in `PseudoMagicFreshness.lua` as a `CRATE_SPRITES` set used by `isCr
 
 ### Phase 8: Everful Waterskin keeps the original 1 L capacity
 
-**Status:** Verified (cycle approved by Ed, 2026-11-14)
+**Status:** Verified (cycle approved by the user, 2026-11-14)
 
 **Note:** the Magic Waterskin stays removed (Phase 5); it is not coming back.
 
-**Problem (Ed):** the Everful Waterskin still shows a capacity of 1 L in game. The original instructions were that it is modeled on the original waterskin (`Bag_LeatherWaterBag`, 1 L), and only the Magic Waterskin was supposed to be 10 L.
+**Problem (the user):** the Everful Waterskin still shows a capacity of 1 L in game. The original instructions were that it is modeled on the original waterskin (`Bag_LeatherWaterBag`, 1 L), and only the Magic Waterskin was supposed to be 10 L.
 
-**Finding:** Ed is right about the instructions. `DC11PlusIdeas.txt` gives the Everful Waterskin no capacity change (only "Waterskin that refills itself"). In Phase 3 I copied the Magic Waterskin's 10 L capacity into the Everful Waterskin, which was my mistake. The Magic Waterskin has since been removed (Phase 5). The Everful Waterskin item script in the mod currently says `Capacity = 10.0`, yet Ed sees 1 L in game; that mismatch is unexplained (see Open Questions).
+**Finding:** The user is right about the instructions. `DC11PlusIdeas.txt` gives the Everful Waterskin no capacity change (only "Waterskin that refills itself"). In Phase 3 I copied the Magic Waterskin's 10 L capacity into the Everful Waterskin, which was my mistake. The Magic Waterskin has since been removed (Phase 5). The Everful Waterskin item script in the mod currently says `Capacity = 10.0`, yet the user sees 1 L in game; that mismatch is unexplained (see Open Questions).
 
 Tasks:
 
@@ -206,7 +206,7 @@ Changed `Capacity` to `1.0` and the item comment in `PseudoMagic_Items.txt`; red
 
 ### Phase 9: In-Game Testing
 
-**Status:** Verified (cycle approved by Ed, 2026-11-14)
+**Status:** Verified (cycle approved by the user, 2026-11-14)
 
 - [x] Deploy via `CopyModToZomboid.bat PseudoMagic` and load a B42 test save.
 - [x] Confirm the Magic Waterskin is gone from the debug item list.
@@ -224,9 +224,9 @@ Covers Phases 1-8. Per `AGENTS.md`, work stops at **Work Complete**; only the us
 
 ### Phase 10: Everful Bucket
 
-**Status:** Verified (cycle approved by Ed, 2026-11-14)
+**Status:** Verified (cycle approved by the user, 2026-11-14)
 
-**Goal (Ed):** add an Everful Bucket, the bucket counterpart of the Everful Waterskin: a bucket that refills itself with water.
+**Goal (the user):** add an Everful Bucket, the bucket counterpart of the Everful Waterskin: a bucket that refills itself with water.
 
 **Findings so far (read from `media42_20_4/scripts/generated/items/normal.txt`; nothing run in game):**
 
@@ -253,9 +253,9 @@ Implemented: `EverfulBucket` in `PseudoMagic_Items.txt` (copy of `Base.Bucket`, 
 
 ### Phase 11: Crate of Freshness on wooden crates
 
-**Status:** Verified (cycle approved by Ed, 2026-11-14)
+**Status:** Verified (cycle approved by the user, 2026-11-14)
 
-**Goal (Ed):** let the Crate of Freshness enchantment (Phase 4, regular Metal Crate since Phase 7) also be applied to wooden crates: both the basic wooden crate and the regular wooden crate.
+**Goal (the user):** let the Crate of Freshness enchantment (Phase 4, regular Metal Crate since Phase 7) also be applied to wooden crates: both the basic wooden crate and the regular wooden crate.
 
 **Findings so far (read from `media42_20_4/scripts/generated/entities/furniture/`; nothing run in game):**
 
@@ -266,7 +266,7 @@ Implemented: `EverfulBucket` in `PseudoMagic_Items.txt` (copy of `Base.Bucket`, 
 | `Wood_Crate_Lvl1` | `carpentry_01_19` | Woodwork 3 | not confirmed |
 | `Wood_Crate_Lvl2` | `carpentry_01_16` | Woodwork 7 | not confirmed |
 
-- `Recipes.json` names the wooden crate recipes "Wooden Crate (Basic)" (`WoodCrate(Shoddy)`), "Wooden Crate (Advanced)" (`WoodCrate(Poor)`) and "Wooden Crate (Craftsman)" (`WoodCrate`). Those names do not map cleanly onto two entities, so which of the two sprites is Ed's "basic" crate and which is the "regular" one is not confirmed (see Open Questions).
+- `Recipes.json` names the wooden crate recipes "Wooden Crate (Basic)" (`WoodCrate(Shoddy)`), "Wooden Crate (Advanced)" (`WoodCrate(Poor)`) and "Wooden Crate (Craftsman)" (`WoodCrate`). Those names do not map cleanly onto two entities, so which of the two sprites is the user's "basic" crate and which is the "regular" one is not confirmed (see Open Questions).
 - The enchantment code needs no new mechanism: `PseudoMagicFreshness.lua` identifies a crate by sprite name in the `CRATE_SPRITES` set (`isCrateSprite`), so wooden crates are added by adding their sprite names. The registry, ten-minute pass, area-load pass and menu all work from `isCrateSprite`.
 - The sprite-per-entity rule from Phase 1, Note 4 still applies, so this stays an enchantment of the vanilla crates.
 
@@ -286,13 +286,13 @@ Implemented with both sprites (`carpentry_01_19`, `carpentry_01_16`) in `CRATE_S
 
 ### Phase 12: Fix the Crate of Freshness on wooden crates
 
-**Status:** Verified (Ed, 2026-11-14: accepted as a known bug; see Known Issues)
+**Status:** Verified (the user, 2026-11-14: accepted as a known bug; see Known Issues)
 
-**Problem (Ed):** the enchantment works on the metal crate but not on the wooden crate (Phase 11). Ed asks whether enchanting the wooden crate several times could be the cause.
+**Problem (the user):** the enchantment works on the metal crate but not on the wooden crate (Phase 11). The user asks whether enchanting the wooden crate several times could be the cause.
 
-**Ed's answer (2026-11-14):** the "Enchant: Crate of Freshness" option **does appear** on the wooden crate, but the food is still aging. That rules out hypothesis 1 (a missing sprite): the menu only offers the option when the object's sprite is in `CRATE_SPRITES` and it has a container. Hypotheses 3 and 4 remain, plus the new hypothesis 5 below.
+**The user's answer (2026-11-14):** the "Enchant: Crate of Freshness" option **does appear** on the wooden crate, but the food is still aging. That rules out hypothesis 1 (a missing sprite): the menu only offers the option when the object's sprite is in `CRATE_SPRITES` and it has a container. Hypotheses 3 and 4 remain, plus the new hypothesis 5 below.
 
-**More from Ed (2026-11-14, before testing with the logging):** the "Crate of Freshness" message **did** show when the wooden crate was enchanted, and the food **aged normally** even after waiting more than 20 in-game minutes. This was on the build before the logging was added.
+**More from the user (2026-11-14, before testing with the logging):** the "Crate of Freshness" message **did** show when the wooden crate was enchanted, and the food **aged normally** even after waiting more than 20 in-game minutes. This was on the build before the logging was added.
 
 - The message shows that the enchant function ran to the end (flag set, registry entry written, first freshening done).
 - More than 20 minutes without the age resetting rules out hypothesis 5: two ten-minute passes should have happened, so the reset itself is not taking effect, or the passes are not reaching this crate.
@@ -310,20 +310,20 @@ Implemented with both sprites (`carpentry_01_19`, `carpentry_01_16`) in `CRATE_S
 2. **The option appears but the object is not what the menu receives.** The menu looks through `worldobjects` for an object whose sprite is in the list and which has a container; a wooden crate may report a different sprite name or no container at that point.
 3. **The enchantment applies but the food does not reset.** For example, the wooden crate's contents may not be `Food` items in the way the code expects, or the registry entry is dropped at the next pass because `crateOn` does not find the crate on its square.
 4. **The enchantment is lost** (for example the crate was picked up and moved, or removed by a repeated toggle) so the registry entry was dropped.
-5. **Nothing is wrong with the reset; the food is simply being read between passes.** Food ages continuously and the reset only runs every ten in-game minutes, so food in any enchanted crate shows a small age between ticks. Ed would see this on the metal crate too, so it is only a candidate if "aging" means a small, regrowing number rather than steady growth. The log shows the age before and after each reset.
+5. **Nothing is wrong with the reset; the food is simply being read between passes.** Food ages continuously and the reset only runs every ten in-game minutes, so food in any enchanted crate shows a small age between ticks. The user would see this on the metal crate too, so it is only a candidate if "aging" means a small, regrowing number rather than steady growth. The log shows the age before and after each reset.
 
 Tasks:
 
-- [x] Ask Ed exactly what fails. Answer: the enchant option appears; the food is still aging. (Still unknown: whether the "enchanted" message showed, how far the food aged, and after how long.)
-- [x] Add temporary diagnostic logging to `PseudoMagicFreshness.lua` (kept until Ed confirms the fix, per Ed's standing rule): when the world context menu is built with a ring in the inventory, print the sprite name, container type and enchanted flag of every object on the clicked square that has a container; print on enchant and remove; print in each ten-minute pass the registry entries and whether `crateOn` found a crate.
+- [x] Ask the user exactly what fails. Answer: the enchant option appears; the food is still aging. (Still unknown: whether the "enchanted" message showed, how far the food aged, and after how long.)
+- [x] Add temporary diagnostic logging to `PseudoMagicFreshness.lua` (kept until the user confirms the fix, per the user's standing rule): when the world context menu is built with a ring in the inventory, print the sprite name, container type and enchanted flag of every object on the clicked square that has a container; print on enchant and remove; print in each ten-minute pass the registry entries and whether `crateOn` found a crate.
 - [x] Redeploy via `CopyModToZomboid.bat PseudoMagic` (done 2026-11-14).
-- [x] Ed repeats the test with the logging build (not tested yet): right-clicks the wooden crate and reports the `console.txt` lines.
+- [x] The user repeats the test with the logging build (not tested yet): right-clicks the wooden crate and reports the `console.txt` lines.
 - [x] From the logged sprite name, add the missing sprite(s) to `CRATE_SPRITES` (hypothesis 1), or fix whichever of hypotheses 2-4 the log shows.
 - [x] Check which wooden crate variants exist in the build menu and in world loot, and whether each uses a sprite that is now covered (read from the entity scripts and tile names).
 - [x] Redeploy and retest in game: enchant each wooden crate variant once, confirm food age 0 after the next ten-minute tick, and that the metal crate still works.
-- [x] After Ed confirms the fix, remove the diagnostic logging.
+- [x] After the user confirms the fix, remove the diagnostic logging.
 
-**Outcome (Ed, 2026-11-14):** Ed suspected the cause was moving an enchanted crate after enchanting it (Hypothesis 4: the saved position is the old square, and the moved crate is no longer found). Ed chose to accept this as a **known bug** rather than fix it, and asked for the diagnostic logging to be removed. The logging test with the log lines was not run. The cause was therefore not confirmed from the log. The two-crates-on-one-square theory was not tested either.
+**Outcome (the user, 2026-11-14):** The user suspected the cause was moving an enchanted crate after enchanting it (Hypothesis 4: the saved position is the old square, and the moved crate is no longer found). The user chose to accept this as a **known bug** rather than fix it, and asked for the diagnostic logging to be removed. The logging test with the log lines was not run. The cause was therefore not confirmed from the log. The two-crates-on-one-square theory was not tested either.
 
 **Technical Notes:**
 The diagnostic logging has been removed from `PseudoMagicFreshness.lua` (no `dlog` or `print` remains) and the mod was redeployed on 2026-11-14. The logging described below no longer exists:
@@ -360,7 +360,7 @@ Each question has a recommendation. Answer with "go with the recommendations" or
 8. **Planning folder housekeeping:** `DevelopmentProcess.md` says finished cycles live in `doc/planning/completed/`, but all of DevCycle001-010 are still in `doc/planning/`. Status check: 001-007 and 010 are VERIFIED; 008 is In Progress; 009 is Planning.
    **Recommendation:** move the VERIFIED cycles (001-007 and 010) into `doc/planning/completed/` before this cycle starts; leave 008 and 009 where they are. I will not do it unless you ask, since it touches files outside this task.
 
-9. **Everful Waterskin capacity:** *(Resolved by Ed: the Everful Waterskin keeps the original 1 L capacity; see Phase 8.)* One new question remains: the script says 10 L but Ed sees 1 L in game.
+9. **Everful Waterskin capacity:** *(Resolved by the user: the Everful Waterskin keeps the original 1 L capacity; see Phase 8.)* One new question remains: the script says 10 L but the user sees 1 L in game.
    **Recommendation:** check the deployed script and restart the game first, then spawn a fresh skin (Phase 8).
 
 10. **Telling the waterskins apart:** both reuse the vanilla waterskin model and icon.
@@ -376,7 +376,7 @@ Each question has a recommendation. Answer with "go with the recommendations" or
     **Recommendation:** keep the vanilla tags, since the request is a bucket "modeled off the original", and note the unlimited water as intended (as with the waterskin).
 
 14. **Which wooden crates?** The game has two wooden crate entities (`Wood_Crate_Lvl1`, sprite `carpentry_01_19`; `Wood_Crate_Lvl2`, sprite `carpentry_01_16`), but the recipe list has three names (Basic, Advanced, Craftsman).
-    **Recommendation:** enchant both entities. If those are not the two crates Ed means, the sprite list is a one-line change; the first task of Phase 11 confirms which is which in game.
+    **Recommendation:** enchant both entities. If those are not the two crates the user means, the sprite list is a one-line change; the first task of Phase 11 confirms which is which in game.
 
 15. **What does "not working" mean for the wooden crate?** (menu option missing, option present but nothing happens, or food still ages)
     **Recommendation:** answer this before Phase 12 starts; it decides between hypotheses 1 and 3-4. If you cannot tell, the Phase 12 logging will show it.
@@ -397,7 +397,7 @@ Each question has a recommendation. Answer with "go with the recommendations" or
 
 ## Known Issues
 
-- **Moving an enchanted crate breaks the Crate of Freshness (accepted by Ed, 2026-11-14).** The enchantment is tracked by the square where the crate was enchanted. A crate that is moved afterwards is no longer kept fresh, and its old square is dropped from the saved list at the next ten-minute pass. Work-around: remove the enchantment and enchant the crate again at its new spot. The cause was suspected, not confirmed from a log. A possible fix, if wanted later: re-register flagged crates found near the player (a periodic scan, as PseudoGenerator does).
+- **Moving an enchanted crate breaks the Crate of Freshness (accepted by the user, 2026-11-14).** The enchantment is tracked by the square where the crate was enchanted. A crate that is moved afterwards is no longer kept fresh, and its old square is dropped from the saved list at the next ten-minute pass. Work-around: remove the enchantment and enchant the crate again at its new spot. The cause was suspected, not confirmed from a log. A possible fix, if wanted later: re-register flagged crates found near the player (a periodic scan, as PseudoGenerator does).
 - Possible, untested: two crates on the same square (the registry is keyed by square and the pass checks the first crate there).
 - The Everful Waterskin and Bucket refill only items the player carries, not ones on the ground or in world containers.
 - The Crate of Freshness is an enchantment of existing metal and wooden crates (menu option, needs a Ring of the Mage), not a separate crate, because the engine allows one entity per sprite.
@@ -406,17 +406,17 @@ Each question has a recommendation. Answer with "go with the recommendations" or
 ## Completion Summary
 
 **Completion Date:** 2026-11-14
-**Phases Completed:** All (1-12). Verified by Ed on 2026-11-14.
+**Phases Completed:** All (1-12). Verified by the user on 2026-11-14.
 **Work Deferred:** A fix for the moved-crate bug (see Known Issues); recipes or loot for the items (debug and menu only).
 
 **Accomplishments:**
 - Everful Waterskin: a normal 1 L waterskin that refills with water every 10 in-game minutes and shows its own name.
 - Everful Bucket: a 10 L bucket (copy of `Base.Bucket`) that refills the same way, shares the refill code in `PseudoMagicEverfulRefill.lua`.
 - Crate of Freshness: a Ring-of-the-Mage menu enchantment that keeps food (including in bags) in regular metal crates and wooden crates at age 0, every 10 in-game minutes and when the area loads.
-- Magic Waterskin (10 L) was planned, built, then removed at Ed's request.
+- Magic Waterskin (10 L) was planned, built, then removed at the user's request.
 
 **Lessons / Notes:**
 - A fluid container item takes its inventory name from `Fluid_Container_<ContainerName>`, not from `ItemName.json`; give each such item its own `ContainerName` and a `Fluids.json` entry.
 - The engine allows only one entity script per sprite, so a placed object cannot be duplicated as a new "type" without a new sprite; mark existing objects instead.
 - Copy the stats of the item an idea is "based on" and change only what the idea asks for (the Everful Waterskin was wrongly given 10 L).
-- Per `DevelopmentProcess.md`, the finished cycle document should move to `doc/planning/completed/`; this was not done and awaits Ed's decision, as with earlier cycles.
+- Per `DevelopmentProcess.md`, the finished cycle document should move to `doc/planning/completed/`; this was not done and awaits the user's decision, as with earlier cycles.
