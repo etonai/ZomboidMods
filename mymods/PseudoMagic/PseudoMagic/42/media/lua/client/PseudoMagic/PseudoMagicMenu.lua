@@ -1,5 +1,6 @@
 -- PseudoMagic: inventory context-menu options.
 require "PseudoMagic/PseudoMagicTeleport"
+require "PseudoMagic/PseudoMagicCleanse"
 --   Magic tools/weapons: "Dismiss Magic <X>" deletes the item.
 --   Ring of the Mage: "Summon" submenu adds a magic tool/weapon to the inventory.
 
@@ -148,6 +149,7 @@ local function onFillInventoryObjectContextMenu(playerNum, context, items)
         end
         addTeleportMenus(context, playerObj)
         addTransitMenu(context, playerObj)
+        context:addOption(getText("UI_PseudoMagic_Cleanse"), playerObj, PseudoMagicCleanse.cleanse)
     end
 end
 
